@@ -1,3 +1,4 @@
+"use client";
 import { useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 
@@ -187,7 +188,7 @@ export default function ContactForm({ isOpen, onClose }) {
             ¿Tienes más preguntas? Estamos aquí para ayudarte.
           </p>
           <a
-            href="https://wa.me/50688888888"
+            href="https://api.whatsapp.com/send?phone=34641635705"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary"
@@ -347,7 +348,7 @@ export default function ContactForm({ isOpen, onClose }) {
                   display: 'flex', gap: '0.75rem', flexDirection: 'column',
                 }}>
                   <a
-                    href="https://wa.me/50688888888"
+                    href="https://api.whatsapp.com/send?phone=34641635705"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-whatsapp"
@@ -386,21 +387,26 @@ export default function ContactForm({ isOpen, onClose }) {
                     <input
                       name="phone" value={form.phone} onChange={handleChange}
                       className="form-control" required type="tel"
-                      placeholder="Ej: 8888-8888"
+                      placeholder="¿Cómo podemos ayudarte?"
                     />
                   </div>
 
                   <div className="form-group">
                     <label className="form-label">Tipo de servicio</label>
                     <select name="service" value={form.service} onChange={handleChange} className="form-control">
-                      <option value="">Seleccionar servicio...</option>
-                      {SERVICES_LIST.map(s => <option key={s} value={s}>{s}</option>)}
+                      <option value="">Seleccione un servicio</option>
+                      <option value="wound_care">Curas y valoración de heridas</option>
+                      <option value="injectables">Inyectables y Medicación</option>
+                      <option value="constants">Control de Constantes</option>
+                      <option value="newborn">Cuidados del recién nacido</option>
+                      <option value="catheters">Sondas, drenajes y ostomías</option>
+                      <option value="other">Otro / Consulta General</option>
                     </select>
                   </div>
 
                   <div className="form-group">
                     <label className="form-label">Nivel de urgencia</label>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }} className="mobile-grid-1">
                       {[
                         { value: 'normal', label: 'Normal', icon: '📅', desc: '< 24 horas' },
                         { value: 'urgente', label: 'Urgente', icon: '🚨', desc: '< 2 horas' },
@@ -452,9 +458,9 @@ export default function ContactForm({ isOpen, onClose }) {
                     borderRadius: '1rem', padding: '1.25rem',
                     marginBottom: '1.5rem',
                   }}>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#0284C7', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.75rem' }}>
-                      Resumen de tu solicitud
-                    </div>
+                    <h3 style={{ fontSize: '1.75rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                      Envíanos un mensaje
+                    </h3>
                     {[
                       { label: 'Nombre', value: form.name },
                       { label: 'Teléfono', value: form.phone },
@@ -506,7 +512,6 @@ export default function ContactForm({ isOpen, onClose }) {
 
   return (
     <>
-      {FAQSection}
       {ContactModal}
     </>
   );

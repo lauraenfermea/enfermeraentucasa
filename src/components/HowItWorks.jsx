@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, PhoneCall, ClipboardList, UserCheck, PlayCircle } from 'lucide-react';

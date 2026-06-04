@@ -1,3 +1,4 @@
+"use client";
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
@@ -8,24 +9,24 @@ export default function Testimonials() {
 
   const testimonials = [
     {
-      name: 'Ava Thompson',
-      role: 'Daughter of Patient',
+      name: 'María García',
+      role: 'Hija de paciente',
       avatar: 'avatar-ava.jpg',
-      text: 'The care my mother received was beyond exceptional. The nurses were compassionate, professional, and felt like part of our family.',
+      text: 'Un trato inmejorable. Vinieron a curar a mi madre después de su operación y la profesionalidad y cariño fueron excepcionales. Muy recomendables en Zaragoza.',
       stars: 'star-rating-1.svg'
     },
     {
       name: 'Billy Vasquez',
-      role: 'Recovering Patient',
+      role: 'Paciente en recuperación',
       avatar: 'avatar-billy.jpg',
-      text: 'After my surgery, I was worried about my recovery at home. The team at Nursing Care made it seamless and comfortable.',
+      text: 'Después de mi cirugía, me preocupaba mi recuperación en casa. El equipo de Nursing Care hizo que todo fuera fluido y cómodo.',
       stars: 'star-rating-2.svg'
     },
     {
-      name: 'Frances Guerrero',
-      role: 'Senior Care Patient',
+      name: 'Carlos Martínez',
+      role: 'Paciente de cuidados senior',
       avatar: 'avatar-frances.jpg',
-      text: 'Having a highly trained nurse visit me weekly has given me back my independence and peace of mind.',
+      text: 'Servicio rápido y eficiente. Tenía que ponerme inyecciones durante una semana y me facilitaron muchísimo todo. Cero esperas.',
       stars: 'star-rating-3.svg'
     }
   ];
@@ -49,16 +50,16 @@ export default function Testimonials() {
           <div style={{
             display: 'inline-block',
             padding: '0.4rem 1rem',
-            background: 'rgba(112, 150, 152, 0.15)',
+            background: 'var(--secondary)',
             color: 'var(--primary)',
             borderRadius: '999px',
             fontSize: '0.875rem',
             fontWeight: '600',
             marginBottom: '1rem'
           }}>
-            Testimonials
+            Testimonios
           </div>
-          <h2 className="section-title">What our patients say</h2>
+          <h2 className="section-title">Lo que dicen nuestros pacientes</h2>
         </div>
 
         <div style={{
@@ -72,7 +73,7 @@ export default function Testimonials() {
           <div style={{ position: 'relative', borderRadius: '24px', overflow: 'hidden', height: '500px', cursor: 'pointer' }} onClick={handlePlay}>
             <video 
               ref={videoRef}
-              src="/assets/testimonial-video.mp4" 
+              src="/assets/Home_like_background_I_want_a.mp4" 
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               loop
               playsInline

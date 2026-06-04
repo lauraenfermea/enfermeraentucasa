@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { CheckCircle2, Award, Calendar, Heart, ShieldAlert } from 'lucide-react';
@@ -162,8 +163,8 @@ export default function TrustStats() {
             marginTop: '3.5rem',
             padding: '1.5rem 2rem',
             borderRadius: 'var(--radius-md)',
-            background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.03) 0%, rgba(20, 184, 166, 0.03) 100%)',
-            border: '1px dashed rgba(14, 165, 233, 0.25)',
+            background: 'var(--secondary)',
+            border: '1px dashed var(--primary)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

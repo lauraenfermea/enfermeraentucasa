@@ -1,10 +1,35 @@
-import { useRef } from 'react';
+"use client";
+import { useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import Link from 'next/link';
 import AnimatedButton from './AnimatedButton';
 
 export default function About() {
   const ref = useRef(null);
+  const scrollRef = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+
+  useEffect(() => {
+    const slider = scrollRef.current;
+    if (!slider) return;
+
+    const interval = setInterval(() => {
+      // Only auto-scroll if the container is scrollable (mobile view)
+      if (slider.scrollWidth > slider.clientWidth) {
+        const maxScroll = slider.scrollWidth - slider.clientWidth;
+        // Scroll by one image width (approx 85% of clientWidth)
+        const scrollAmount = slider.clientWidth * 0.85;
+        
+        if (slider.scrollLeft >= maxScroll - 10) {
+          slider.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          slider.scrollTo({ left: slider.scrollLeft + scrollAmount, behavior: 'smooth' });
+        }
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section id="about" className="section bg-light" ref={ref}>
@@ -14,15 +39,17 @@ export default function About() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: '4rem',
           alignItems: 'center'
-        }}>
+        }} className="mobile-grid-1">
           
           {/* Images Grid */}
           <motion.div 
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             style={{ position: 'relative', height: '550px' }}
+            className="about-images-mobile"
+            ref={scrollRef}
           >
             {/* Left Image Wrapper */}
             <motion.div 
@@ -30,20 +57,29 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
               style={{
                 position: 'absolute',
                 left: 0,
                 top: '15%',
                 width: '47%',
                 height: '75%',
-                borderRadius: '24px',
-                overflow: 'hidden',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
                 zIndex: 1
               }}
+              className="about-image-wrapper"
             >
-              <img src="/assets/about-nurse-left.avif" alt="Nurse standing" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <motion.div
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                style={{ width: '100%', height: '100%', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
+              >
+                <motion.img 
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                  src="/assets/Gemini_Generated_Image_4drbzk4drbzk4drb.png" 
+                  alt="Nurse standing" 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                />
+              </motion.div>
             </motion.div>
             
             {/* Right Image Wrapper */}
@@ -52,23 +88,32 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
               style={{
                 position: 'absolute',
                 right: 0,
                 top: '5%',
                 width: '47%',
                 height: '75%',
-                borderRadius: '24px',
-                overflow: 'hidden',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
                 zIndex: 2
               }}
+              className="about-image-wrapper"
             >
-              <img src="/assets/about-nurse-right.webp" alt="Nurse and patient" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <motion.div
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                style={{ width: '100%', height: '100%', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
+              >
+                <motion.img 
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                  src="/assets/Gemini_Generated_Image_6hjs1s6hjs1s6hjs.png" 
+                  alt="Enfermera y paciente" 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                />
+              </motion.div>
             </motion.div>
 
-            {/* Left Image Badge (6+) */}
+            {/* Left Image Badge (8+) */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.3, rotate: -20 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -89,6 +134,7 @@ export default function About() {
                 justifyContent: 'center',
                 boxShadow: '0 15px 30px rgba(0,0,0,0.08)'
               }}
+              className="about-badge-mobile hide-mobile"
             >
               <motion.div 
                 animate={{ rotate: 360 }}
@@ -101,17 +147,17 @@ export default function About() {
                   </defs>
                   <text fill="var(--primary)" fontSize="11" fontWeight="600" letterSpacing="1.5">
                     <textPath href="#circlePath1" startOffset="0%" textLength="264">
-                      YEARS OF EXPERIENCE • YEARS OF EXPERIENCE •
+                      AÑOS DE EXPERIENCIA • AÑOS DE EXPERIENCIA •
                     </textPath>
                   </text>
                 </svg>
               </motion.div>
               <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--text-main)' }}>6+</span>
+                <span style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--text-main)' }}>8+</span>
               </div>
             </motion.div>
 
-            {/* Right Image Badge (8+) */}
+            {/* Right Image Badge (6+) */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.3, rotate: 20 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -132,6 +178,7 @@ export default function About() {
                 justifyContent: 'center',
                 boxShadow: '0 15px 30px rgba(0,0,0,0.08)'
               }}
+              className="about-badge-mobile hide-mobile"
             >
               <motion.div 
                 animate={{ rotate: 360 }}
@@ -144,13 +191,13 @@ export default function About() {
                   </defs>
                   <text fill="var(--primary)" fontSize="11" fontWeight="600" letterSpacing="1.5">
                     <textPath href="#circlePath2" startOffset="0%" textLength="264">
-                      YEARS OF EXPERIENCE • YEARS OF EXPERIENCE •
+                      AÑOS DE EXPERIENCIA • AÑOS DE EXPERIENCIA •
                     </textPath>
                   </text>
                 </svg>
               </motion.div>
               <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--text-main)' }}>8+</span>
+                <span style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--text-main)' }}>6+</span>
               </div>
             </motion.div>
           </motion.div>
@@ -161,28 +208,35 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
+            className="about-text-content"
           >
             <div style={{
               display: 'inline-block',
               padding: '0.4rem 1rem',
-              background: 'rgba(112, 150, 152, 0.15)',
+              background: 'var(--secondary)',
               color: 'var(--primary)',
               borderRadius: '999px',
               fontSize: '0.875rem',
               fontWeight: '600',
               marginBottom: '1.5rem'
             }}>
-              Who we are
+              Quiénes somos
             </div>
             
-            <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', lineHeight: 1.1, marginBottom: '1.5rem' }}>
-              About <span style={{ color: 'var(--primary)' }}>Nursing Care</span>
+            <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', color: 'var(--text-main)', textAlign: 'left', marginBottom: '1.5rem' }}>
+              Sobre nosotros
             </h2>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '2.5rem' }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: 1.8, marginBottom: '2rem' }}>
+              Llevamos atención profesional, compasiva y experta directamente a tu hogar. 
+              Nuestro equipo de enfermeras colegiadas se dedica a mejorar tu calidad de vida y 
+              asegurar tu comodidad en todo momento en Zaragoza.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '1rem' }}>
               {/* Lead Paragraph */}
               <p style={{ fontSize: '1.15rem', lineHeight: 1.6, color: 'var(--text-main)', fontWeight: '600' }}>
-                Nurses since 2015 with experience in Spain and other countries <span style={{ color: 'var(--primary)' }}>(UK, Colombia, and the US)</span>.
+                Enfermeras desde 2015 con experiencia en España y otros países <span style={{ color: 'var(--primary)' }}>(Reino Unido, Colombia y EE.UU.)</span>.
               </p>
               
               {/* Core Story */}
@@ -194,10 +248,16 @@ export default function About() {
                 paddingLeft: '1.25rem' 
               }}>
                 <p style={{ fontSize: '1.05rem', lineHeight: 1.7, color: 'var(--text-muted)' }}>
-                  Now in Zaragoza, we want to help those with mobility issues or overwhelmed healthcare systems; that's why <strong style={{ color: 'var(--text-main)', fontWeight: '600' }}>"Nurse at Home"</strong> was created.
+                  Ahora en Zaragoza, queremos ayudar a personas con problemas de movilidad o ante sistemas sanitarios saturados; por ello nace <strong style={{ color: 'var(--text-main)', fontWeight: '600' }}>"Nurse at Home"</strong>.
                 </p>
+                
+                <div style={{ marginBottom: '1rem' }}>
+                  <div style={{ color: 'var(--text-main)', fontWeight: 600, fontSize: '1.1rem', marginBottom: '0.25rem' }}>Disponibilidad 24/7</div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Siempre aquí cuando más nos necesitas</div>
+                </div>
+
                 <p style={{ fontSize: '1.05rem', lineHeight: 1.7, color: 'var(--text-muted)' }}>
-                  We offer personalized, professional, and high-quality care with firsthand dedication.
+                  Ofrecemos cuidados personalizados, profesionales y de alta calidad con una dedicación directa y humana.
                 </p>
               </div>
 
@@ -216,14 +276,16 @@ export default function About() {
                   fontStyle: 'italic', 
                   margin: 0 
                 }}>
-                  "We know that caring is not just about applying techniques; it's about being there when you need us most."
+                  "Sabemos que cuidar no es sólo aplicar técnicas; es estar ahí cuando más nos necesitas."
                 </p>
               </div>
             </div>
             
-            <AnimatedButton className="btn-primary" style={{ padding: '0.875rem 2rem', border: 'none' }}>
-              Learn more
-            </AnimatedButton>
+            <Link href="/about">
+              <AnimatedButton className="btn-primary" style={{ padding: '0.875rem 2rem', border: 'none' }}>
+                Saber más
+              </AnimatedButton>
+            </Link>
           </motion.div>
           
         </div>

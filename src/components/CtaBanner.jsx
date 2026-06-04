@@ -1,7 +1,11 @@
+"use client";
 import { motion } from 'framer-motion';
 import AnimatedButton from './AnimatedButton';
+import { useContactModal } from './ClientLayout';
 
-export default function CtaBanner({ onContactClick }) {
+export default function CtaBanner() {
+  const { openContact } = useContactModal();
+
   return (
     <section id="contact" className="section" style={{ background: 'white', padding: '2rem 1.5rem 6rem' }}>
       <div className="container" style={{ padding: 0 }}>
@@ -36,7 +40,7 @@ export default function CtaBanner({ onContactClick }) {
               marginBottom: '1.5rem',
               letterSpacing: '-0.02em',
             }}>
-              Join our community of care
+              Únete a nuestra comunidad de atención
             </h2>
             
             <p style={{
@@ -46,13 +50,13 @@ export default function CtaBanner({ onContactClick }) {
               marginBottom: '2.5rem',
               maxWidth: '450px'
             }}>
-              We are always here to help you and your loved ones. Get in touch with us today to learn more about our services.
+              Solicite una consulta hoy y permítanos crear un plan de atención que se adapte perfectamente a su familia.
             </p>
 
             <div>
               <AnimatedButton 
                 className="btn-primary" 
-                onClick={onContactClick}
+                onClick={openContact}
                 style={{ 
                   padding: '1rem 2rem', 
                   fontSize: '1.05rem', 
@@ -61,7 +65,7 @@ export default function CtaBanner({ onContactClick }) {
                   color: 'var(--primary)' 
                 }}
               >
-                Book an appointment
+                Realizar una consulta
               </AnimatedButton>
             </div>
           </div>

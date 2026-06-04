@@ -1,21 +1,17 @@
+"use client";
 import { motion } from 'framer-motion';
 
 export default function Team() {
   const teamMembers = [
     {
-      name: 'Lily Anderson',
-      role: 'Head of Nursing Care',
-      image: 'team-lily.jpg'
+      name: 'Laura Pueyo',
+      role: <>Colegiada 16521 <br /> +8 años de experiencia</>,
+      image: 'about-nurse-right.webp'
     },
     {
-      name: 'Olivia Martinez',
-      role: 'Certified Nursing Assistant',
-      image: 'team-olivia.jpg'
-    },
-    {
-      name: 'Emily Carter',
-      role: 'Registered Nurse',
-      image: 'team-emily.jpg'
+      name: 'Karen Mira',
+      role: <>Colegiada 20474 <br /> +6 años de experiencia</>,
+      image: 'sddcv.jp.webp'
     }
   ];
 
@@ -26,20 +22,20 @@ export default function Team() {
           <div style={{
             display: 'inline-block',
             padding: '0.4rem 1rem',
-            background: 'rgba(112, 150, 152, 0.15)',
+            background: 'var(--secondary)',
             color: 'var(--primary)',
             borderRadius: '999px',
             fontSize: '0.875rem',
             fontWeight: '600',
             marginBottom: '1rem'
           }}>
-            Our team
+            Nuestro equipo
           </div>
           <h2 className="section-title" style={{ maxWidth: '700px', margin: '0 auto', fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-            Meet our dedicated <span style={{ color: 'var(--primary)' }}>team</span>
+            Conoce a nuestro <span style={{ color: 'var(--primary)' }}>equipo</span>
           </h2>
           <p style={{ color: 'var(--text-light)', fontSize: '1.125rem', maxWidth: '600px', margin: '1rem auto 0' }}>
-            Meet the caring individuals who bring comfort, kindness, and expertise to every patient we serve.
+            Conoce a las personas dedicadas que aportan comodidad, amabilidad y experiencia a cada paciente que atendemos.
           </p>
         </div>
 
@@ -59,7 +55,7 @@ export default function Team() {
                 position: 'relative',
                 borderRadius: '24px',
                 overflow: 'hidden',
-                height: '450px',
+                height: '550px',
                 boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
                 cursor: 'pointer'
               }}

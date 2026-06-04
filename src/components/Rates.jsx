@@ -1,38 +1,39 @@
+"use client";
 import { motion } from 'framer-motion';
 
 export default function Rates() {
   const rates = [
     {
-      title: 'Basic Service',
-      price: 'From €35',
-      desc: 'Specific nursing interventions at home.',
+      title: 'Servicio Básico',
+      price: 'Desde 35€',
+      desc: 'Intervenciones de enfermería específicas en el domicilio.',
       features: [
-        'Injectables',
-        'Constant monitoring',
-        'Simple cures',
-        'Removal of stitches/staples'
+        'Inyectables',
+        'Control de constantes',
+        'Curas sencillas',
+        'Retirada de puntos/grapas'
       ],
       recommended: false
     },
     {
-      title: 'Specialized Service',
-      price: 'From €50',
-      desc: 'Care requiring greater technical complexity and follow-up.',
+      title: 'Servicio Especializado',
+      price: 'Desde 50€',
+      desc: 'Cuidados que requieren mayor complejidad técnica y seguimiento.',
       features: [
-        'Complex wound care (ulcers)',
-        'Catheterization (bladder/nasogastric)',
-        'Comprehensive assessment',
-        'Family health education'
+        'Cura de heridas complejas (úlceras)',
+        'Sondajes (vesical/nasogástrico)',
+        'Valoración integral',
+        'Educación para la salud familiar'
       ],
       recommended: true
     },
     {
-      title: 'First aid training',
-      price: 'From €120',
-      desc: 'At Nurse at Home we offer first aid talks and workshops adapted to companies, taught by qualified healthcare personnel.',
+      title: 'Formación en primeros auxilios',
+      price: 'Desde 120€',
+      desc: 'En Enfermera en Casa ofrecemos charlas y talleres de primeros auxilios adaptados a empresas, impartidos por personal sanitario cualificado.',
       features: [
-        'We adapt the content to the sector',
-        'Possibility of periodic training'
+        'Adaptamos el contenido al sector',
+        'Posibilidad de formación periódica'
       ],
       recommended: false
     }
@@ -44,7 +45,7 @@ export default function Rates() {
         
         <div style={{ textAlign: 'left', marginBottom: '3rem' }}>
           <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
-            Rates
+            Tarifas
           </h2>
         </div>
 
@@ -99,7 +100,7 @@ export default function Rates() {
                   fontWeight: '700',
                   boxShadow: '0 4px 10px rgba(255, 184, 0, 0.25)'
                 }}>
-                  Recommended Service
+                  Servicio Recomendado
                 </div>
               )}
               
@@ -134,7 +135,10 @@ export default function Rates() {
               </div>
 
               <div style={{ position: 'relative', zIndex: 2, marginTop: '1.2rem' }}>
-                <motion.button 
+                <motion.a 
+                  href="https://wa.me/34641635705"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.02, backgroundColor: '#7a8880' }}
                   whileTap={{ scale: 0.98 }}
                   style={{
@@ -142,16 +146,18 @@ export default function Rates() {
                     padding: '1rem',
                     backgroundColor: '#8B9A91',
                     color: 'white',
+                    textDecoration: 'none',
                     border: 'none',
                     borderRadius: '999px',
                     fontSize: '1rem',
                     fontWeight: '600',
                     cursor: 'pointer',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    display: 'inline-block'
                   }}
                 >
-                  Contact us
-                </motion.button>
+                  Contáctanos
+                </motion.a>
               </div>
             </motion.div>
           ))}
@@ -213,54 +219,61 @@ export default function Rates() {
 
             <div style={{ display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 2 }}>
               <h3 style={{ fontSize: '1rem', color: '#2a4347', fontWeight: 600, marginBottom: '1rem' }}>
-                Heparin Bonds
+                Bonos de Heparina
               </h3>
 
-              {/* Table Header */}
-              <div style={{ 
-                display: 'grid', 
-                gridTemplateColumns: '2fr 1fr 1fr 1fr', 
-                gap: '1rem', 
-                color: '#2a4347', 
-                fontWeight: 600, 
-                fontSize: '0.85rem', 
-                marginBottom: '0.5rem' 
-              }}>
-                <div>Bond</div>
-                <div style={{ textAlign: 'center' }}>Price per session</div>
-                <div style={{ textAlign: 'center' }}>Total</div>
-                <div style={{ textAlign: 'center' }}>Saving</div>
+              <div style={{ overflowX: 'auto', width: '100%', paddingBottom: '1rem' }}>
+                <div style={{ minWidth: '450px' }}>
+                  {/* Table Header */}
+                  <div style={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: '2fr 1fr 1fr 1fr', 
+                    gap: '1rem', 
+                    color: '#2a4347', 
+                    fontWeight: 600, 
+                    fontSize: '0.85rem', 
+                    marginBottom: '0.5rem' 
+                  }}>
+                    <div>Bono</div>
+                    <div style={{ textAlign: 'center' }}>Precio por sesión</div>
+                    <div style={{ textAlign: 'center' }}>Total</div>
+                    <div style={{ textAlign: 'center' }}>Ahorro</div>
+                  </div>
+
+                  {/* Table Rows */}
+                  {[
+                    { name: 'Sesión individual', price: '35€', total: '35€', saving: '' },
+                    { name: '7 sesiones*', price: '31€', total: '217€', saving: '28€' },
+                    { name: '10 sesiones*', price: '29€', total: '290€', saving: '60€' },
+                    { name: '20 sesiones*', price: '27€', total: '540€', saving: '160€' },
+                  ].map((row, rIdx) => (
+                    <div key={rIdx} style={{ 
+                      display: 'grid', 
+                      gridTemplateColumns: '2fr 1fr 1fr 1fr', 
+                      gap: '1rem', 
+                      color: '#4a5f62', 
+                      fontSize: '0.9rem', 
+                      marginBottom: '0.2rem' 
+                    }}>
+                      <div>{row.name}</div>
+                      <div style={{ textAlign: 'center' }}>{row.price}</div>
+                      <div style={{ textAlign: 'center' }}>{row.total}</div>
+                      <div style={{ textAlign: 'center' }}>{row.saving}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              {/* Table Rows */}
-              {[
-                { name: 'Individual session', price: '€35', total: '€35', saving: '' },
-                { name: '7 sessions*', price: '€31', total: '€217', saving: '€28' },
-                { name: '10 sessions*', price: '€29', total: '€290', saving: '€60' },
-                { name: '20 sessions*', price: '€27', total: '€540', saving: '€160' },
-              ].map((row, rIdx) => (
-                <div key={rIdx} style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: '2fr 1fr 1fr 1fr', 
-                  gap: '1rem', 
-                  color: '#4a5f62', 
-                  fontSize: '0.9rem', 
-                  marginBottom: '0.2rem' 
-                }}>
-                  <div>{row.name}</div>
-                  <div style={{ textAlign: 'center' }}>{row.price}</div>
-                  <div style={{ textAlign: 'center' }}>{row.total}</div>
-                  <div style={{ textAlign: 'center' }}>{row.saving}</div>
-                </div>
-              ))}
-
               <p style={{ color: '#2a4347', fontSize: '0.95rem', fontWeight: 500, marginTop: '1.2rem', marginBottom: '0' }}>
-                *Prepayment, home delivery service, cancellations with 24 hours notice.
+                *Pago por adelantado, servicio a domicilio, cancelaciones con 24 horas de antelación.
               </p>
             </div>
 
             <div style={{ position: 'relative', zIndex: 2, marginTop: '1.2rem', display: 'flex', justifyContent: 'center' }}>
-              <motion.button 
+              <motion.a 
+                href="https://wa.me/34641635705"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.02, backgroundColor: '#7a8880' }}
                 whileTap={{ scale: 0.98 }}
                 style={{
@@ -269,16 +282,18 @@ export default function Rates() {
                   padding: '1rem',
                   backgroundColor: '#8B9A91',
                   color: 'white',
+                  textDecoration: 'none',
                   border: 'none',
                   borderRadius: '999px',
                   fontSize: '1rem',
                   fontWeight: '600',
                   cursor: 'pointer',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  display: 'inline-block'
                 }}
               >
-                Contact us
-              </motion.button>
+                Contáctanos
+              </motion.a>
             </div>
           </motion.div>
 
@@ -314,15 +329,15 @@ export default function Rates() {
             
             <div style={{ display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 2 }}>
               <h3 style={{ fontSize: '1rem', color: '#2a4347', fontWeight: 600, marginBottom: '0.5rem' }}>
-                Bonuses and Monitoring
+                Bonos y Seguimiento
               </h3>
               
               <div style={{ fontSize: '3.2rem', color: '#8B9A91', fontWeight: '500', marginBottom: '0.5rem', letterSpacing: '-1px' }}>
-                Consult
+                Consultar
               </div>
               
               <p style={{ color: '#2a4347', lineHeight: 1.6, fontSize: '0.95rem', marginBottom: '1.5rem', fontWeight: 500 }}>
-                Personalized plans for continued or chronic care.
+                Planes personalizados para cuidados continuados o crónicos.
               </p>
               
               <ul style={{ 
@@ -334,7 +349,7 @@ export default function Rates() {
                 marginBottom: '0',
                 listStyleType: 'disc'
               }}>
-                {['Volume discounts', 'Scheduled follow-up', 'Priority attention', 'Weekly treatment pack'].map((feature, fIdx) => (
+                {['Descuentos por volumen', 'Seguimiento programado', 'Atención prioritaria', 'Pack de tratamiento semanal'].map((feature, fIdx) => (
                   <li key={fIdx} style={{ paddingLeft: '0.5rem', marginBottom: '0.4rem' }}>
                     {feature}
                   </li>
@@ -343,7 +358,10 @@ export default function Rates() {
             </div>
 
             <div style={{ position: 'relative', zIndex: 2, marginTop: '1.2rem' }}>
-              <motion.button 
+              <motion.a 
+                href="https://wa.me/34641635705"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.02, backgroundColor: '#7a8880' }}
                 whileTap={{ scale: 0.98 }}
                 style={{
@@ -351,16 +369,18 @@ export default function Rates() {
                   padding: '1rem',
                   backgroundColor: '#8B9A91',
                   color: 'white',
+                  textDecoration: 'none',
                   border: 'none',
                   borderRadius: '999px',
                   fontSize: '1rem',
                   fontWeight: '600',
                   cursor: 'pointer',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  display: 'inline-block'
                 }}
               >
-                Contact us
-              </motion.button>
+                Contáctanos
+              </motion.a>
             </div>
           </motion.div>
         </div>

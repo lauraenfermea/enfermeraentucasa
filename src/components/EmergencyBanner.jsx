@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, X, AlertTriangle } from 'lucide-react';
@@ -14,7 +15,7 @@ export default function EmergencyBanner() {
           exit={{ height: 0, opacity: 0 }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
           style={{
-            background: 'linear-gradient(90deg, #EF4444 0%, #DC2626 100%)',
+            background: 'var(--accent-red)',
             color: 'white',
             zIndex: 1000,
             position: 'relative',

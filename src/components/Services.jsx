@@ -1,35 +1,36 @@
+"use client";
 import { motion } from 'framer-motion';
 
 export default function Services() {
   const services = [
     {
-      title: 'Wound care and assessment',
-      desc: 'Treatment of wounds and pressure ulcers (PUs), monitoring of healing, health education and prevention. Removal of sutures or staples.',
+      title: 'Curas y valoración de heridas',
+      desc: 'Tratamiento de heridas y úlceras por presión (UPP), seguimiento de la cicatrización, educación para la salud y prevención. Retirada de puntos o grapas.',
       image: 'svc-wound.png'
     },
     {
-      title: 'Injectables and Medication',
-      desc: 'Safe administration of intravenous, intramuscular or subcutaneous medication strictly following the medical guidelines.',
+      title: 'Inyectables y Medicación',
+      desc: 'Administración segura de medicación intravenosa, intramuscular o subcutánea siguiendo estrictamente las pautas médicas.',
       image: 'svc-inject.png'
     },
     {
-      title: 'Constants Control',
-      desc: 'Comprehensive monitoring of blood pressure, heart rate, oxygen saturation, and glucose levels. Monitoring of hypertension in pregnant women.',
+      title: 'Control de Constantes',
+      desc: 'Monitorización integral de presión arterial, frecuencia cardíaca, saturación de oxígeno y niveles de glucosa. Seguimiento de hipertensión en embarazadas.',
       image: 'svc-constants.png'
     },
     {
-      title: 'Newborn care',
-      desc: 'Cord hygiene, wound care. First baths for the newborn. Wound monitoring (episiotomies, cesarean sections...)',
+      title: 'Cuidados del recién nacido',
+      desc: 'Higiene del cordón, cura de heridas. Primeros baños del recién nacido. Seguimiento de heridas (episiotomías, cesáreas...)',
       image: 'svc-newborn.png'
     },
     {
-      title: 'Catheters, drains and ostomies',
-      desc: 'Maintenance, cleaning, and changing of urinary or nasogastric catheters, ensuring total patient comfort. Ostomy assessment.',
+      title: 'Sondas, drenajes y ostomías',
+      desc: 'Mantenimiento, limpieza y cambio de sondas urinarias o nasogástricas, asegurando el confort total del paciente. Valoración de ostomías.',
       image: 'svc-catheters.png'
     },
     {
-      title: 'First aid training',
-      desc: 'Would you or your company know how to respond to a cardiac arrest? We offer first aid training in Zaragoza.',
+      title: 'Formación en primeros auxilios',
+      desc: '¿Sabrían usted o en su empresa cómo actuar ante una parada cardiorrespiratoria? Ofrecemos formación en primeros auxilios en Zaragoza.',
       image: 'svc-firstaid.png'
     }
   ];
@@ -40,7 +41,7 @@ export default function Services() {
         
         <div style={{ textAlign: 'left', marginBottom: '3rem' }}>
           <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
-            Services
+            Servicios
           </h2>
         </div>
 
@@ -94,13 +95,15 @@ export default function Services() {
 
         {/* Action Buttons */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
-          <motion.button 
+          <motion.a 
+            href="#rates"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             style={{
               padding: '1.1rem 2.5rem',
               backgroundColor: '#8B9A91',
               color: 'white',
+              textDecoration: 'none',
               border: 'none',
               borderRadius: '999px',
               fontSize: '1rem',
@@ -111,25 +114,30 @@ export default function Services() {
               gap: '0.5rem'
             }}
           >
-            Check out our rates <span style={{ fontSize: '1.2rem', fontWeight: '400' }}>+</span>
-          </motion.button>
+            Ver nuestras tarifas <span style={{ fontSize: '1.2rem', fontWeight: '400' }}>+</span>
+          </motion.a>
           
-          <motion.button 
+          <motion.a 
+            href="https://wa.me/34641635705"
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ scale: 1.05, backgroundColor: 'rgba(139, 154, 145, 0.1)' }}
             whileTap={{ scale: 0.95 }}
             style={{
               padding: '1.1rem 3rem',
               backgroundColor: 'transparent',
               color: '#4A5B52',
+              textDecoration: 'none',
               border: '1px solid rgba(139, 154, 145, 0.4)',
               borderRadius: '999px',
               fontSize: '1rem',
               fontWeight: '600',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              display: 'inline-block'
             }}
           >
-            Contact us
-          </motion.button>
+            Contáctanos
+          </motion.a>
         </div>
         
       </div>

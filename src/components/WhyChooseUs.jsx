@@ -1,3 +1,4 @@
+"use client";
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
@@ -8,9 +9,9 @@ const STEPS = [
     title: 'Contáctanos',
     desc: 'Llámenos, envíe un WhatsApp o complete nuestro formulario. Nuestro equipo responde en menos de 15 minutos, 24/7.',
     detail: 'Disponible todos los días del año, incluyendo fines de semana y feriados.',
-    color: '#0EA5E9',
-    gradient: 'linear-gradient(135deg, #0EA5E9, #0284C7)',
-    bg: 'rgba(14,165,233,0.08)',
+    color: 'var(--primary)',
+    gradient: 'linear-gradient(135deg, var(--primary), var(--primary-hover))',
+    bg: 'rgba(130,155,140,0.08)',
   },
   {
     num: '02',
@@ -18,9 +19,9 @@ const STEPS = [
     title: 'Evaluación Personalizada',
     desc: 'Una enfermera coordinadora evaluará las necesidades del paciente para diseñar el plan de atención ideal.',
     detail: 'Evaluación gratuita y sin compromiso. Incluye análisis del historial médico y objetivos de tratamiento.',
-    color: '#14B8A6',
-    gradient: 'linear-gradient(135deg, #14B8A6, #0D9488)',
-    bg: 'rgba(20,184,166,0.08)',
+    color: 'var(--primary)',
+    gradient: 'linear-gradient(135deg, var(--primary), var(--primary-hover))',
+    bg: 'rgba(130,155,140,0.08)',
   },
   {
     num: '03',
@@ -28,9 +29,9 @@ const STEPS = [
     title: 'Asignación de Enfermera',
     desc: 'Seleccionamos a la enfermera certificada que mejor se adapta a las necesidades específicas del paciente.',
     detail: 'Todas nuestras enfermeras están licenciadas, aseguradas y con antecedentes verificados.',
-    color: '#8B5CF6',
-    gradient: 'linear-gradient(135deg, #8B5CF6, #7C3AED)',
-    bg: 'rgba(139,92,246,0.08)',
+    color: 'var(--primary)',
+    gradient: 'linear-gradient(135deg, var(--primary), var(--primary-hover))',
+    bg: 'rgba(130,155,140,0.08)',
   },
   {
     num: '04',
@@ -38,9 +39,9 @@ const STEPS = [
     title: 'Atención de Calidad',
     desc: 'La enfermera llega a su hogar para brindar atención profesional, compasiva y de la más alta calidad.',
     detail: 'Con reportes detallados, seguimiento continuo y comunicación directa con su médico tratante.',
-    color: '#10B981',
-    gradient: 'linear-gradient(135deg, #10B981, #059669)',
-    bg: 'rgba(16,185,129,0.08)',
+    color: 'var(--primary)',
+    gradient: 'linear-gradient(135deg, var(--primary), var(--primary-hover))',
+    bg: 'rgba(130,155,140,0.08)',
   },
 ];
 
@@ -49,37 +50,37 @@ const WHYS = [
     icon: '🏆',
     title: 'Enfermeras Certificadas',
     desc: 'Todas con licencia activa del CENDEISSS, con mínimo 3 años de experiencia clínica verificada.',
-    color: '#F59E0B',
+    color: 'var(--primary)',
   },
   {
     icon: '⏰',
     title: 'Respuesta Inmediata',
     desc: 'Llegamos en menos de 2 horas para urgencias. Disponibles 24/7, 365 días del año.',
-    color: '#0EA5E9',
+    color: 'var(--primary)',
   },
   {
     icon: '🔒',
     title: '100% Aseguradas',
     desc: 'Todas nuestras enfermeras cuentan con seguro de responsabilidad civil y accidente para su tranquilidad.',
-    color: '#14B8A6',
+    color: 'var(--primary)',
   },
   {
     icon: '📊',
     title: 'Reportes Detallados',
     desc: 'Recibirá informes diarios del estado del paciente y coordinación directa con su médico tratante.',
-    color: '#8B5CF6',
+    color: 'var(--primary)',
   },
   {
     icon: '💰',
     title: 'Precios Transparentes',
     desc: 'Sin costos ocultos ni sorpresas. Planes por hora, diarios o mensuales. Evaluación gratuita.',
-    color: '#10B981',
+    color: 'var(--primary)',
   },
   {
     icon: '🤝',
     title: 'Atención Personalizada',
     desc: 'Plan de cuidados único para cada paciente. Un coordinador dedicado para toda la familia.',
-    color: '#EF4444',
+    color: 'var(--primary)',
   },
 ];
 
@@ -99,8 +100,8 @@ export default function WhyChooseUs() {
         <div style={{
           position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
           backgroundImage: `
-            radial-gradient(circle at 20% 50%, rgba(14,165,233,0.04) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(20,184,166,0.04) 0%, transparent 50%)
+            radial-gradient(circle at 20% 50%, rgba(130,155,140,0.04) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(130,155,140,0.04) 0%, transparent 50%)
           `,
           pointerEvents: 'none',
         }} />
@@ -136,10 +137,7 @@ export default function WhyChooseUs() {
               }}>
                 El Estándar de Oro en{' '}
                 <span style={{
-                  background: 'linear-gradient(135deg, #0EA5E9, #14B8A6)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
+                  color: 'var(--primary)',
                 }}>
                   Enfermería Domiciliar
                 </span>
@@ -168,8 +166,8 @@ export default function WhyChooseUs() {
                     style={{
                       display: 'flex', alignItems: 'flex-start', gap: '0.875rem',
                       padding: '0.875rem 1rem',
-                      background: 'rgba(14,165,233,0.04)',
-                      border: '1px solid rgba(14,165,233,0.1)',
+                      background: 'rgba(130,155,140,0.04)',
+                      border: '1px solid rgba(130,155,140,0.1)',
                       borderRadius: '1rem',
                     }}
                   >
@@ -180,7 +178,7 @@ export default function WhyChooseUs() {
               </div>
 
               <a
-                href="https://wa.me/50688888888"
+                href="https://api.whatsapp.com/send?phone=34641635705"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary"
@@ -259,15 +257,15 @@ export default function WhyChooseUs() {
       {/* How It Works Section */}
       <section id="como-funciona" style={{
         padding: '6rem 0',
-        background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
+        background: 'var(--text-main)',
         position: 'relative', overflow: 'hidden',
       }}>
         {/* Background decoration */}
         <div style={{
           position: 'absolute', inset: 0,
           backgroundImage: `
-            radial-gradient(circle at 20% 20%, rgba(14,165,233,0.12) 0%, transparent 40%),
-            radial-gradient(circle at 80% 80%, rgba(20,184,166,0.08) 0%, transparent 40%)
+            radial-gradient(circle at 20% 20%, rgba(130,155,140,0.12) 0%, transparent 40%),
+            radial-gradient(circle at 80% 80%, rgba(130,155,140,0.08) 0%, transparent 40%)
           `,
           pointerEvents: 'none',
         }} />
@@ -301,12 +299,12 @@ function HowItWorksContent({ steps, activeStep, setActiveStep }) {
       >
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-          fontSize: '0.8rem', fontWeight: 700, color: 'rgba(14,165,233,0.9)',
+          fontSize: '0.8rem', fontWeight: 700, color: 'var(--secondary)',
           textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '1rem',
         }}>
-          <span style={{ width: 24, height: 3, background: 'linear-gradient(90deg, #0EA5E9, #14B8A6)', borderRadius: '9999px' }} />
+          <span style={{ width: 24, height: 3, background: 'var(--primary)', borderRadius: '9999px' }} />
           Proceso Simple
-          <span style={{ width: 24, height: 3, background: 'linear-gradient(90deg, #14B8A6, #10B981)', borderRadius: '9999px' }} />
+          <span style={{ width: 24, height: 3, background: 'var(--primary)', borderRadius: '9999px' }} />
         </div>
         <h2 style={{
           fontFamily: "'Outfit', sans-serif",
@@ -332,7 +330,7 @@ function HowItWorksContent({ steps, activeStep, setActiveStep }) {
           position: 'absolute',
           top: '52px', left: 'calc(12.5% + 24px)', right: 'calc(12.5% + 24px)',
           height: '2px',
-          background: 'linear-gradient(90deg, #0EA5E9, #14B8A6, #8B5CF6, #10B981)',
+          background: 'var(--primary)',
           opacity: 0.3, zIndex: 0,
           borderRadius: '9999px',
         }} className="connector-line" />
@@ -420,20 +418,20 @@ function HowItWorksContent({ steps, activeStep, setActiveStep }) {
         style={{ textAlign: 'center', marginTop: '4rem' }}
       >
         <a
-          href="https://wa.me/50688888888"
+          href="https://api.whatsapp.com/send?phone=34641635705"
           target="_blank"
           rel="noopener noreferrer"
+          className="btn btn-primary"
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '0.75rem',
             padding: '1rem 2.5rem',
-            background: 'linear-gradient(135deg, #0EA5E9, #14B8A6)',
-            color: 'white', borderRadius: '1rem',
+            borderRadius: '1rem',
             fontWeight: 700, fontSize: '1rem', textDecoration: 'none',
-            boxShadow: '0 8px 32px rgba(14,165,233,0.35)',
+            boxShadow: '0 8px 32px rgba(130,155,140,0.35)',
             transition: 'all 0.25s ease',
           }}
-          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 16px 40px rgba(14,165,233,0.45)'; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(14,165,233,0.35)'; }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 16px 40px rgba(130,155,140,0.45)'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(130,155,140,0.35)'; }}
         >
           Comenzar Ahora — Es Gratis
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

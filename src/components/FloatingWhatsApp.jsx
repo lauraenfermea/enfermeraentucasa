@@ -1,3 +1,4 @@
+"use client";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
@@ -61,7 +62,7 @@ export default function FloatingWhatsApp() {
 
       {/* WhatsApp Button */}
       <motion.a
-        href="https://wa.me/50688888888"
+        href="https://api.whatsapp.com/send?phone=34641635705"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Contactar por WhatsApp"
