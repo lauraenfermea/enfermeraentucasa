@@ -1,11 +1,10 @@
 import { motion } from 'framer-motion';
-import AnimatedButton from './AnimatedButton';
 
 export default function Hero({ onContactClick }) {
   return (
     <section style={{
       position: 'relative',
-      padding: '7rem 0 4rem',
+      padding: '7rem 0 8rem', // Increased bottom padding to shift content up
       minHeight: '85vh',
       display: 'flex',
       alignItems: 'center',
@@ -30,16 +29,9 @@ export default function Hero({ onContactClick }) {
         <source src="/assets/hero_video.mp4" type="video/mp4" />
       </video>
 
-      {/* Gradient Overlay for Text Readability */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        background: 'linear-gradient(to right, rgba(11, 30, 54, 0.7) 0%, rgba(11, 30, 54, 0.1) 100%)',
-        zIndex: 1
-      }} />
-
+      {/* Video is now fully clear without gradient overlay */}
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-        <div style={{ maxWidth: '600px' }}>
+        <div style={{ maxWidth: '900px', position: 'relative', left: '-1rem' }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -57,7 +49,7 @@ export default function Hero({ onContactClick }) {
               marginBottom: '1.5rem',
               border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
-              Compassionate home nursing care
+              Home nurse in Zaragoza
             </div>
 
             <h1 style={{
@@ -69,27 +61,54 @@ export default function Hero({ onContactClick }) {
               letterSpacing: '-0.02em',
               color: 'white'
             }}>
-              Bringing heartfelt care to your doorstep
+              Professional healthcare <br /> in your home.
             </h1>
             
-            <p style={{
+            <ul style={{
               fontSize: '1.125rem',
               lineHeight: 1.6,
               opacity: 0.9,
-              marginBottom: '2.5rem',
-              maxWidth: '500px',
+              marginBottom: '2rem',
+              maxWidth: '550px',
+              color: 'white',
+              listStyleType: 'none',
+              padding: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.75rem'
+            }}>
+              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>•</span>
+                <span>No waiting or traveling.</span>
+              </li>
+              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>•</span>
+                <span>No waiting rooms and no stress; just professional, personalized, and quality care in your home.</span>
+              </li>
+            </ul>
+
+            <p style={{
+              fontSize: '1.125rem',
+              fontWeight: 600,
+              marginBottom: '1rem',
               color: 'white'
             }}>
-              At Nursing Care, we understand the importance of compassionate care that goes beyond just medical assistance.
+              Do you need help?
             </p>
 
-            <AnimatedButton 
-              className="btn-primary" 
+            <motion.button 
+              className="btn btn-primary" 
               onClick={onContactClick}
-              style={{ padding: '1rem 2rem', fontSize: '1.05rem', border: 'none', background: 'var(--primary)', color: 'white' }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              style={{ padding: '1rem 2rem', fontSize: '1.05rem', border: 'none', background: '#25D366', color: 'white', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
             >
-              Discover more
-            </AnimatedButton>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.031 0C5.405 0 0 5.394 0 12.02c0 2.115.548 4.183 1.59 6.002L.15 23.364l5.485-1.436c1.761.954 3.743 1.458 5.766 1.458 6.627 0 12.03-5.395 12.03-12.02C23.43 5.395 18.026 0 12.031 0zm0 21.365c-1.786 0-3.535-.478-5.074-1.385l-.364-.216-3.771.988.998-3.676-.236-.376c-1-1.593-1.528-3.437-1.528-5.334 0-5.513 4.492-10.003 10.007-10.003 5.514 0 10.004 4.49 10.004 10.003 0 5.513-4.49 10.003-10.004 10.003z"/>
+                <path d="M17.485 14.896c-.302-.152-1.784-.881-2.062-.981-.277-.1-.479-.151-.68.151-.202.302-.781.981-.958 1.182-.176.202-.353.227-.655.076-.302-.152-1.272-.469-2.423-1.494-.895-.798-1.5-1.783-1.676-2.085-.177-.302-.019-.465.132-.616.136-.136.302-.352.453-.529.151-.176.202-.302.302-.503.1-.202.05-.378-.025-.529-.076-.151-.68-1.637-.932-2.242-.246-.591-.497-.512-.68-.52-.176-.008-.378-.008-.58-.008-.202 0-.529.076-.806.378-.277.302-1.058 1.032-1.058 2.518s1.083 2.919 1.234 3.12c.151.202 2.128 3.245 5.153 4.549.719.309 1.28.494 1.718.633.721.229 1.378.196 1.895.118.577-.087 1.784-.73 2.036-1.436.252-.705.252-1.309.176-1.436-.075-.126-.277-.202-.579-.353z"/>
+              </svg>
+              Click below on WhatsApp
+            </motion.button>
           </motion.div>
         </div>
       </div>

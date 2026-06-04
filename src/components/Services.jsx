@@ -3,32 +3,34 @@ import { motion } from 'framer-motion';
 export default function Services() {
   const services = [
     {
-      title: 'Supportive care',
-      desc: 'Comprehensive assistance focused on comfort, dignity, and enhancing overall quality of life.',
-      icon: 'icon-personal-care.svg',
-      bg: 'rgba(47, 83, 90, 0.08)',
-      iconBg: '#2F535A'
+      title: 'Wound care and assessment',
+      desc: 'Treatment of wounds and pressure ulcers (PUs), monitoring of healing, health education and prevention. Removal of sutures or staples.',
+      image: 'svc-wound.png'
     },
     {
-      title: 'Recovery services',
-      desc: 'Tailored recovery care to help regain strength, confidence, and overall well-being.',
-      icon: 'icon-patient-safety.svg',
-      bg: 'rgba(112, 150, 152, 0.15)',
-      iconBg: '#709698'
+      title: 'Injectables and Medication',
+      desc: 'Safe administration of intravenous, intramuscular or subcutaneous medication strictly following the medical guidelines.',
+      image: 'svc-inject.png'
     },
     {
-      title: 'Emotional support',
-      desc: 'Gentle care that nurtures emotional balance, comfort, and overall well-being.',
-      icon: 'icon-emotional-support.svg',
-      bg: 'rgba(176, 206, 206, 0.25)',
-      iconBg: '#B0CECE'
+      title: 'Constants Control',
+      desc: 'Comprehensive monitoring of blood pressure, heart rate, oxygen saturation, and glucose levels. Monitoring of hypertension in pregnant women.',
+      image: 'svc-constants.png'
     },
     {
-      title: 'Nursing support',
-      desc: 'Professional in-home care promoting healing, comfort, and lasting peace of mind.',
-      icon: 'icon-qualified-nurses.svg',
-      bg: 'rgba(80, 110, 115, 0.12)',
-      iconBg: '#506E73'
+      title: 'Newborn care',
+      desc: 'Cord hygiene, wound care. First baths for the newborn. Wound monitoring (episiotomies, cesarean sections...)',
+      image: 'svc-newborn.png'
+    },
+    {
+      title: 'Catheters, drains and ostomies',
+      desc: 'Maintenance, cleaning, and changing of urinary or nasogastric catheters, ensuring total patient comfort. Ostomy assessment.',
+      image: 'svc-catheters.png'
+    },
+    {
+      title: 'First aid training',
+      desc: 'Would you or your company know how to respond to a cardiac arrest? We offer first aid training in Zaragoza.',
+      image: 'svc-firstaid.png'
     }
   ];
 
@@ -36,28 +38,17 @@ export default function Services() {
     <section id="services" className="section" style={{ background: 'white' }}>
       <div className="container">
         
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <div style={{
-            display: 'inline-block',
-            padding: '0.4rem 1rem',
-            background: 'rgba(41, 121, 255, 0.1)',
-            color: 'var(--primary)',
-            borderRadius: '999px',
-            fontSize: '0.875rem',
-            fontWeight: '600',
-            marginBottom: '1rem'
-          }}>
-            What We Offer
-          </div>
-          <h2 className="section-title" style={{ maxWidth: '700px', margin: '0 auto', fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-            Discover our <span style={{ color: 'var(--primary)' }}>services</span>
+        <div style={{ textAlign: 'left', marginBottom: '3rem' }}>
+          <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
+            Services
           </h2>
         </div>
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '1.5rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '2rem',
+          marginBottom: '4rem'
         }}>
           {services.map((svc, idx) => (
             <motion.div
@@ -67,53 +58,80 @@ export default function Services() {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}
               style={{
-                position: 'relative',
-                background: svc.bg,
-                padding: '2.5rem 2rem',
+                background: '#f2f7f2',
                 borderRadius: '24px',
-                borderBottomLeftRadius: '0', // Sharp corner for the cutout
-                transition: 'transform 0.3s ease',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
                 cursor: 'pointer',
-                display: 'flex',
-                flexDirection: 'column'
+                boxShadow: '0 10px 30px rgba(0,0,0,0.03)'
               }}
-              whileHover={{ y: -5 }}
+              whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }}
             >
-              {/* Cut-out corner fake */}
-              <div style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                width: '40px',
-                height: '40px',
-                backgroundColor: 'white',
-                borderTopRightRadius: '24px'
-              }} />
-
-              <div style={{
-                background: svc.iconBg,
-                width: '60px',
-                height: '60px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '2rem',
-                boxShadow: '0 4px 10px rgba(0,0,0,0.05)'
-              }}>
-                <img src={`/assets/${svc.icon}`} alt={svc.title} style={{ width: '28px', filter: svc.iconBg === '#BAE6FD' ? 'none' : 'brightness(0) invert(1)' }} />
+              {/* Service Image */}
+              <div style={{ width: '100%', height: '240px', overflow: 'hidden' }}>
+                <motion.img 
+                  src={`/assets/${svc.image}`} 
+                  alt={svc.title} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.4 }}
+                />
               </div>
               
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--text-main)', fontWeight: 700 }}>
-                {svc.title}
-              </h3>
-              
-              <p style={{ color: 'var(--text-light)', lineHeight: 1.6, fontSize: '0.95rem' }}>
-                {svc.desc}
-              </p>
+              {/* Service Content */}
+              <div style={{ padding: '2rem 1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <h3 style={{ fontSize: '1.15rem', marginBottom: '1rem', color: 'var(--text-main)', fontWeight: 600 }}>
+                  {svc.title}
+                </h3>
+                <p style={{ color: 'var(--text-muted)', lineHeight: 1.6, fontSize: '0.95rem', margin: 0 }}>
+                  {svc.desc}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>
+
+        {/* Action Buttons */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            style={{
+              padding: '1.1rem 2.5rem',
+              backgroundColor: '#8B9A91',
+              color: 'white',
+              border: 'none',
+              borderRadius: '999px',
+              fontSize: '1rem',
+              fontWeight: '600',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}
+          >
+            Check out our rates <span style={{ fontSize: '1.2rem', fontWeight: '400' }}>+</span>
+          </motion.button>
+          
+          <motion.button 
+            whileHover={{ scale: 1.05, backgroundColor: 'rgba(139, 154, 145, 0.1)' }}
+            whileTap={{ scale: 0.95 }}
+            style={{
+              padding: '1.1rem 3rem',
+              backgroundColor: 'transparent',
+              color: '#4A5B52',
+              border: '1px solid rgba(139, 154, 145, 0.4)',
+              borderRadius: '999px',
+              fontSize: '1rem',
+              fontWeight: '600',
+              cursor: 'pointer'
+            }}
+          >
+            Contact us
+          </motion.button>
+        </div>
+        
       </div>
     </section>
   );

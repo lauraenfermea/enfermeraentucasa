@@ -1,142 +1,146 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, HelpCircle } from 'lucide-react';
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null);
 
   const faqs = [
     {
-      q: '¿Cómo seleccionan al personal de enfermería?',
-      a: 'Todo nuestro personal pasa por un riguroso proceso de reclutamiento que incluye: verificación exhaustiva de cédula profesional y título académico, exámenes psicométricos, investigación de antecedentes y referencias laborales, así como una entrevista y valoración de servicio humana.'
+      question: "When should I request a home nurse in Zaragoza?",
+      answer: "After surgery, for a wound that needs monitoring, to administer medication, perform tests, or check vital signs. Also if you want to avoid waiting or traveling."
     },
     {
-      q: '¿Qué pasa si el enfermero asignado no asiste o no somos compatibles?',
-      a: 'Nuestra prioridad es la continuidad del cuidado. Contamos con personal de guardia y respaldo 24/7. En caso de inasistencia, cubrimos el turno de inmediato. Si por alguna razón la familia o el paciente no se sienten cómodos con el enfermero asignado, realizamos el cambio de personal de inmediato sin costo adicional.'
+      question: "Are the nurses qualified?",
+      answer: "Yes. We are registered and certified nurses, with experience in different healthcare areas and a professional and human approach."
     },
     {
-      q: '¿Cuáles son los horarios y modalidades de los turnos?',
-      a: 'Ofrecemos flexibilidad total adaptándonos a su familia. Contamos con visitas programadas por horas (para inyecciones, curaciones o baños), así como turnos de 8, 12 y 24 horas continuas, tanto diurnos como nocturnos.'
+      question: "Can I request the service after hospital discharge?",
+      answer: "Yes, it's one of the most common reasons. It ensures continuity of care and reduces the risk of complications."
     },
     {
-      q: '¿Los servicios incluyen insumos médicos?',
-      a: 'Los insumos médicos necesarios para los procedimientos (gazas, jeringas, apósitos avanzados, soluciones) generalmente son cubiertos por la familia o se facturan por separado según el plan contratado. Al realizar la valoración gratuita inicial, les entregamos una lista sugerida de materiales requeridos.'
+      question: "How can I book an appointment?",
+      answer: "It's very simple. Just contact us by calling our phone number 641 63 57 05 or sending us a WhatsApp message. We'll get back to you quickly."
     },
     {
-      q: '¿Tienen cobertura de atención en caso de emergencias?',
-      a: 'Sí, contamos con un canal de atención telefónica de emergencia exclusivo para nuestros pacientes activos. Además, nuestro personal está capacitado en soporte básico de vida (RCP) y primeros auxilios para actuar de inmediato y coordinar el traslado médico si es necesario.'
+      question: "How are payments made?",
+      answer: "We accept various forms of payment for your convenience and that of your family: Bizum, bank transfer or cash after the service provided at your home is completed."
+    },
+    {
+      question: "In which areas of Zaragoza do you work?",
+      answer: "We provide services in Zaragoza city center. We bring professional healthcare directly to your home to save you unnecessary travel and for your convenience."
+    },
+    {
+      question: "What are your opening hours?",
+      answer: "We are available Monday through Sunday with complete flexibility in scheduling. Our goal is to adapt to your pace and that of your family, arranging visits at the most convenient time to ensure care without waiting."
     }
   ];
 
-  const handleToggle = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   return (
-    <section id="faq" className="section" style={{ backgroundColor: 'var(--color-bg-white)', position: 'relative' }}>
-      
-      {/* Background shape */}
-      <div
-        className="pulse-bg"
-        style={{
-          width: '320px',
-          height: '320px',
-          background: 'rgba(20, 184, 166, 0.04)',
-          top: '15%',
-          left: '5%',
-          animation: 'pulse-slow 8s infinite',
-        }}
-      ></div>
-
-      <div className="container" style={{ maxWidth: '800px' }}>
+    <section id="faq" className="section" style={{ background: '#f8fbf8' }}>
+      <div className="container" style={{ maxWidth: '800px', margin: '0 auto' }}>
         
-        {/* Section Header */}
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <span className="section-subtitle">Preguntas Frecuentes</span>
-          <h2 className="section-title">
-            Resolvemos tus dudas
+        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
+            Frequently Asked <span style={{ color: 'var(--primary)' }}>Questions</span>
           </h2>
-          <p className="section-desc" style={{ margin: '0 auto' }}>
-            Queremos que te sientas completamente seguro y respaldado al elegir nuestros servicios. Aquí detallamos los aspectos más comunes.
-          </p>
         </div>
 
-        {/* Accordion Container */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', textAlign: 'left' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {faqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
-
+            
             return (
-              <div
+              <motion.div 
                 key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1, duration: 0.4 }}
                 style={{
-                  borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--color-border)',
-                  backgroundColor: isOpen ? 'var(--color-bg-light)' : 'white',
-                  transition: 'background-color 0.3s ease',
+                  background: 'white',
+                  borderRadius: '16px',
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.02)',
                   overflow: 'hidden',
+                  border: '1px solid rgba(112, 150, 152, 0.1)'
                 }}
               >
-                {/* Accordion Header */}
                 <button
-                  onClick={() => handleToggle(idx)}
+                  onClick={() => setOpenIndex(isOpen ? null : idx)}
                   style={{
                     width: '100%',
-                    padding: '1.5rem',
-                    background: 'none',
-                    border: 'none',
+                    padding: '1.5rem 2rem',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    gap: '1rem',
+                    background: 'transparent',
+                    border: 'none',
                     cursor: 'pointer',
-                    textAlign: 'left',
+                    textAlign: 'left'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <HelpCircle size={20} style={{ color: isOpen ? 'var(--color-primary)' : 'var(--color-text-muted)', flexShrink: 0 }} />
-                    <span style={{ fontSize: '1.0625rem', fontWeight: 600, color: 'var(--color-text-dark)' }}>
-                      {faq.q}
-                    </span>
+                  <span style={{ 
+                    fontSize: '1.1rem', 
+                    fontWeight: 600, 
+                    color: isOpen ? 'var(--primary)' : '#2a4347',
+                    transition: 'color 0.3s ease'
+                  }}>
+                    {faq.question}
+                  </span>
+                  
+                  <div style={{
+                    width: '28px',
+                    height: '28px',
+                    borderRadius: '50%',
+                    background: isOpen ? 'var(--primary)' : '#f2f7f2',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    transition: 'all 0.3s ease'
+                  }}>
+                    <svg 
+                      width="14" 
+                      height="14" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke={isOpen ? 'white' : 'var(--primary)'} 
+                      strokeWidth="2.5" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                      style={{
+                        transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.3s ease'
+                      }}
+                    >
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
                   </div>
-
-                  <motion.div
-                    animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    style={{ color: 'var(--color-text-muted)', display: 'flex' }}
-                  >
-                    <ChevronDown size={18} />
-                  </motion.div>
                 </button>
-
-                {/* Accordion Content */}
-                <AnimatePresence initial={false}>
+                
+                <AnimatePresence>
                   {isOpen && (
                     <motion.div
-                      key="content"
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                     >
-                      <div
-                        style={{
-                          padding: '0 1.5rem 1.5rem 3.25rem',
-                          fontSize: '0.9375rem',
-                          lineHeight: 1.6,
-                          color: 'var(--color-text-muted)',
-                        }}
-                      >
-                        {faq.a}
+                      <div style={{ 
+                        padding: '0 2rem 1.5rem', 
+                        color: '#4a5f62',
+                        fontSize: '1rem',
+                        lineHeight: 1.7
+                      }}>
+                        {faq.answer}
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             );
           })}
         </div>
-
+        
       </div>
     </section>
   );

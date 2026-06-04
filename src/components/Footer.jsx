@@ -1,71 +1,96 @@
+import { MapPin, Mail, Phone } from 'lucide-react';
+
 export default function Footer() {
   return (
-    <footer style={{
-      backgroundColor: 'var(--text-main)', // Deep Teal
-      color: '#FFFFFF',
-      padding: '4rem 0 2rem',
-      marginTop: 'auto'
-    }}>
-      <div className="container">
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '3rem',
-          marginBottom: '3rem'
-        }}>
-          {/* Brand */}
-          <div>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              marginBottom: '1rem'
-            }}>
-              <img 
-                src="/assets/logo_edited.avif" 
-                alt="Nursing Care Logo" 
-                style={{ 
-                  height: '44px', 
-                  width: '44px', 
-                  objectFit: 'cover',
-                  borderRadius: '50%',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                  border: '2px solid rgba(255,255,255,0.2)'
-                }} 
-              />
+    <footer style={{ backgroundColor: 'white', color: '#000', paddingBottom: '2rem' }}>
+      <div className="container" style={{ maxWidth: '900px', margin: '0 auto', paddingTop: '4rem' }}>
+        <h2 style={{ fontSize: 'clamp(3.5rem, 8vw, 5.5rem)', fontWeight: 500, marginBottom: '2rem', color: '#4a5f62', letterSpacing: '-2px' }}>
+          Contact us
+        </h2>
+      </div>
+      
+      <div style={{ borderTop: '1px solid #eaeaea', width: '100%', marginBottom: '3.5rem' }}></div>
+
+      <div className="container" style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', marginBottom: '3.5rem' }}>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <MapPin size={36} color="#000" strokeWidth={2} />
+            <div>
+              <div style={{ fontWeight: 700, fontSize: '1.15rem', marginBottom: '0.2rem', color: '#000' }}>Where do we work?</div>
+              <div style={{ fontSize: '1.15rem', color: '#000' }}>Zaragoza and surrounding areas.</div>
             </div>
-            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.95rem' }}>
-              Bringing heartfelt care to your doorstep.
-            </p>
           </div>
 
-          {/* Links */}
-          <div>
-            <h4 style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>Company</h4>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <li><a href="#" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>About Us</a></li>
-              <li><a href="#" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Careers</a></li>
-              <li><a href="#" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Contact</a></li>
-            </ul>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <Mail size={36} color="#000" strokeWidth={2} />
+            <div>
+              <div style={{ fontWeight: 700, fontSize: '1.15rem', marginBottom: '0.2rem', color: '#000' }}>Contact email</div>
+              <div style={{ fontSize: '1.15rem', color: '#000' }}>info@enfermeraentucasa.es</div>
+            </div>
           </div>
 
-          <div>
-            <h4 style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>Services</h4>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <li><a href="#" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Personal Care</a></li>
-              <li><a href="#" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Companionship</a></li>
-              <li><a href="#" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Nursing</a></li>
-            </ul>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <Phone size={36} color="#000" strokeWidth={2} />
+            <div>
+              <div style={{ fontWeight: 700, fontSize: '1.15rem', marginBottom: '0.2rem', color: '#000' }}>Contact phone number</div>
+              <div style={{ fontSize: '1.15rem', color: '#000' }}>+ 641 63 57 05</div>
+            </div>
           </div>
+
         </div>
 
-        <div style={{
-          borderTop: '1px solid rgba(255,255,255,0.1)',
-          paddingTop: '2rem',
-          textAlign: 'center',
-          color: 'rgba(255,255,255,0.5)',
-          fontSize: '0.875rem'
-        }}>
-          © 2026 Nursing Care. All rights reserved.
+        <p style={{ fontSize: '1.2rem', color: '#4a5f62', lineHeight: 1.6, marginBottom: '2.5rem' }}>
+          If you have any questions about whether we deliver to your area, feel free to contact us.
+        </p>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', marginBottom: '3rem' }}>
+          <a href="https://wa.me/34641635705" style={{
+            flex: '1 1 300px',
+            backgroundColor: '#8B9A91',
+            color: 'white',
+            padding: '1.2rem 2rem',
+            borderRadius: '999px',
+            textAlign: 'center',
+            textDecoration: 'none',
+            fontWeight: 500,
+            fontSize: '1.15rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            lineHeight: 1.3,
+            transition: 'opacity 0.2s',
+          }}
+          onMouseOver={(e) => e.target.style.opacity = 0.9}
+          onMouseOut={(e) => e.target.style.opacity = 1}
+          >
+            Send a WhatsApp<br/>message
+          </a>
+          <a href="mailto:info@enfermeraentucasa.es" style={{
+            flex: '1 1 300px',
+            backgroundColor: '#f2f7f2',
+            border: '1px solid rgba(139, 154, 145, 0.4)',
+            color: '#4a5f62',
+            padding: '1.2rem 2rem',
+            borderRadius: '999px',
+            textAlign: 'center',
+            textDecoration: 'none',
+            fontWeight: 500,
+            fontSize: '1.15rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'background-color 0.2s',
+          }}
+          onMouseOver={(e) => e.target.style.backgroundColor = '#e8efe8'}
+          onMouseOut={(e) => e.target.style.backgroundColor = '#f2f7f2'}
+          >
+            Send email
+          </a>
+        </div>
+        
+        <div style={{ textAlign: 'center', color: '#8B9A91', fontSize: '0.9rem', paddingTop: '2rem', borderTop: '1px solid #eaeaea' }}>
+          © {new Date().getFullYear()} Nurse at Home. All rights reserved.
         </div>
       </div>
     </footer>
