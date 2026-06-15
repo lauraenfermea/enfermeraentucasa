@@ -1,6 +1,5 @@
 import Hero from '../components/Hero';
 import FeaturesBand from '../components/FeaturesBand';
-import About from '../components/About';
 import Services from '../components/Services';
 import Rates from '../components/Rates';
 import Testimonials from '../components/Testimonials';
@@ -13,7 +12,6 @@ export default function Home() {
     <>
       <Hero />
       <FeaturesBand />
-      <About />
       <Services />
       <Rates />
       <Testimonials />
