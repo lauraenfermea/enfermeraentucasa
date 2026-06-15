@@ -12,12 +12,7 @@ export default function Hero() {
           <img
             src="/assets/hero_bg.webp"
             alt="Enfermera a domicilio"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center'
-            }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
           />
           <div className="hero-overlay" />
         </div>
@@ -29,24 +24,25 @@ export default function Hero() {
             transition={{ duration: 0.8 }}
             style={{ maxWidth: '620px' }}
           >
-            <div className="hero-badge">Enfermera a domicilio en Zaragoza</div>
+            {/* Heading */}
+            <h1 className="hero-heading">Enfermera a domicilio en Zaragoza</h1>
 
-            <h1 className="hero-title">
-              Atención sanitaria profesional en tu hogar.
-            </h1>
+            {/* Body text */}
+            <div className="hero-body">
+              <p>Atención sanitaria profesional en tu hogar.</p>
+              <p>- Sin esperas ni desplazamientos.</p>
+              <p>- Sin salas de espera y sin estrés; solo cuidados profesionales, personalizados y de calidad en tu hogar.</p>
+            </div>
 
-            <ul className="hero-text">
-              <li>- Sin esperas ni desplazamientos.</li>
-              <li>- Sin salas de espera y sin estrés; solo cuidados profesionales, personalizados y de calidad en tu hogar.</li>
-            </ul>
-
+            {/* Contact */}
             <div className="hero-contact">
               <p className="hero-help">¿Necesitas ayuda?</p>
-              <p><span className="hero-contact-label">Teléfono:</span> +34 641 635 705</p>
+              <p><span className="hero-contact-label">Teléfono:</span>  +34 641 635 705</p>
               <p><span className="hero-contact-label">email:</span> <a href="mailto:info@enfermeraentucasa.es">info@enfermeraentucasa.es</a></p>
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
+            {/* Buttons */}
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1.75rem' }}>
               <motion.a
                 href="https://wa.me/34641635705"
                 target="_blank"
