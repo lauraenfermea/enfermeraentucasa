@@ -6,32 +6,32 @@ export default function Services() {
     {
       title: 'Curas y valoración de heridas',
       desc: 'Tratamiento de heridas y úlceras por presión (UPP), seguimiento de la cicatrización, educación para la salud y prevención. Retirada de puntos o grapas.',
-      image: 'svc-wound.png'
+      image: 'imgi_8_como-curar-una-herida-infectada.jpg'
     },
     {
       title: 'Inyectables y Medicación',
       desc: 'Administración segura de medicación intravenosa, intramuscular o subcutánea siguiendo estrictamente las pautas médicas.',
-      image: 'svc-inject.png'
+      image: 'imgi_9_inyeccion.webp'
     },
     {
       title: 'Control de Constantes',
       desc: 'Monitorización integral de presión arterial, frecuencia cardíaca, saturación de oxígeno y niveles de glucosa. Seguimiento de hipertensión en embarazadas.',
-      image: 'svc-constants.png'
+      image: 'imgi_10_779030c5-a200-421f-8dd8-8e85eb97be20.jpg'
     },
     {
       title: 'Cuidados del recién nacido',
       desc: 'Higiene del cordón, cura de heridas. Primeros baños del recién nacido. Seguimiento de heridas (episiotomías, cesáreas...)',
-      image: 'svc-newborn.png'
+      image: 'imgi_11_Baby Feet Close-Up.jpg'
     },
     {
       title: 'Sondas, drenajes y ostomías',
       desc: 'Mantenimiento, limpieza y cambio de sondas urinarias o nasogástricas, asegurando el confort total del paciente. Valoración de ostomías.',
-      image: 'svc-catheters.png'
+      image: 'imgi_12_e62b038d-504f-49e5-8e4f-266def66acc1.jpg'
     },
     {
       title: 'Formación en primeros auxilios',
       desc: '¿Sabrían usted o en su empresa cómo actuar ante una parada cardiorrespiratoria? Ofrecemos formación en primeros auxilios en Zaragoza.',
-      image: 'svc-firstaid.png'
+      image: 'imgi_13_group-diverse-people-cpr-training-class.jpg'
     }
   ];
 
