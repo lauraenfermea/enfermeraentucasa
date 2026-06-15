@@ -199,7 +199,7 @@ h1, h2, h3, h4 {
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.65) 100%);
+    background: linear-gradient(135deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.2) 100%);
     z-index: 1;
   }
   .hero-content {
@@ -212,7 +212,8 @@ h1, h2, h3, h4 {
   }
   .hero-badge {
     display: inline-block;
-    background: var(--primary); /* Deep blue from Framer -> Brand Color */
+    background: var(--primary);
+    color: white !important;
     padding: 0.5rem 1rem;
     border-radius: 999px;
     font-size: 0.85rem;
@@ -224,20 +225,20 @@ h1, h2, h3, h4 {
     font-size: clamp(2rem, 6vw, 3.5rem);
     line-height: 1.1;
     font-weight: 700;
-    color: white;
+    color: white !important;
     margin-bottom: 1rem;
     letter-spacing: -0.02em;
   }
   .hero-text {
     font-size: 0.95rem;
     line-height: 1.8;
-    color: rgba(255,255,255,0.9);
+    color: white !important;
     margin-bottom: 1.25rem;
     max-width: 520px;
     list-style: none;
     padding: 0;
   }
-  .hero-text li { margin: 0; }
+  .hero-text li { margin: 0; color: white !important; }
   .hero-help {
     font-size: 1rem;
     font-weight: 700;
