@@ -29,9 +29,7 @@ export default function Footer() {
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {[
                 { name: 'Inicio', link: '/' },
-                { name: 'Sobre Nosotros', link: '/about' },
                 { name: 'Nuestros Servicios', link: '/#services' },
-                { name: 'Conoce al Equipo', link: '/about' },
                 { name: 'Preguntas Frecuentes', link: '/#faq' },
                 { name: 'Contacto', link: '/contact' }
               ].map((item) => (
