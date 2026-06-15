@@ -240,9 +240,27 @@ h1, h2, h3, h4 {
   .hero-text li { margin: 0; }
   .hero-help {
     font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.25rem;
+  }
+  .hero-contact {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 2;
+    color: rgba(255,255,255,0.92);
+  }
+  .hero-contact p { margin: 0; }
+  .hero-contact-label {
     font-weight: 600;
     color: white;
-    margin-bottom: 1.25rem;
+  }
+  .hero-contact a {
+    color: rgba(255,255,255,0.92);
+    text-decoration: none;
+  }
+  .hero-contact a:hover {
+    text-decoration: underline;
   }
   .hero-btn {
     border: none;
