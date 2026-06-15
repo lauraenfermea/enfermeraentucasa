@@ -27,25 +27,22 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            style={{ maxWidth: '650px' }}
+            style={{ maxWidth: '600px' }}
           >
+            <div className="hero-badge">Enfermera a domicilio en Zaragoza</div>
+
             <h1 className="hero-title">
-              Enfermera a domicilio en Zaragoza
+              Atención sanitaria profesional en tu hogar.
             </h1>
 
-            <div className="hero-text">
-              <p>Atención sanitaria profesional en tu hogar.</p>
-              <p>- Sin esperas ni desplazamientos.</p>
-              <p>- Sin salas de espera y sin estrés; solo cuidados profesionales, personalizados y de calidad en tu hogar.</p>
-            </div>
+            <ul className="hero-text">
+              <li>• Sin esperas ni desplazamientos.</li>
+              <li>• Sin salas de espera y sin estrés; solo cuidados profesionales, personalizados y de calidad en tu hogar.</li>
+            </ul>
 
-            <div className="hero-contact">
-              <p><strong>¿Necesitas ayuda?</strong></p>
-              <p>Teléfono: &nbsp;<span>+34 641 635 705</span></p>
-              <p>email: <a href="mailto:info@enfermeraentucasa.es">info@enfermeraentucasa.es</a></p>
-            </div>
+            <p className="hero-help">¿Necesitas ayuda?</p>
 
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1.75rem' }}>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <motion.a
                 href="https://wa.me/34641635705"
                 target="_blank"

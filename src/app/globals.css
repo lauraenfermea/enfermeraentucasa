@@ -199,7 +199,7 @@ h1, h2, h3, h4 {
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.45);
+    background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.65) 100%);
     z-index: 1;
   }
   .hero-content {
@@ -207,7 +207,7 @@ h1, h2, h3, h4 {
     z-index: 2;
     padding: 1.5rem;
     padding-bottom: 5.5rem;
-    color: var(--text-main);
+    color: white;
     width: 100%;
   }
   .hero-badge {
@@ -221,30 +221,28 @@ h1, h2, h3, h4 {
   }
   .hero-title {
     font-family: var(--font-sans);
-    font-size: clamp(1.8rem, 5vw, 3rem);
-    line-height: 1.15;
-    font-weight: 600;
-    color: var(--text-main);
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    line-height: 1.1;
+    font-weight: 700;
+    color: white;
     margin-bottom: 1rem;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
   .hero-text {
     font-size: 0.95rem;
     line-height: 1.8;
-    color: var(--text-main);
+    color: rgba(255,255,255,0.9);
     margin-bottom: 1.25rem;
-    max-width: 560px;
+    max-width: 520px;
+    list-style: none;
+    padding: 0;
   }
-  .hero-text p { margin: 0; }
-  .hero-contact {
-    font-size: 0.95rem;
-    line-height: 1.9;
-    color: var(--text-main);
-    margin-bottom: 0.5rem;
-  }
-  .hero-contact a {
-    color: var(--text-main);
-    text-decoration: none;
+  .hero-text li { margin: 0; }
+  .hero-help {
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 1.25rem;
   }
   .hero-btn {
     border: none;
@@ -296,7 +294,7 @@ h1, h2, h3, h4 {
       width: 60%;
     }
     .hero-overlay {
-      background: rgba(255, 255, 255, 0.40);
+      background: linear-gradient(90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 60%, transparent 100%);
     }
   }
 
