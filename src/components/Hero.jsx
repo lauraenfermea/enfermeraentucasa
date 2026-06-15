@@ -7,21 +7,18 @@ export default function Hero() {
   return (
     <section className="hero-wrapper">
       <div className="hero-card">
-        {/* Background Video */}
+        {/* Background Image */}
         <div className="hero-video-container">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
+          <img
+            src="/assets/hero_bg.webp"
+            alt="Enfermera a domicilio"
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover'
+              objectFit: 'cover',
+              objectPosition: 'center'
             }}
-          >
-            <source src="/assets/hero_video.mp4" type="video/mp4" />
-          </video>
+          />
           <div className="hero-overlay" />
         </div>
 
