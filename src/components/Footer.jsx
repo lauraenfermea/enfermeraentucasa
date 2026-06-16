@@ -23,25 +23,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem', color: '#2c3e40' }}>Enlaces Rápidos</h4>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {[
-                { name: 'Inicio', link: '/' },
-                { name: 'Nuestros Servicios', link: '/#services' },
-                { name: 'Preguntas Frecuentes', link: '/#faq' },
-                { name: 'Contacto', link: '/contact' }
-              ].map((item) => (
-                <li key={item.name}>
-                  <Link href={item.link} style={{ color: '#4a5f62', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'color 0.2s', fontSize: '1.05rem' }} onMouseOver={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseOut={(e) => e.currentTarget.style.color = '#4a5f62'}>
-                    <ChevronRight size={16} style={{ color: 'var(--primary)' }} />
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
 
           {/* Contact Info */}
           <div>
