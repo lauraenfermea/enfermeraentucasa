@@ -56,8 +56,8 @@ export default function Header({ onContactClick }) {
               src="/assets/logo_edited.avif" 
               alt="Nursing Care Logo" 
               style={{ 
-                height: scrolled ? '54px' : '64px', 
-                width: scrolled ? '54px' : '64px', 
+                height: scrolled ? '68px' : '84px', 
+                width: scrolled ? '68px' : '84px', 
                 objectFit: 'cover',
                 borderRadius: '50%',
                 boxShadow: '0 4px 15px rgba(0, 0, 0, 0.15)',
