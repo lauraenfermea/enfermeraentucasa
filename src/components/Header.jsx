@@ -19,8 +19,7 @@ export default function Header({ onContactClick }) {
   const navLinks = [
     { name: 'Inicio', path: '/' },
     { name: 'Contacto', path: '/contact' },
-    { name: 'Servicios', path: '/#services' },
-    { name: 'Blog', path: '/#blog' }
+    { name: 'Servicios', path: '/#services' }
   ];
 
   return (
