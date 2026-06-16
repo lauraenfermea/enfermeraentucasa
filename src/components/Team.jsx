@@ -121,16 +121,59 @@ export default function Team() {
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.7 }}
               style={{
-                color: '#4a5568',
-                fontSize: 'clamp(1.125rem, 1.8vw, 1.35rem)',
-                lineHeight: '1.8',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.25rem',
                 maxWidth: '100%'
               }}
             >
-              <p style={{ margin: '0 0 1.2rem 0' }}><strong>Enfermeras desde 2015</strong> con experiencia en España y otros lugares (Reino Unido, Colombia y EU).</p>
-              <p style={{ margin: '0 0 1.2rem 0' }}>Ahora en Zaragoza queremos ayudar a esas personas con dificultad de desplazamiento o saturación del sistema, por ello nace <strong>"Enfermera en tu casa"</strong>.</p>
-              <p style={{ margin: '0 0 1.2rem 0' }}>Ofrecemos una atención cercana, profesional y de calidad con una dedicación de primera mano.</p>
-              <p style={{ margin: '0' }}>Sabemos que cuidar no solo es aplicar técnicas, <em>es estar presentes cuando más se necesita</em>.</p>
+              <div style={{
+                backgroundColor: 'white',
+                padding: '1.5rem',
+                borderRadius: '16px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                borderLeft: '4px solid #829B8C'
+              }}>
+                <p style={{ margin: 0, color: '#4a5568', fontSize: 'clamp(1.05rem, 1.5vw, 1.2rem)', lineHeight: '1.7' }}>
+                  <strong>Enfermeras desde 2015</strong> con experiencia en España y otros lugares (Reino Unido, Colombia y EU).
+                </p>
+              </div>
+
+              <div style={{
+                backgroundColor: 'white',
+                padding: '1.5rem',
+                borderRadius: '16px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                borderLeft: '4px solid #829B8C'
+              }}>
+                <p style={{ margin: 0, color: '#4a5568', fontSize: 'clamp(1.05rem, 1.5vw, 1.2rem)', lineHeight: '1.7' }}>
+                  Ahora en Zaragoza queremos ayudar a esas personas con dificultad de desplazamiento o saturación del sistema, por ello nace <strong>"Enfermera en tu casa"</strong>.
+                </p>
+              </div>
+
+              <div style={{
+                backgroundColor: 'white',
+                padding: '1.5rem',
+                borderRadius: '16px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                borderLeft: '4px solid #829B8C'
+              }}>
+                <p style={{ margin: 0, color: '#4a5568', fontSize: 'clamp(1.05rem, 1.5vw, 1.2rem)', lineHeight: '1.7' }}>
+                  Ofrecemos una atención cercana, profesional y de calidad con una dedicación de primera mano.
+                </p>
+              </div>
+
+              <div style={{
+                backgroundColor: 'white',
+                padding: '1.5rem',
+                borderRadius: '16px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                borderLeft: '4px solid #829B8C'
+              }}>
+                <p style={{ margin: 0, color: '#4a5568', fontSize: 'clamp(1.05rem, 1.5vw, 1.2rem)', lineHeight: '1.7' }}>
+                  Sabemos que cuidar no solo es aplicar técnicas, <em>es estar presentes cuando más se necesita</em>.
+                </p>
+              </div>
             </motion.div>
           </div>
         </div>
