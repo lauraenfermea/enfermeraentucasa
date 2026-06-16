@@ -117,15 +117,15 @@ export default function Team() {
             transition={{ delay: 0.2, duration: 0.7 }}
             style={{
               color: '#4a5568',
-              fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
-              lineHeight: '1.6',
-              maxWidth: '1000px'
+              fontSize: 'clamp(1.125rem, 1.8vw, 1.4rem)',
+              lineHeight: '1.8',
+              maxWidth: '900px'
             }}
           >
-            <p style={{ margin: '0 0 0.5rem 0' }}>Enfermeras desde 2015 con experiencia en España y otros lugares (Reino unido, Colombia y EU).</p>
-            <p style={{ margin: '0 0 0.5rem 0' }}>Ahora en Zaragoza queremos ayudar a esas personas con dificultad de desplazamiento o saturación del sistema, por ello nace "Enfermera en tu casa".</p>
-            <p style={{ margin: '0 0 0.5rem 0' }}>Ofrecemos una atención cercana, profesional y de calidad con una dedicación de primera mano.</p>
-            <p style={{ margin: '0' }}>Sabemos que cuidar no solo es aplicar técnicas, es estar presentes cuando más se necesita.</p>
+            <p style={{ margin: '0 0 1.2rem 0' }}><strong>Enfermeras desde 2015</strong> con experiencia en España y otros lugares (Reino Unido, Colombia y EU).</p>
+            <p style={{ margin: '0 0 1.2rem 0' }}>Ahora en Zaragoza queremos ayudar a esas personas con dificultad de desplazamiento o saturación del sistema, por ello nace <strong>"Enfermera en tu casa"</strong>.</p>
+            <p style={{ margin: '0 0 1.2rem 0' }}>Ofrecemos una atención cercana, profesional y de calidad con una dedicación de primera mano.</p>
+            <p style={{ margin: '0' }}>Sabemos que cuidar no solo es aplicar técnicas, <em>es estar presentes cuando más se necesita</em>.</p>
           </motion.div>
         </div>
 
