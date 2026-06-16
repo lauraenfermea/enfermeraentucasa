@@ -94,13 +94,13 @@ export default function Services() {
         </div>
 
         {/* Action Buttons */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
           <motion.a 
             href="#rates"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             style={{
-              padding: '1.1rem 2.5rem',
+              padding: '1rem 2.5rem',
               backgroundColor: '#8B9A91',
               color: 'white',
               textDecoration: 'none',
@@ -111,21 +111,24 @@ export default function Services() {
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.5rem'
+              justifyContent: 'center',
+              gap: '0.5rem',
+              height: '54px',
+              boxSizing: 'border-box'
             }}
           >
-            Ver nuestras tarifas <span style={{ fontSize: '1.2rem', fontWeight: '400' }}>+</span>
+            Conoce nuestras tarifas <span style={{ fontSize: '1.2rem', fontWeight: '400' }}>+</span>
           </motion.a>
           
           <motion.a 
             href="https://wa.me/34641635705"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05, backgroundColor: 'rgba(139, 154, 145, 0.1)' }}
+            whileHover={{ scale: 1.05, backgroundColor: 'rgba(139, 154, 145, 0.15)' }}
             whileTap={{ scale: 0.95 }}
             style={{
-              padding: '1.1rem 3rem',
-              backgroundColor: 'transparent',
+              padding: '1rem 2.5rem',
+              backgroundColor: '#f2f7f2',
               color: '#4A5B52',
               textDecoration: 'none',
               border: '1px solid rgba(139, 154, 145, 0.4)',
@@ -133,7 +136,11 @@ export default function Services() {
               fontSize: '1rem',
               fontWeight: '600',
               cursor: 'pointer',
-              display: 'inline-block'
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '54px',
+              boxSizing: 'border-box'
             }}
           >
             Contáctanos
