@@ -22,7 +22,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            style={{ maxWidth: '620px' }}
+            style={{ maxWidth: '900px' }}
           >
             {/* Heading */}
             <h1 className="hero-heading">Enfermera a domicilio en Zaragoza</h1>
