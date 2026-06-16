@@ -29,6 +29,14 @@ export default function FAQ() {
     {
       question: '¿Cómo se realizan los pagos?',
       answer: 'Aceptamos diversas formas de pago para tu mayor comodidad y la de tu familia: Bizum, transferencia bancaria o en efectivo tras finalizar el servicio prestado en tu propio domicilio.'
+    },
+    {
+      question: '¿En qué zonas de Zaragoza trabajáis?',
+      answer: 'Prestamos servicios en Zaragoza centro urbano. Llevamos la atención sanitaria profesional directamente a tu hogar para evitarte desplazamientos innecesarios y mayor comodidad.'
+    },
+    {
+      question: '¿Cuál es vuestro horario de atención?',
+      answer: 'Atendemos de lunes a domingo con flexibilidad horaria total. Nuestro objetivo es adaptarnos a tu ritmo y al de tu familia, pactando las visitas en el momento que mejor os convenga para garantizar unos cuidados sin esperas.'
     }
   ];
 
