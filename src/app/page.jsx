@@ -7,7 +7,6 @@ import Team from '../components/Team';
 import FAQ from '../components/FAQ';
 import ReviewsSlider from '../components/ReviewsSlider';
 import MapSection from '../components/MapSection';
-import CtaBanner from '../components/CtaBanner';
 
 export default function Home() {
   return (
@@ -21,7 +20,6 @@ export default function Home() {
       <FAQ />
       <ReviewsSlider />
       <MapSection />
-      <CtaBanner />
     </>
   );
 }

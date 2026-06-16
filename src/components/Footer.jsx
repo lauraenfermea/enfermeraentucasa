@@ -12,17 +12,6 @@ export default function Footer() {
           gap: '3rem',
           marginBottom: '4rem'
         }}>
-          {/* Brand & Description */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-              <img src="/assets/logo_edited.avif" alt="Nurse at Home Logo" style={{ width: '50px', height: '50px', borderRadius: '50%', border: '2px solid white', boxShadow: '0 4px 15px rgba(112,150,152,0.2)' }} />
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 700, margin: 0, color: '#2c3e40' }}>Enfermera en tu Casa</h3>
-            </div>
-            <p style={{ fontSize: '1.05rem', lineHeight: 1.6, marginBottom: '2rem' }}>
-              Proporcionando atención de enfermería compasiva y profesional en la comodidad de su hogar en Zaragoza. Su salud y bienestar son nuestra principal prioridad.
-            </p>
-          </div>
-
 
           {/* Contact Info */}
           <div>
