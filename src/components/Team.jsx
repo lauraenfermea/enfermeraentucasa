@@ -5,44 +5,45 @@ export default function Team() {
   const teamMembers = [
     {
       name: 'Laura Pueyo',
-      role: <>Colegiada 16521 <br /> +8 años de experiencia</>,
+      colegiada: 'Colegiada 16521',
+      experience: '+8 años de experiencia',
       image: 'about-nurse-right.webp'
     },
     {
       name: 'Karen Mira',
-      role: <>Colegiada 20474 <br /> +6 años de experiencia</>,
+      colegiada: 'Colegiada 20474',
+      experience: '+6 años de experiencia',
       image: 'sddcv.jp.webp'
     }
   ];
 
   return (
-    <section id="team" className="section" style={{ background: 'var(--bg-color)' }}>
-      <div className="container">
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <div style={{
-            display: 'inline-block',
-            padding: '0.4rem 1rem',
-            background: 'var(--secondary)',
-            color: 'var(--primary)',
-            borderRadius: '999px',
-            fontSize: '0.875rem',
-            fontWeight: '600',
-            marginBottom: '1rem'
-          }}>
-            Nuestro equipo
-          </div>
-          <h2 className="section-title" style={{ maxWidth: '700px', margin: '0 auto', fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-            Conoce a nuestro <span style={{ color: 'var(--primary)' }}>equipo</span>
-          </h2>
-          <p style={{ color: 'var(--text-light)', fontSize: '1.125rem', maxWidth: '600px', margin: '1rem auto 0' }}>
-            Conoce a las personas dedicadas que aportan comodidad, amabilidad y experiencia a cada paciente que atendemos.
-          </p>
+    <section id="quienes-somos" style={{ backgroundColor: '#eff5f1', padding: '6rem 0' }}>
+      <div className="container" style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 1.5rem' }}>
+        <div style={{ marginBottom: '4rem' }}>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{
+              fontSize: 'clamp(2.5rem, 5vw, 3.75rem)',
+              fontWeight: '500',
+              color: '#4a5568',
+              letterSpacing: '-0.025em',
+              margin: 0
+            }}
+          >
+            ¿Quienes somos?
+          </motion.h2>
         </div>
 
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '2rem'
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: '4rem',
+          maxWidth: '768px',
+          margin: '0 auto'
         }}>
           {teamMembers.map((member, idx) => (
             <motion.div
@@ -50,42 +51,46 @@ export default function Team() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.5 }}
+              transition={{ delay: idx * 0.2, duration: 0.7 }}
               style={{
-                position: 'relative',
-                borderRadius: '24px',
-                overflow: 'hidden',
-                height: '550px',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
-                cursor: 'pointer'
-              }}
-              whileHover={{ y: -5 }}
-            >
-              <img 
-                src={`/assets/${member.image}`} 
-                alt={member.name} 
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-              />
-              
-              {/* Floating Info Box */}
-              <div style={{
-                position: 'absolute',
-                bottom: '1rem',
-                left: '1rem',
-                right: '1rem',
-                background: 'white',
-                padding: '1.5rem',
-                borderRadius: '16px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
                 textAlign: 'center',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.05)'
+                width: '100%',
+                maxWidth: '320px',
+                flex: '1 1 300px'
+              }}
+            >
+              <div style={{
+                position: 'relative',
+                width: '100%',
+                aspectRatio: '3/4',
+                marginBottom: '1.5rem',
+                borderRadius: '32px',
+                overflow: 'hidden'
               }}>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '0.25rem', color: 'var(--text-main)', fontWeight: 700 }}>
-                  {member.name}
-                </h3>
-                <p style={{ color: 'var(--text-light)', fontSize: '0.9rem', margin: 0 }}>
-                  {member.role}
-                </p>
+                <img 
+                  src={`/assets/${member.image}`} 
+                  alt={member.name} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                />
               </div>
+              
+              <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#4a5568', margin: '0 0 0.25rem 0' }}>
+                {member.name}
+              </h3>
+              <p style={{ fontSize: '15px', fontWeight: '600', color: '#4a5568', margin: '0 0 0.125rem 0' }}>
+                {member.colegiada}
+              </p>
+              <p style={{ fontSize: '15px', fontWeight: '400', color: '#6b7280', margin: 0, lineHeight: '1.3' }}>
+                {member.experience.replace(' de experiencia', ' de \nexperiencia').split('\n').map((line, i) => (
+                  <span key={i}>
+                    {line}
+                    {i === 0 && <br />}
+                  </span>
+                ))}
+              </p>
             </motion.div>
           ))}
         </div>
