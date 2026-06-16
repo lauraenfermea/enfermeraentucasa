@@ -82,10 +82,10 @@ export default function Services() {
               
               {/* Service Content */}
               <div style={{ padding: '2rem 1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <h3 style={{ fontSize: '1.15rem', marginBottom: '1rem', color: 'var(--text-main)', fontWeight: 600 }}>
+                <h3 style={{ fontSize: '1.35rem', marginBottom: '1rem', color: 'var(--text-main)', fontWeight: 600 }}>
                   {svc.title}
                 </h3>
-                <p style={{ color: 'var(--text-muted)', lineHeight: 1.6, fontSize: '0.95rem', margin: 0 }}>
+                <p style={{ color: 'var(--text-muted)', lineHeight: 1.6, fontSize: '1.1rem', margin: 0 }}>
                   {svc.desc}
                 </p>
               </div>
