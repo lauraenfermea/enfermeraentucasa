@@ -4,6 +4,7 @@ import Services from '../components/Services';
 import Rates from '../components/Rates';
 
 import Team from '../components/Team';
+import FAQ from '../components/FAQ';
 import BlogSection from '../components/BlogSection';
 import CtaBanner from '../components/CtaBanner';
 
@@ -16,6 +17,7 @@ export default function Home() {
       <Rates />
 
       <Team />
+      <FAQ />
       <BlogSection />
       <CtaBanner />
     </>
