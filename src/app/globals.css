@@ -402,6 +402,7 @@ h1, h2, h3, h4 {
     .hero-card {
       flex-direction: column;
       min-height: auto;
+      height: auto !important;
       background: var(--primary);
     }
     .hero-video-container {
