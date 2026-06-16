@@ -337,7 +337,22 @@ h1, h2, h3, h4 {
       max-width: none;
     }
     .hero-overlay {
-      background: linear-gradient(90deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.1) 40%, rgba(255,255,255,0.6) 100%);
+      background: linear-gradient(90deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.75) 45%, rgba(255,255,255,0.9) 100%);
+    }
+    .hero-content {
+      color: #2c3e40;
+    }
+    .hero-title, .hero-heading, .hero-help, .hero-contact-label {
+      color: #2c3e40 !important;
+      text-shadow: none !important;
+    }
+    .hero-body, .hero-body p, .hero-contact, .hero-text, .hero-text li {
+      color: #4a5f62 !important;
+      text-shadow: none !important;
+    }
+    .hero-contact a {
+      color: var(--primary) !important;
+      font-weight: 700;
     }
   }
 
@@ -349,7 +364,7 @@ h1, h2, h3, h4 {
     z-index: 0;
   }
   .hero-video-container img {
-    filter: saturate(0.9) brightness(1.55);
+    filter: saturate(0.7) brightness(1.65);
   }
 
   .mobile-header-title {

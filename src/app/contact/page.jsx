@@ -24,19 +24,19 @@ export default function ContactPage() {
           </div>
           <div style={{ background: 'white', padding: '2rem', borderRadius: '16px', flex: '1 1 250px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
             <Mail size={40} color="var(--primary)" style={{ margin: '0 auto 1rem' }} />
-            <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Email Us</h3>
+            <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Envíanos un correo</h3>
             <p style={{ color: 'var(--text-light)' }}>info@enfermeraentucasa.es</p>
           </div>
           <div style={{ background: 'white', padding: '2rem', borderRadius: '16px', flex: '1 1 250px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
             <Phone size={40} color="var(--primary)" style={{ margin: '0 auto 1rem' }} />
-            <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Call Us</h3>
+            <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Llámanos</h3>
             <p style={{ color: 'var(--text-light)' }}>+34 641 63 57 05</p>
           </div>
         </div>
 
         <div style={{ marginTop: '4rem' }}>
           <a href="https://api.whatsapp.com/send?phone=34641635705" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ fontSize: '1.2rem', padding: '1rem 2rem', textDecoration: 'none', display: 'inline-block' }}>
-            Request Service
+            Solicitar servicio
           </a>
         </div>
       </div>

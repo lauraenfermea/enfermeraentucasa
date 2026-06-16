@@ -19,7 +19,7 @@ const FAQ_ITEMS = [
   },
   {
     q: '¿Cómo garantizan la calidad y seguridad de sus enfermeras?',
-    a: 'Todas nuestras enfermeras son Licenciadas en Enfermería con registro activo en el Colegio de Enfermeras de Costa Rica. Realizamos verificación exhaustiva de antecedentes penales, referencias laborales y académicas. Además, cuentan con seguro de responsabilidad civil.',
+    a: 'Todas nuestras enfermeras son graduadas universitarias en Enfermería con registro activo en el Colegio Oficial de Enfermería de Zaragoza. Realizamos una verificación exhaustiva de antecedentes, referencias laborales y académicas. Además, cuentan con seguro de responsabilidad civil.',
   },
   {
     q: '¿Cuáles son los precios de sus servicios?',
@@ -35,7 +35,7 @@ const FAQ_ITEMS = [
   },
   {
     q: '¿Qué áreas geográficas cubren?',
-    a: 'Actualmente atendemos en San José, Alajuela, Heredia, Cartago y zonas aledañas del Gran Área Metropolitana. Estamos en proceso de expansión a otras provincias. Contáctenos para confirmar la disponibilidad en su zona.',
+    a: 'Actualmente atendemos en Zaragoza y alrededores. Contáctenos para confirmar la disponibilidad en su zona.',
   },
 ];
 
