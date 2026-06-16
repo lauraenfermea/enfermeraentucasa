@@ -149,59 +149,32 @@ export default function Team() {
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.7 }}
               style={{
+                backgroundColor: 'white',
+                padding: '2.5rem 2rem',
+                borderRadius: '24px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                borderLeft: '6px solid #829B8C',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '1.25rem',
+                gap: '1.5rem',
                 maxWidth: '100%'
               }}
             >
-              <div style={{
-                backgroundColor: 'white',
-                padding: '1.5rem',
-                borderRadius: '16px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-                borderLeft: '4px solid #829B8C'
-              }}>
-                <p style={{ margin: 0, color: '#4a5568', fontSize: 'clamp(1.05rem, 1.5vw, 1.2rem)', lineHeight: '1.7' }}>
-                  <strong>Enfermeras desde 2015</strong> con experiencia en España y otros lugares (Reino Unido, Colombia y EU).
-                </p>
-              </div>
+              <p style={{ margin: 0, color: '#4a5568', fontSize: 'clamp(1.05rem, 1.5vw, 1.2rem)', lineHeight: '1.7' }}>
+                <strong>Enfermeras desde 2015</strong> con experiencia en España y otros lugares (Reino Unido, Colombia y EU).
+              </p>
 
-              <div style={{
-                backgroundColor: 'white',
-                padding: '1.5rem',
-                borderRadius: '16px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-                borderLeft: '4px solid #829B8C'
-              }}>
-                <p style={{ margin: 0, color: '#4a5568', fontSize: 'clamp(1.05rem, 1.5vw, 1.2rem)', lineHeight: '1.7' }}>
-                  Ahora en Zaragoza queremos ayudar a esas personas con dificultad de desplazamiento o saturación del sistema, por ello nace <strong>"Enfermera en tu casa"</strong>.
-                </p>
-              </div>
+              <p style={{ margin: 0, color: '#4a5568', fontSize: 'clamp(1.05rem, 1.5vw, 1.2rem)', lineHeight: '1.7' }}>
+                Ahora en Zaragoza queremos ayudar a esas personas con dificultad de desplazamiento o saturación del sistema, por ello nace <strong>"Enfermera en tu casa"</strong>.
+              </p>
 
-              <div style={{
-                backgroundColor: 'white',
-                padding: '1.5rem',
-                borderRadius: '16px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-                borderLeft: '4px solid #829B8C'
-              }}>
-                <p style={{ margin: 0, color: '#4a5568', fontSize: 'clamp(1.05rem, 1.5vw, 1.2rem)', lineHeight: '1.7' }}>
-                  Ofrecemos una atención cercana, profesional y de calidad con una dedicación de primera mano.
-                </p>
-              </div>
+              <p style={{ margin: 0, color: '#4a5568', fontSize: 'clamp(1.05rem, 1.5vw, 1.2rem)', lineHeight: '1.7' }}>
+                Ofrecemos una atención cercana, profesional y de calidad con una dedicación de primera mano.
+              </p>
 
-              <div style={{
-                backgroundColor: 'white',
-                padding: '1.5rem',
-                borderRadius: '16px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-                borderLeft: '4px solid #829B8C'
-              }}>
-                <p style={{ margin: 0, color: '#4a5568', fontSize: 'clamp(1.05rem, 1.5vw, 1.2rem)', lineHeight: '1.7' }}>
-                  Sabemos que cuidar no solo es aplicar técnicas, <em>es estar presentes cuando más se necesita</em>.
-                </p>
-              </div>
+              <p style={{ margin: 0, color: '#4a5568', fontSize: 'clamp(1.05rem, 1.5vw, 1.2rem)', lineHeight: '1.7' }}>
+                Sabemos que cuidar no solo es aplicar técnicas, <em>es estar presentes cuando más se necesita</em>.
+              </p>
             </motion.div>
           </div>
         </div>
