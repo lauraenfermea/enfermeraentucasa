@@ -15,44 +15,44 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.5rem', color: '#2c3e40' }}>Información de Contacto</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <h4 style={{ fontSize: '1.65rem', fontWeight: 700, marginBottom: '1.75rem', color: '#2c3e40' }}>Información de Contacto</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               <a 
                 href="https://maps.app.goo.gl/mrgfGi4YZuDYp3yv6" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', textDecoration: 'none', cursor: 'pointer', transition: 'opacity 0.2s' }}
+                style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', textDecoration: 'none', cursor: 'pointer', transition: 'opacity 0.2s' }}
                 onMouseOver={e => e.currentTarget.style.opacity = 0.75}
                 onMouseOut={e => e.currentTarget.style.opacity = 1}
               >
-                <MapPin size={24} color="var(--primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                <MapPin size={32} color="var(--primary)" style={{ flexShrink: 0 }} />
                 <div>
-                  <div style={{ fontWeight: 600, color: '#2c3e40', fontSize: '1.15rem' }}>Ubicación</div>
-                  <div style={{ fontSize: '1.05rem', color: '#4a5f62' }}>Zaragoza y alrededores</div>
+                  <div style={{ fontWeight: 600, color: '#2c3e40', fontSize: '1.35rem' }}>Ubicación</div>
+                  <div style={{ fontSize: '1.15rem', color: '#4a5f62', marginTop: '2px' }}>Zaragoza y alrededores</div>
                 </div>
               </a>
               <a 
                 href="mailto:info@enfermeraentucasa.es" 
-                style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', textDecoration: 'none', cursor: 'pointer', transition: 'opacity 0.2s' }}
+                style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', textDecoration: 'none', cursor: 'pointer', transition: 'opacity 0.2s' }}
                 onMouseOver={e => e.currentTarget.style.opacity = 0.75}
                 onMouseOut={e => e.currentTarget.style.opacity = 1}
               >
-                <Mail size={24} color="var(--primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                <Mail size={32} color="var(--primary)" style={{ flexShrink: 0 }} />
                 <div>
-                  <div style={{ fontWeight: 600, color: '#2c3e40', fontSize: '1.15rem' }}>Envíanos un Email</div>
-                  <div style={{ fontSize: '1.05rem', color: '#4a5f62' }}>info@enfermeraentucasa.es</div>
+                  <div style={{ fontWeight: 600, color: '#2c3e40', fontSize: '1.35rem' }}>Envíanos un Email</div>
+                  <div style={{ fontSize: '1.15rem', color: '#4a5f62', marginTop: '2px' }}>info@enfermeraentucasa.es</div>
                 </div>
               </a>
               <a 
                 href="tel:+34641635705" 
-                style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', textDecoration: 'none', cursor: 'pointer', transition: 'opacity 0.2s' }}
+                style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', textDecoration: 'none', cursor: 'pointer', transition: 'opacity 0.2s' }}
                 onMouseOver={e => e.currentTarget.style.opacity = 0.75}
                 onMouseOut={e => e.currentTarget.style.opacity = 1}
               >
-                <Phone size={24} color="var(--primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                <Phone size={32} color="var(--primary)" style={{ flexShrink: 0 }} />
                 <div>
-                  <div style={{ fontWeight: 600, color: '#2c3e40', fontSize: '1.15rem' }}>Llámanos</div>
-                  <div style={{ fontSize: '1.05rem', color: '#4a5f62' }}>+34 641 63 57 05</div>
+                  <div style={{ fontWeight: 600, color: '#2c3e40', fontSize: '1.35rem' }}>Llámanos</div>
+                  <div style={{ fontSize: '1.15rem', color: '#4a5f62', marginTop: '2px' }}>+34 641 63 57 05</div>
                 </div>
               </a>
             </div>
