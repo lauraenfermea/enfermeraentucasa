@@ -72,7 +72,7 @@ export default function Footer() {
               >
                 Mensaje por WhatsApp
               </a>
-              <a href="mailto:info@enfermeraentucasa.es" style={{
+              <a href="https://maps.app.goo.gl/mrgfGi4YZuDYp3yv6" target="_blank" rel="noopener noreferrer" style={{
                 backgroundColor: 'transparent',
                 border: '1px solid var(--primary)',
                 color: 'var(--primary)',
@@ -86,7 +86,7 @@ export default function Footer() {
               onMouseOver={(e) => { e.target.style.backgroundColor = 'var(--primary)'; e.target.style.color = 'white'; }}
               onMouseOut={(e) => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = 'var(--primary)'; }}
               >
-                Enviar Email
+                Ubicación en Google Maps
               </a>
             </div>
           </div>
