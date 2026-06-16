@@ -77,20 +77,16 @@ export default function Team() {
                 />
               </div>
               
-              <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#4a5568', margin: '0 0 0.25rem 0' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
                 {member.name}
               </h3>
-              <p style={{ fontSize: '15px', fontWeight: '600', color: '#4a5568', margin: '0 0 0.125rem 0' }}>
+              <p style={{ fontSize: '14px', fontWeight: '600', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
                 {member.colegiada}
               </p>
-              <p style={{ fontSize: '15px', fontWeight: '400', color: '#6b7280', margin: 0, lineHeight: '1.3' }}>
-                {member.experience.replace(' de experiencia', ' de \nexperiencia').split('\n').map((line, i) => (
-                  <span key={i}>
-                    {line}
-                    {i === 0 && <br />}
-                  </span>
-                ))}
-              </p>
+              <div style={{ fontSize: '14px', fontWeight: '500', color: '#6b7280', margin: 0, lineHeight: '1.2' }}>
+                <span style={{ display: 'block' }}>{member.experience.split(' de ')[0]} de</span>
+                <span style={{ display: 'block' }}>{member.experience.split(' de ')[1]}</span>
+              </div>
             </motion.div>
           ))}
         </div>
