@@ -207,7 +207,7 @@ h1, h2, h3, h4 {
     z-index: 2;
     padding: 1.5rem;
     padding-bottom: 5.5rem;
-    color: var(--text-main);
+    color: white;
     width: 100%;
   }
   .hero-badge {
@@ -225,58 +225,62 @@ h1, h2, h3, h4 {
     font-size: clamp(2rem, 6vw, 3.5rem);
     line-height: 1.1;
     font-weight: 700;
-    color: var(--text-main) !important;
+    color: white !important;
     margin-bottom: 1rem;
     letter-spacing: -0.02em;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
   }
   /* Plain heading - no badge */
   .hero-heading {
     font-family: var(--font-sans);
     font-size: clamp(2rem, 4.5vw, 3rem);
     font-weight: 700;
-    color: var(--text-main) !important;
+    color: white !important;
     margin-bottom: 1.25rem;
     line-height: 1.2;
     letter-spacing: -0.02em;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
   }
   /* Body text block */
   .hero-body {
     font-size: clamp(1rem, 1.5vw, 1.2rem);
     line-height: 2;
-    color: var(--text-muted) !important;
+    color: rgba(255,255,255,0.95) !important;
     margin-bottom: 1.4rem;
     max-width: 600px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.2);
   }
-  .hero-body p { margin: 0; color: var(--text-muted) !important; }
+  .hero-body p { margin: 0; color: rgba(255,255,255,0.95) !important; }
   .hero-text {
     font-size: 0.95rem;
     line-height: 1.8;
-    color: var(--text-muted) !important;
+    color: rgba(255,255,255,0.95) !important;
     margin-bottom: 1.25rem;
     max-width: 520px;
     list-style: none;
     padding: 0;
   }
-  .hero-text li { margin: 0; color: var(--text-muted) !important; }
+  .hero-text li { margin: 0; color: rgba(255,255,255,0.95) !important; }
   .hero-help {
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--text-main);
+    color: white;
     margin-bottom: 0.3rem;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.2);
   }
   .hero-contact {
     margin-bottom: 0.75rem;
     font-size: 1.1rem;
     line-height: 2.1;
-    color: var(--text-muted);
+    color: rgba(255,255,255,0.9);
   }
   .hero-contact p { margin: 0; }
   .hero-contact-label {
     font-weight: 600;
-    color: var(--text-main);
+    color: white;
   }
   .hero-contact a {
-    color: var(--text-main);
+    color: white;
     text-decoration: none;
   }
   .hero-contact a:hover {
@@ -332,7 +336,7 @@ h1, h2, h3, h4 {
       width: 60%;
     }
     .hero-overlay {
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 0.15) 100%);
+      background: linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.2) 40%, rgba(255,255,255,0.45) 100%);
     }
   }
 
