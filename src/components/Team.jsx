@@ -7,13 +7,13 @@ export default function Team() {
       name: 'Laura Pueyo',
       colegiada: 'Colegiada 16521',
       experience: '+8 años de experiencia',
-      image: 'about-nurse-right.webp'
+      image: 'wix_img_12_laura.jpg'
     },
     {
       name: 'Karen Mira',
       colegiada: 'Colegiada 20474',
       experience: '+6 años de experiencia',
-      image: 'sddcv.jp.webp'
+      image: 'wix_img_13_karen.jpg'
     }
   ];
 
