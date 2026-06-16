@@ -6,6 +6,7 @@ import Rates from '../components/Rates';
 import Team from '../components/Team';
 import FAQ from '../components/FAQ';
 import ReviewsSlider from '../components/ReviewsSlider';
+import MapSection from '../components/MapSection';
 import CtaBanner from '../components/CtaBanner';
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <Team />
       <FAQ />
       <ReviewsSlider />
+      <MapSection />
       <CtaBanner />
     </>
   );
