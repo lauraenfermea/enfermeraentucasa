@@ -183,14 +183,14 @@ h1, h2, h3, h4 {
 }
 
 .hero-wrapper {
-    padding: 1rem;
-    max-width: 1800px;
-    width: 98%;
-    margin: 0 auto;
+    padding: 0;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
   }
   .hero-card {
     position: relative;
-    border-radius: 24px;
+    border-radius: 0;
     overflow: hidden;
     min-height: 90vh;
     display: flex;
@@ -319,7 +319,7 @@ h1, h2, h3, h4 {
 
   @media (min-width: 769px) {
     .hero-wrapper {
-      padding: 1rem 1rem 2rem;
+      padding: 0 0 2rem;
     }
     .hero-card {
       align-items: center;
@@ -374,7 +374,7 @@ h1, h2, h3, h4 {
       gap: 1.5rem !important;
     }
     .hero-wrapper {
-      padding: 1.5rem 1rem 2rem;
+      padding: 0 0 2rem;
     }
     .hero-card {
       flex-direction: column;
