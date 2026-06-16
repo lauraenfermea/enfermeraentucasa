@@ -17,13 +17,13 @@
   },
   {
     "route": "/contact",
-    "firstLoadUncompressedJsBytes": 678513,
+    "firstLoadUncompressedJsBytes": 679415,
     "firstLoadChunkPaths": [
       ".next\\static\\chunks\\3rdqn8rx95pw7.js",
       ".next\\static\\chunks\\0aius9hbme203.js",
       ".next\\static\\chunks\\14mrh2-p_w84d.js",
       ".next\\static\\chunks\\1690pgiy0jmvp.js",
-      ".next\\static\\chunks\\438gqmebr39kx.js",
+      ".next\\static\\chunks\\017arcd395v6o.js",
       ".next\\static\\chunks\\1jq4o6yq14o4c.js",
       ".next\\static\\chunks\\15orcrkp-_9ct.js",
       ".next\\static\\chunks\\2nykiepra7i1k.js",
