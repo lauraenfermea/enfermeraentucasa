@@ -94,7 +94,7 @@ export default function Team() {
           ))}
         </div>
 
-        {/* Sobre nosotras subtitle */}
+        {/* Sobre nosotras subtitle and text */}
         <div style={{ textAlign: 'left' }}>
           <motion.h3
             initial={{ opacity: 0, y: 20 }}
@@ -105,11 +105,28 @@ export default function Team() {
               fontWeight: '400',
               color: '#4a5568',
               letterSpacing: '-0.025em',
-              margin: 0
+              margin: '0 0 1.5rem 0'
             }}
           >
             Sobre nosotras:
           </motion.h3>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.7 }}
+            style={{
+              color: '#4a5568',
+              fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
+              lineHeight: '1.6',
+              maxWidth: '1000px'
+            }}
+          >
+            <p style={{ margin: '0 0 0.5rem 0' }}>Enfermeras desde 2015 con experiencia en España y otros lugares (Reino unido, Colombia y EU).</p>
+            <p style={{ margin: '0 0 0.5rem 0' }}>Ahora en Zaragoza queremos ayudar a esas personas con dificultad de desplazamiento o saturación del sistema, por ello nace "Enfermera en tu casa".</p>
+            <p style={{ margin: '0 0 0.5rem 0' }}>Ofrecemos una atención cercana, profesional y de calidad con una dedicación de primera mano.</p>
+            <p style={{ margin: '0' }}>Sabemos que cuidar no solo es aplicar técnicas, es estar presentes cuando más se necesita.</p>
+          </motion.div>
         </div>
 
       </div>
