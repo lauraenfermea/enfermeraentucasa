@@ -35,9 +35,9 @@ export default function ContactPage() {
         </div>
 
         <div style={{ marginTop: '4rem' }}>
-          <button onClick={() => setIsModalOpen(true)} className="btn btn-primary" style={{ fontSize: '1.2rem', padding: '1rem 2rem' }}>
+          <a href="https://api.whatsapp.com/send?phone=34641635705" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ fontSize: '1.2rem', padding: '1rem 2rem', textDecoration: 'none', display: 'inline-block' }}>
             Request Service
-          </button>
+          </a>
         </div>
       </div>
 
