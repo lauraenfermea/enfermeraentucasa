@@ -70,13 +70,18 @@ export default function Team() {
                 }}
               >
                 <div style={{
+                position: 'relative',
+                width: '100%',
+                marginBottom: '1rem',
+              }}>
+                <div style={{
                   position: 'relative',
                   width: '100%',
                   aspectRatio: '3/4',
-                  marginBottom: '1rem',
                   borderRadius: '16px',
                   overflow: 'hidden',
-                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                  zIndex: 1
                 }}>
                   <img 
                     src={`/assets/${member.image}`} 
@@ -85,16 +90,39 @@ export default function Team() {
                   />
                 </div>
                 
-                <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
-                  {member.name}
-                </h3>
-                <p style={{ fontSize: '14px', fontWeight: '700', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
-                  {member.colegiada}
-                </p>
-                <div style={{ fontSize: '13px', fontWeight: '500', color: '#6b7280', margin: 0, lineHeight: '1.2' }}>
-                  <span style={{ display: 'block' }}>{member.experience.split(' de ')[0]} de</span>
-                  <span style={{ display: 'block' }}>{member.experience.split(' de ')[1]}</span>
+                {/* Floating Experience Circle */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: '-15px',
+                  left: '-15px',
+                  width: '85px',
+                  height: '85px',
+                  backgroundColor: '#829B8C',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  boxShadow: '0 4px 12px rgba(130, 155, 140, 0.4)',
+                  zIndex: 2,
+                  border: '3px solid white'
+                }}>
+                  <span style={{ fontSize: '1.4rem', fontWeight: '800', lineHeight: '1' }}>
+                    {member.experience.split(' ')[0]}
+                  </span>
+                  <span style={{ fontSize: '0.65rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '2px' }}>
+                    años exp.
+                  </span>
                 </div>
+              </div>
+              
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
+                {member.name}
+              </h3>
+              <p style={{ fontSize: '14px', fontWeight: '700', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
+                {member.colegiada}
+              </p>
               </motion.div>
             ))}
           </div>
