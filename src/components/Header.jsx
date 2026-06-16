@@ -31,9 +31,9 @@ export default function Header({ onContactClick }) {
       top: 0,
       zIndex: 100,
       padding: scrolled ? '1rem 0' : '1.5rem 0',
-      background: scrolled ? 'rgba(244, 249, 249, 0.85)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(16px)' : 'none',
-      borderBottom: scrolled ? '1px solid rgba(0,0,0,0.05)' : '1px solid transparent',
+      background: 'var(--primary)',
+      backdropFilter: 'blur(8px)',
+      borderBottom: '1px solid rgba(255,255,255,0.1)',
       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
     }}>
       <div className="container header-grid">
@@ -50,12 +50,12 @@ export default function Header({ onContactClick }) {
                 href={item.path}
                 style={{
                   position: 'relative',
-                  color: item.name === 'Home' ? 'var(--primary)' : 'var(--text-main)',
+                  color: 'white',
                   textDecoration: 'none',
                   fontWeight: 600,
                   fontSize: '1.1rem',
                   padding: '0.5rem 0',
-                  transition: 'color 0.3s ease',
+                  transition: 'all 0.3s ease',
                   whiteSpace: 'nowrap'
                 }}
                 className="nav-link"
@@ -88,7 +88,7 @@ export default function Header({ onContactClick }) {
                 width: scrolled ? '54px' : '64px', 
                 objectFit: 'cover',
                 borderRadius: '50%',
-                boxShadow: '0 4px 15px rgba(112, 150, 152, 0.2)',
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.15)',
                 border: '2px solid white',
                 transition: 'all 0.3s ease'
               }} 
@@ -105,13 +105,16 @@ export default function Header({ onContactClick }) {
             transition={{ delay: 0.4, duration: 0.5 }}
           >
             <AnimatedButton 
-              className="btn-primary" 
+              className="btn-header-cta" 
               onClick={onContactClick}
               style={{ 
                 padding: '0.85rem 2rem', 
                 fontSize: '1.05rem', 
                 border: 'none',
-                boxShadow: '0 8px 20px rgba(112, 150, 152, 0.3)',
+                background: 'white',
+                color: 'var(--primary)',
+                fontWeight: '600',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               }}
             >
               Realizar una consulta
@@ -160,8 +163,8 @@ export default function Header({ onContactClick }) {
             transition={{ duration: 0.3 }}
             style={{
               overflow: 'hidden',
-              backgroundColor: 'white',
-              boxShadow: '0 10px 20px rgba(0,0,0,0.05)'
+              backgroundColor: 'var(--primary)',
+              borderBottom: '1px solid rgba(255,255,255,0.1)'
             }}
             className="mobile-nav-toggle"
           >
@@ -172,7 +175,7 @@ export default function Header({ onContactClick }) {
                   href={item.path}
                   onClick={() => setMobileMenuOpen(false)}
                   style={{
-                    color: 'var(--text-main)',
+                    color: 'white',
                     textDecoration: 'none',
                     fontWeight: 600,
                     fontSize: '1.25rem',
@@ -182,14 +185,22 @@ export default function Header({ onContactClick }) {
                   {item.name}
                 </Link>
               ))}
-              <div style={{ width: '100%', height: '1px', backgroundColor: 'rgba(0,0,0,0.1)', margin: '0.5rem 0' }}></div>
+              <div style={{ width: '100%', height: '1px', backgroundColor: 'rgba(255,255,255,0.15)', margin: '0.5rem 0' }}></div>
               <AnimatedButton 
-                className="btn-primary" 
+                className="btn-header-cta" 
                 onClick={() => {
                   setMobileMenuOpen(false);
                   if(onContactClick) onContactClick();
                 }}
-                style={{ width: '100%', padding: '1rem', textAlign: 'center' }}
+                style={{ 
+                  width: '100%', 
+                  padding: '1rem', 
+                  textAlign: 'center',
+                  background: 'white',
+                  color: 'var(--primary)',
+                  fontWeight: '600',
+                  border: 'none'
+                }}
               >
                 Realizar una consulta
               </AnimatedButton>
@@ -207,7 +218,7 @@ export default function Header({ onContactClick }) {
           height: 2px;
           bottom: 0;
           left: 0;
-          background-color: var(--primary);
+          background-color: white;
           transform-origin: bottom right;
           transition: transform 0.3s ease-out;
         }
@@ -216,7 +227,8 @@ export default function Header({ onContactClick }) {
           transform-origin: bottom left;
         }
         .nav-link:hover {
-          color: var(--primary) !important;
+          color: white !important;
+          opacity: 0.85;
         }
       `}</style>
     </header>
