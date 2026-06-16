@@ -192,7 +192,7 @@ h1, h2, h3, h4 {
     position: relative;
     border-radius: 0;
     overflow: hidden;
-    min-height: 550px;
+    min-height: 650px;
     display: flex;
     align-items: flex-end;
   }
