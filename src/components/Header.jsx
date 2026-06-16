@@ -38,8 +38,39 @@ export default function Header({ onContactClick }) {
       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
     }}>
       <div className="container header-grid">
-        {/* Desktop Nav (Left) */}
-        <nav style={{ display: 'flex', gap: '2.5rem' }} className="desktop-nav hide-mobile">
+        {/* Logo (Left) */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, type: 'spring' }}
+          whileHover={{ scale: 1.05, rotate: 5 }}
+          whileTap={{ scale: 0.95 }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start'
+          }}
+        >
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            <img 
+              src="/assets/logo_edited.avif" 
+              alt="Nursing Care Logo" 
+              style={{ 
+                height: scrolled ? '54px' : '64px', 
+                width: scrolled ? '54px' : '64px', 
+                objectFit: 'cover',
+                borderRadius: '50%',
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.15)',
+                border: '2px solid white',
+                transition: 'all 0.3s ease'
+              }} 
+            />
+            <span className="mobile-header-title">Enfermera en tu casa</span>
+          </Link>
+        </motion.div>
+
+        {/* Desktop Nav (Center) */}
+        <nav style={{ display: 'flex', gap: '2.5rem', justifyContent: 'center', flexGrow: 1 }} className="desktop-nav hide-mobile">
           {navLinks.map((item, idx) => (
             <motion.div
               key={item.name} 
@@ -66,37 +97,6 @@ export default function Header({ onContactClick }) {
             </motion.div>
           ))}
         </nav>
-
-        {/* Logo (Center) */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, type: 'spring' }}
-          whileHover={{ scale: 1.05, rotate: 5 }}
-          whileTap={{ scale: 0.95 }}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            <img 
-              src="/assets/logo_edited.avif" 
-              alt="Nursing Care Logo" 
-              style={{ 
-                height: scrolled ? '54px' : '64px', 
-                width: scrolled ? '54px' : '64px', 
-                objectFit: 'cover',
-                borderRadius: '50%',
-                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.15)',
-                border: '2px solid white',
-                transition: 'all 0.3s ease'
-              }} 
-            />
-            <span className="mobile-header-title">Enfermera en tu casa</span>
-          </Link>
-        </motion.div>
 
         {/* CTA Button (Right) */}
         <div style={{ display: 'flex', justifyContent: 'flex-end' }} className="desktop-nav hide-mobile">
