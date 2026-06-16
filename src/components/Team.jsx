@@ -18,11 +18,11 @@ export default function Team() {
   ];
 
   return (
-    <section id="quienes-somos" style={{ backgroundColor: '#eff5f1', padding: '6rem 0' }}>
+    <section id="quienes-somos" style={{ backgroundColor: '#eff5f1', padding: '3rem 0' }}>
       <div className="container" style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 1.5rem' }}>
         
         {/* Main Title - Left Aligned */}
-        <div style={{ marginBottom: '4rem', textAlign: 'left' }}>
+        <div style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
