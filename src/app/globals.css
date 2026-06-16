@@ -337,7 +337,7 @@ h1, h2, h3, h4 {
       max-width: none;
     }
     .hero-overlay {
-      background: linear-gradient(90deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.75) 45%, rgba(255,255,255,0.9) 100%);
+      background: linear-gradient(90deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.7) 100%);
     }
     .hero-content {
       color: #2c3e40;
@@ -364,7 +364,7 @@ h1, h2, h3, h4 {
     z-index: 0;
   }
   .hero-video-container img {
-    filter: saturate(0.7) brightness(1.65);
+    filter: saturate(0.9) brightness(1.35);
   }
 
   .mobile-header-title {
