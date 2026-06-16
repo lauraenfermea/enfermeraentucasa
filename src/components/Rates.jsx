@@ -222,46 +222,42 @@ export default function Rates() {
                 Bonos de Heparina
               </h3>
 
-              <div style={{ overflowX: 'auto', width: '100%', paddingBottom: '1rem' }}>
-                <div style={{ minWidth: '450px' }}>
-                  {/* Table Header */}
-                  <div style={{ 
-                    display: 'grid', 
-                    gridTemplateColumns: '2fr 1fr 1fr 1fr', 
-                    gap: '1rem', 
-                    color: '#2a4347', 
-                    fontWeight: 600, 
-                    fontSize: '0.85rem', 
-                    marginBottom: '0.5rem' 
-                  }}>
-                    <div>Bono</div>
-                    <div style={{ textAlign: 'center' }}>Precio por sesión</div>
-                    <div style={{ textAlign: 'center' }}>Total</div>
-                    <div style={{ textAlign: 'center' }}>Ahorro</div>
+              <div style={{ width: '100%', paddingBottom: '0.5rem' }}>
+                {/* Table Header */}
+                <div className="rates-grid" style={{ 
+                  color: '#2a4347', 
+                  fontWeight: 600, 
+                  fontSize: '0.85rem', 
+                  marginBottom: '0.75rem' 
+                }}>
+                  <div>Bono</div>
+                  <div style={{ textAlign: 'center' }}>
+                    <span className="hide-mobile">Precio por sesión</span>
+                    <span className="show-mobile" style={{ display: 'none' }}>Sesión</span>
                   </div>
-
-                  {/* Table Rows */}
-                  {[
-                    { name: 'Sesión individual', price: '35€', total: '35€', saving: '' },
-                    { name: '7 sesiones*', price: '31€', total: '217€', saving: '28€' },
-                    { name: '10 sesiones*', price: '29€', total: '290€', saving: '60€' },
-                    { name: '20 sesiones*', price: '27€', total: '540€', saving: '160€' },
-                  ].map((row, rIdx) => (
-                    <div key={rIdx} style={{ 
-                      display: 'grid', 
-                      gridTemplateColumns: '2fr 1fr 1fr 1fr', 
-                      gap: '1rem', 
-                      color: '#4a5f62', 
-                      fontSize: '0.9rem', 
-                      marginBottom: '0.2rem' 
-                    }}>
-                      <div>{row.name}</div>
-                      <div style={{ textAlign: 'center' }}>{row.price}</div>
-                      <div style={{ textAlign: 'center' }}>{row.total}</div>
-                      <div style={{ textAlign: 'center' }}>{row.saving}</div>
-                    </div>
-                  ))}
+                  <div style={{ textAlign: 'center' }}>Total</div>
+                  <div style={{ textAlign: 'center' }}>Ahorro</div>
                 </div>
+
+                {/* Table Rows */}
+                {[
+                  { name: 'Sesión individual', price: '35€', total: '35€', saving: '—' },
+                  { name: '7 sesiones*', price: '31€', total: '217€', saving: '28€' },
+                  { name: '10 sesiones*', price: '29€', total: '290€', saving: '60€' },
+                  { name: '20 sesiones*', price: '27€', total: '540€', saving: '160€' },
+                ].map((row, rIdx) => (
+                  <div key={rIdx} className="rates-grid" style={{ 
+                    color: '#4a5f62', 
+                    fontSize: '0.9rem', 
+                    padding: '0.4rem 0',
+                    borderBottom: '1px solid rgba(139, 154, 145, 0.12)'
+                  }}>
+                    <div style={{ fontWeight: 500 }}>{row.name}</div>
+                    <div style={{ textAlign: 'center' }}>{row.price}</div>
+                    <div style={{ textAlign: 'center' }}>{row.total}</div>
+                    <div style={{ textAlign: 'center', color: row.saving !== '—' ? 'var(--primary)' : 'inherit', fontWeight: row.saving !== '—' ? 600 : 'normal' }}>{row.saving}</div>
+                  </div>
+                ))}
               </div>
 
               <p style={{ color: '#2a4347', fontSize: '0.95rem', fontWeight: 500, marginTop: '1.2rem', marginBottom: '0' }}>

@@ -151,6 +151,19 @@ h1, h2, h3, h4 {
 .shadow-md { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
 .shadow-lg { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05); }
 
+.show-mobile,
+.show-mobile-flex {
+  display: none !important;
+}
+
+.rates-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+}
+
 /* Responsive Utilities and Overrides */
 @media (max-width: 768px) {
   .hide-mobile {
@@ -429,6 +442,11 @@ h1, h2, h3, h4 {
     }
     .hero-title {
       font-size: 2.5rem;
+    }
+    .rates-grid {
+      grid-template-columns: 1.8fr 1fr 1fr 1fr !important;
+      gap: 0.5rem !important;
+      font-size: 0.82rem !important;
     }
 
   /* Specific Component Fallbacks */
