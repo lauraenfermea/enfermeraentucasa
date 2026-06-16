@@ -347,6 +347,9 @@ h1, h2, h3, h4 {
     height: 100%;
     z-index: 0;
   }
+  .hero-video-container img {
+    filter: saturate(0.3) brightness(1.05);
+  }
 
   .mobile-header-title {
     display: none;
