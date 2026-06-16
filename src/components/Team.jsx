@@ -20,14 +20,16 @@ export default function Team() {
   return (
     <section id="quienes-somos" style={{ backgroundColor: '#eff5f1', padding: '6rem 0' }}>
       <div className="container" style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 1.5rem' }}>
-        <div style={{ marginBottom: '4rem' }}>
+        
+        {/* Main Title - Left Aligned */}
+        <div style={{ marginBottom: '4rem', textAlign: 'left' }}>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.75rem)',
-              fontWeight: '500',
+              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontWeight: '400',
               color: '#4a5568',
               letterSpacing: '-0.025em',
               margin: 0
@@ -37,13 +39,14 @@ export default function Team() {
           </motion.h2>
         </div>
 
+        {/* Team Images Container */}
         <div style={{
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'center',
-          gap: '4rem',
-          maxWidth: '768px',
-          margin: '0 auto'
+          gap: '3rem',
+          maxWidth: '800px',
+          margin: '0 auto 5rem auto'
         }}>
           {teamMembers.map((member, idx) => (
             <motion.div
@@ -58,16 +61,16 @@ export default function Team() {
                 alignItems: 'center',
                 textAlign: 'center',
                 width: '100%',
-                maxWidth: '320px',
-                flex: '1 1 300px'
+                maxWidth: '280px',
+                flex: '1 1 250px'
               }}
             >
               <div style={{
                 position: 'relative',
                 width: '100%',
                 aspectRatio: '3/4',
-                marginBottom: '1.5rem',
-                borderRadius: '32px',
+                marginBottom: '1rem',
+                borderRadius: '16px',
                 overflow: 'hidden'
               }}>
                 <img 
@@ -77,19 +80,38 @@ export default function Team() {
                 />
               </div>
               
-              <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
                 {member.name}
               </h3>
-              <p style={{ fontSize: '14px', fontWeight: '600', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
+              <p style={{ fontSize: '14px', fontWeight: '700', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
                 {member.colegiada}
               </p>
-              <div style={{ fontSize: '14px', fontWeight: '500', color: '#6b7280', margin: 0, lineHeight: '1.2' }}>
+              <div style={{ fontSize: '13px', fontWeight: '500', color: '#6b7280', margin: 0, lineHeight: '1.2' }}>
                 <span style={{ display: 'block' }}>{member.experience.split(' de ')[0]} de</span>
                 <span style={{ display: 'block' }}>{member.experience.split(' de ')[1]}</span>
               </div>
             </motion.div>
           ))}
         </div>
+
+        {/* Sobre nosotras subtitle */}
+        <div style={{ textAlign: 'left' }}>
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '400',
+              color: '#4a5568',
+              letterSpacing: '-0.025em',
+              margin: 0
+            }}
+          >
+            Sobre nosotras:
+          </motion.h3>
+        </div>
+
       </div>
     </section>
   );
