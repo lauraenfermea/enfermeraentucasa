@@ -323,7 +323,7 @@ h1, h2, h3, h4 {
 
   @media (min-width: 769px) {
     .hero-wrapper {
-      padding: 0 0 2rem;
+      padding: 0;
     }
     .hero-card {
       align-items: center;
@@ -397,7 +397,7 @@ h1, h2, h3, h4 {
       gap: 1.5rem !important;
     }
     .hero-wrapper {
-      padding: 0 0 2rem;
+      padding: 0;
     }
     .hero-card {
       flex-direction: column;
