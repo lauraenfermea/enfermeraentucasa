@@ -105,10 +105,13 @@ export default function Header({ onContactClick }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            <AnimatedButton 
-              className="btn-header-cta" 
-              onClick={onContactClick}
+            <a 
+              href="https://api.whatsapp.com/send?phone=34641635705"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-header-cta" 
               style={{ 
+                display: 'inline-block',
                 padding: '0.85rem 2rem', 
                 fontSize: '1.05rem', 
                 border: 'none',
@@ -116,10 +119,13 @@ export default function Header({ onContactClick }) {
                 color: 'var(--primary)',
                 fontWeight: '600',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                textDecoration: 'none',
+                borderRadius: '999px',
+                textAlign: 'center'
               }}
             >
               Realizar una consulta
-            </AnimatedButton>
+            </a>
           </motion.div>
         </div>
 
@@ -187,24 +193,27 @@ export default function Header({ onContactClick }) {
                 </Link>
               ))}
               <div style={{ width: '100%', height: '1px', backgroundColor: 'rgba(255,255,255,0.15)', margin: '0.5rem 0' }}></div>
-              <AnimatedButton 
-                className="btn-header-cta" 
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  if(onContactClick) onContactClick();
-                }}
+              <a 
+                href="https://api.whatsapp.com/send?phone=34641635705"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-header-cta" 
+                onClick={() => setMobileMenuOpen(false)}
                 style={{ 
+                  display: 'block',
                   width: '100%', 
                   padding: '1rem', 
                   textAlign: 'center',
                   background: 'white',
                   color: 'var(--primary)',
                   fontWeight: '600',
-                  border: 'none'
+                  border: 'none',
+                  textDecoration: 'none',
+                  borderRadius: '999px'
                 }}
               >
                 Realizar una consulta
-              </AnimatedButton>
+              </a>
             </nav>
           </motion.div>
         )}
