@@ -3,6 +3,7 @@ import ClientLayout from '../../components/ClientLayout';
 import { draftMode } from 'next/headers';
 import { getClient } from '../../sanity/client';
 import { VisualEditing } from 'next-sanity/visual-editing';
+import { Analytics } from '@vercel/analytics/next';
 
 
 export const metadata = {
@@ -75,6 +76,7 @@ export default async function RootLayout({ children }) {
         </a>
 
         {isDraftMode && <VisualEditing />}
+        <Analytics />
       </body>
     </html>
   );
