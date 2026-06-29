@@ -38,7 +38,7 @@ export default async function Home() {
     );
   }
 
-  const blocks = (pageData.pageBuilder || []).filter(block => block._type !== 'blogSection');
+  const blocks = (pageData.pageBuilder || []).filter(block => block._type !== 'blogSection' && block._type !== 'ctaBanner');
   const heroIndex = blocks.findIndex(block => block._type === 'hero');
 
   if (heroIndex !== -1) {
