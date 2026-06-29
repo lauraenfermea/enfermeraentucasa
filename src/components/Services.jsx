@@ -1,8 +1,10 @@
 "use client";
 import { motion } from 'framer-motion';
+import { urlFor } from '../sanity/image';
 
-export default function Services() {
-  const services = [
+export default function Services({ title, servicesList, backgroundColor, headingColor }) {
+  const sectionTitle = title || 'Servicios';
+  const services = servicesList || [
     {
       title: 'Curas y valoración de heridas',
       desc: 'Tratamiento de heridas y úlceras por presión (UPP), seguimiento de la cicatrización, educación para la salud y prevención. Retirada de puntos o grapas.',
@@ -35,13 +37,47 @@ export default function Services() {
     }
   ];
 
+  let bgStyle = 'white';
+  if (backgroundColor === 'light-green') bgStyle = '#eff5f1';
+  else if (backgroundColor === 'light-gray') bgStyle = '#F8FBF8';
+  else if (backgroundColor === 'brand-primary') bgStyle = '#8B9A91';
+  else if (backgroundColor === 'white') bgStyle = 'white';
+
+  let titleColor = 'var(--text-main)';
+  if (headingColor === 'brand-primary') titleColor = '#8B9A91';
+  else if (headingColor === 'white') titleColor = 'white';
+  else if (backgroundColor === 'brand-primary') titleColor = 'white';
+
+  function getDefaultServiceImage(title) {
+    const lowercaseTitle = (title || '').toLowerCase();
+    if (lowercaseTitle.includes('curas') || lowercaseTitle.includes('herida')) {
+      return 'imgi_8_como-curar-una-herida-infectada.jpg';
+    }
+    if (lowercaseTitle.includes('inyectables') || lowercaseTitle.includes('medicaci')) {
+      return 'imgi_9_inyeccion.webp';
+    }
+    if (lowercaseTitle.includes('constantes') || lowercaseTitle.includes('presi')) {
+      return 'imgi_10_779030c5-a200-421f-8dd8-8e85eb97be20.jpg';
+    }
+    if (lowercaseTitle.includes('recién') || lowercaseTitle.includes('bebé') || lowercaseTitle.includes('cordón') || lowercaseTitle.includes('nacido')) {
+      return 'imgi_11_Baby Feet Close-Up.jpg';
+    }
+    if (lowercaseTitle.includes('sonda') || lowercaseTitle.includes('drenaje') || lowercaseTitle.includes('ostom')) {
+      return 'imgi_12_e62b038d-504f-49e5-8e4f-266def66acc1.jpg';
+    }
+    if (lowercaseTitle.includes('auxilios') || lowercaseTitle.includes('cpr') || lowercaseTitle.includes('formaci')) {
+      return 'imgi_13_group-diverse-people-cpr-training-class.jpg';
+    }
+    return 'imgi_8_como-curar-una-herida-infectada.jpg';
+  }
+
   return (
-    <section id="services" className="section" style={{ background: 'white' }}>
+    <section id="services" className="section" style={{ background: bgStyle }}>
       <div className="container">
         
         <div style={{ textAlign: 'left', marginBottom: '3rem' }}>
-          <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
-            Servicios
+          <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', color: titleColor }}>
+            {sectionTitle}
           </h2>
         </div>
 
@@ -51,30 +87,35 @@ export default function Services() {
           gap: '2rem',
           marginBottom: '4rem'
         }}>
-          {services.map((svc, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.5 }}
-              style={{
-                background: '#f2f7f2',
-                borderRadius: '24px',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                cursor: 'pointer',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.03)'
-              }}
-              whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }}
-            >
-              {/* Service Image */}
-              <div style={{ width: '100%', height: '240px', overflow: 'hidden' }}>
-                <motion.img 
-                  src={`/assets/${svc.image}`} 
-                  alt={svc.title} 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          {services.map((svc, idx) => {
+            const imgUrl = svc.image 
+              ? (typeof svc.image === 'object' ? urlFor(svc.image).url() : `/assets/${svc.image}`)
+              : `/assets/${getDefaultServiceImage(svc.title)}`;
+
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1, duration: 0.5 }}
+                style={{
+                  background: '#f2f7f2',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  cursor: 'pointer',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.03)'
+                }}
+                whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }}
+              >
+                {/* Service Image */}
+                <div style={{ width: '100%', height: '240px', overflow: 'hidden' }}>
+                  <motion.img 
+                    src={imgUrl} 
+                    alt={svc.title} 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.4 }}
                 />
@@ -90,7 +131,8 @@ export default function Services() {
                 </p>
               </div>
             </motion.div>
-          ))}
+          )
+        })}
         </div>
 
         {/* Action Buttons */}

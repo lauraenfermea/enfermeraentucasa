@@ -15,7 +15,7 @@ export default function MapSection() {
           Nuestra Ubicación de Servicio
         </h2>
         <p style={{ fontSize: '1.15rem', color: '#4a5f62', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6 }}>
-          Ofrecemos atención de enfermería a domicilio en toda la ciudad de Zaragoza y sus poblaciones colindantes.
+          Ofrecemos atención de enfermería a domicilio en toda la ciudad de Zaragoza.
         </p>
       </div>
 

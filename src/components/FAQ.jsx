@@ -2,14 +2,15 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function FAQ() {
+export default function FAQ({ title, faqsList, backgroundColor, headingColor }) {
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleFaq = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const faqs = [
+  const sectionTitle = title || 'Preguntas Frecuentes';
+  const faqs = faqsList || [
     {
       question: '¿Cuándo debería solicitar una enfermera a domicilio en Zaragoza?',
       answer: 'Después de una cirugía, ante una herida que necesita seguimiento, para administrar medicación, realizar analíticas o controlar constantes. También si deseas evitar esperas o desplazamientos.'
@@ -40,18 +41,29 @@ export default function FAQ() {
     }
   ];
 
+  let bgStyle = '#ffffff';
+  if (backgroundColor === 'light-green') bgStyle = '#eff5f1';
+  else if (backgroundColor === 'light-gray') bgStyle = '#F8FBF8';
+  else if (backgroundColor === 'brand-primary') bgStyle = '#8B9A91';
+  else if (backgroundColor === 'white') bgStyle = '#ffffff';
+
+  let titleColor = '#4a5568';
+  if (headingColor === 'brand-primary') titleColor = '#8B9A91';
+  else if (headingColor === 'white') titleColor = 'white';
+  else if (backgroundColor === 'brand-primary') titleColor = 'white';
+
   return (
-    <section id="faq" style={{ padding: '6rem 0', backgroundColor: '#ffffff' }}>
+    <section id="faq" style={{ padding: '6rem 0', backgroundColor: bgStyle }}>
       <div className="container" style={{ maxWidth: '900px', margin: '0 auto', padding: '0 1.5rem' }}>
         <h2 style={{
           fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
           fontWeight: '400',
-          color: '#4a5568',
+          color: titleColor,
           letterSpacing: '-0.025em',
           marginBottom: '3rem',
           textAlign: 'left'
         }}>
-          Preguntas Frecuentes
+          {sectionTitle}
         </h2>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

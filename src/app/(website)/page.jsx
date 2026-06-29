@@ -1,0 +1,46 @@
+import { draftMode } from 'next/headers';
+import { getClient } from '../../sanity/client';
+import PageBuilder from '../../components/PageBuilder';
+import FeaturesBand from '../../components/FeaturesBand';
+import MapSection from '../../components/MapSection';
+
+
+export default async function Home() {
+  const isDraftMode = (await draftMode()).isEnabled;
+  let pageData = null;
+  try {
+    const fetchClient = getClient(isDraftMode);
+    pageData = await fetchClient.fetch(
+      `*[_type == "page" && slug.current == "home"][0]{
+        title,
+        pageBuilder
+      }`
+    );
+  } catch (error) {
+    console.error("Failed to fetch Sanity homepage data, falling back to defaults:", error);
+  }
+
+  // Fallback to default block layout if Sanity has no data yet
+  if (!pageData || !pageData.pageBuilder) {
+    return (
+      <>
+        <PageBuilder blocks={[
+          { _type: 'hero' },
+          { _type: 'services' },
+          { _type: 'rates' },
+          { _type: 'team' },
+          { _type: 'faq' },
+          { _type: 'reviews' }
+        ]} />
+        <FeaturesBand />
+        <MapSection />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <PageBuilder blocks={pageData.pageBuilder} />
+    </>
+  );
+}

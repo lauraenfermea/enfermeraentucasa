@@ -2,7 +2,13 @@
 import { MapPin, Mail, Phone, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
-export default function Footer() {
+export default function Footer({ settings }) {
+  const email = settings?.email || "info@enfermeraentucasa.es";
+  const location = settings?.location || "Zaragoza";
+  const mapsUrl = settings?.googleMapsUrl || "https://maps.app.goo.gl/mrgfGi4YZuDYp3yv6";
+  const phone = settings?.phoneNumber || "+34 641 63 57 05";
+  const phoneClean = phone.replace(/\s+/g, '');
+
   return (
     <footer style={{ backgroundColor: '#f9fafa', color: '#4a5f62', paddingTop: '5rem', paddingBottom: '0', borderTop: '1px solid #eaeaea' }}>
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
@@ -18,7 +24,7 @@ export default function Footer() {
             <h4 style={{ fontSize: '1.9rem', fontWeight: 700, marginBottom: '1.75rem', color: '#2c3e40' }}>Información de Contacto</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
               <a 
-                href="https://maps.app.goo.gl/mrgfGi4YZuDYp3yv6" 
+                href={mapsUrl} 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', textDecoration: 'none', cursor: 'pointer', transition: 'opacity 0.2s' }}
@@ -28,11 +34,11 @@ export default function Footer() {
                 <MapPin size={38} color="var(--primary)" style={{ flexShrink: 0 }} />
                 <div>
                   <div style={{ fontWeight: 600, color: '#2c3e40', fontSize: '1.5rem' }}>Ubicación</div>
-                  <div style={{ fontSize: '1.25rem', color: '#4a5f62', marginTop: '2px' }}>Zaragoza y alrededores</div>
+                  <div style={{ fontSize: '1.25rem', color: '#4a5f62', marginTop: '2px' }}>{location}</div>
                 </div>
               </a>
               <a 
-                href="mailto:info@enfermeraentucasa.es" 
+                href={`mailto:${email}`} 
                 style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', textDecoration: 'none', cursor: 'pointer', transition: 'opacity 0.2s' }}
                 onMouseOver={e => e.currentTarget.style.opacity = 0.75}
                 onMouseOut={e => e.currentTarget.style.opacity = 1}
@@ -40,11 +46,11 @@ export default function Footer() {
                 <Mail size={38} color="var(--primary)" style={{ flexShrink: 0 }} />
                 <div>
                   <div style={{ fontWeight: 600, color: '#2c3e40', fontSize: '1.5rem' }}>Envíanos un Email</div>
-                  <div style={{ fontSize: '1.25rem', color: '#4a5f62', marginTop: '2px' }}>info@enfermeraentucasa.es</div>
+                  <div style={{ fontSize: '1.25rem', color: '#4a5f62', marginTop: '2px' }}>{email}</div>
                 </div>
               </a>
               <a 
-                href="tel:+34641635705" 
+                href={`tel:${phoneClean}`} 
                 style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', textDecoration: 'none', cursor: 'pointer', transition: 'opacity 0.2s' }}
                 onMouseOver={e => e.currentTarget.style.opacity = 0.75}
                 onMouseOut={e => e.currentTarget.style.opacity = 1}
@@ -52,7 +58,7 @@ export default function Footer() {
                 <Phone size={38} color="var(--primary)" style={{ flexShrink: 0 }} />
                 <div>
                   <div style={{ fontWeight: 600, color: '#2c3e40', fontSize: '1.5rem' }}>Llámanos</div>
-                  <div style={{ fontSize: '1.25rem', color: '#4a5f62', marginTop: '2px' }}>+34 641 63 57 05</div>
+                  <div style={{ fontSize: '1.25rem', color: '#4a5f62', marginTop: '2px' }}>{phone}</div>
                 </div>
               </a>
             </div>
@@ -63,7 +69,7 @@ export default function Footer() {
             <h4 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem', color: '#2c3e40' }}>Ponte en Contacto</h4>
             <p style={{ fontSize: '1.05rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>¿Tienes alguna pregunta? Estamos listos para ayudarte con tus necesidades de salud.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <a href="https://api.whatsapp.com/send?phone=34641635705" style={{
+              <a href={settings?.whatsappLink || "https://api.whatsapp.com/send?phone=34641635705"} style={{
                 backgroundColor: 'var(--primary)',
                 color: 'white',
                 padding: '0.8rem 1.5rem',
@@ -78,7 +84,7 @@ export default function Footer() {
               >
                 Mensaje por WhatsApp
               </a>
-              <a href="https://maps.app.goo.gl/mrgfGi4YZuDYp3yv6" target="_blank" rel="noopener noreferrer" style={{
+              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" style={{
                 backgroundColor: 'transparent',
                 border: '1px solid var(--primary)',
                 color: 'var(--primary)',
@@ -104,11 +110,7 @@ export default function Footer() {
       <div style={{ backgroundColor: '#2c3e40', color: '#a0b1b3', padding: '1.5rem 0' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
           <div style={{ fontSize: '0.95rem' }}>
-            <p style={{ margin: 0 }}>© {new Date().getFullYear()} Enfermera en tu Casa. Todos los derechos reservados.</p>
-          </div>
-          <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.95rem' }}>
-            <a href="#" style={{ color: '#a0b1b3', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = 'white'} onMouseOut={(e) => e.target.style.color = '#a0b1b3'}>Política de Privacidad</a>
-            <a href="#" style={{ color: '#a0b1b3', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = 'white'} onMouseOut={(e) => e.target.style.color = '#a0b1b3'}>Términos de Servicio</a>
+            <p style={{ margin: 0 }}>© {new Date().getFullYear()} {settings?.title || "Enfermera en tu Casa"}. Todos los derechos reservados.</p>
           </div>
         </div>
       </div>

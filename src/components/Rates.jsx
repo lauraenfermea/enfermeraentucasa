@@ -1,8 +1,38 @@
 "use client";
 import { motion } from 'framer-motion';
 
-export default function Rates() {
-  const rates = [
+export default function Rates({ 
+  title, 
+  ratesList, 
+  bonosTitle, 
+  bonosList, 
+  bonosFooter, 
+  consultTitle, 
+  consultPrice, 
+  consultDesc, 
+  consultFeatures,
+  backgroundColor,
+  headingColor
+}) {
+  const titleText = title || 'Tarifas';
+  const bonosTitleText = bonosTitle || 'Bonos de Heparina';
+  const bonosFooterText = bonosFooter || '*Pago por adelantado, servicio a domicilio, cancelaciones con 24 horas de antelación.';
+  const consultTitleText = consultTitle || 'Bonos y Seguimiento';
+  const consultPriceText = consultPrice || 'Consultar';
+  const consultDescText = consultDesc || 'Planes personalizados para cuidados continuados o crónicos.';
+
+  let bgStyle = 'white';
+  if (backgroundColor === 'light-green') bgStyle = '#eff5f1';
+  else if (backgroundColor === 'light-gray') bgStyle = '#F8FBF8';
+  else if (backgroundColor === 'brand-primary') bgStyle = '#8B9A91';
+  else if (backgroundColor === 'white') bgStyle = 'white';
+
+  let titleColor = 'var(--text-main)';
+  if (headingColor === 'brand-primary') titleColor = '#8B9A91';
+  else if (headingColor === 'white') titleColor = 'white';
+  else if (backgroundColor === 'brand-primary') titleColor = 'white';
+
+  const rates = ratesList || [
     {
       title: 'Servicio Básico',
       price: 'Desde 35€',
@@ -40,12 +70,12 @@ export default function Rates() {
   ];
 
   return (
-    <section id="rates" className="section" style={{ background: 'white' }}>
+    <section id="rates" className="section" style={{ background: bgStyle }}>
       <div className="container">
         
         <div style={{ textAlign: 'left', marginBottom: '3rem' }}>
-          <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
-            Tarifas
+          <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', color: titleColor }}>
+            {titleText}
           </h2>
         </div>
 
@@ -214,12 +244,12 @@ export default function Rates() {
               fontWeight: '700',
               boxShadow: '0 4px 10px rgba(255, 184, 0, 0.25)'
             }}>
-              Recommended Service
+              Servicio Recomendado
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 2 }}>
               <h3 style={{ fontSize: '1rem', color: '#2a4347', fontWeight: 600, marginBottom: '1rem' }}>
-                Bonos de Heparina
+                {bonosTitleText}
               </h3>
 
               <div style={{ width: '100%', paddingBottom: '0.5rem' }}>
@@ -240,12 +270,12 @@ export default function Rates() {
                 </div>
 
                 {/* Table Rows */}
-                {[
+                {(bonosList || [
                   { name: 'Sesión individual', price: '35€', total: '35€', saving: '—' },
                   { name: '7 sesiones*', price: '31€', total: '217€', saving: '28€' },
                   { name: '10 sesiones*', price: '29€', total: '290€', saving: '60€' },
                   { name: '20 sesiones*', price: '27€', total: '540€', saving: '160€' },
-                ].map((row, rIdx) => (
+                ]).map((row, rIdx) => (
                   <div key={rIdx} className="rates-grid" style={{ 
                     color: '#4a5f62', 
                     fontSize: '0.9rem', 
@@ -261,7 +291,7 @@ export default function Rates() {
               </div>
 
               <p style={{ color: '#2a4347', fontSize: '0.95rem', fontWeight: 500, marginTop: '1.2rem', marginBottom: '0' }}>
-                *Pago por adelantado, servicio a domicilio, cancelaciones con 24 horas de antelación.
+                {bonosFooterText}
               </p>
             </div>
 
@@ -325,15 +355,15 @@ export default function Rates() {
             
             <div style={{ display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 2 }}>
               <h3 style={{ fontSize: '1rem', color: '#2a4347', fontWeight: 600, marginBottom: '0.5rem' }}>
-                Bonos y Seguimiento
+                {consultTitleText}
               </h3>
               
               <div style={{ fontSize: '3.2rem', color: '#8B9A91', fontWeight: '500', marginBottom: '0.5rem', letterSpacing: '-1px' }}>
-                Consultar
+                {consultPriceText}
               </div>
               
               <p style={{ color: '#2a4347', lineHeight: 1.6, fontSize: '0.95rem', marginBottom: '1.5rem', fontWeight: 500 }}>
-                Planes personalizados para cuidados continuados o crónicos.
+                {consultDescText}
               </p>
               
               <ul style={{ 
@@ -345,7 +375,7 @@ export default function Rates() {
                 marginBottom: '0',
                 listStyleType: 'disc'
               }}>
-                {['Descuentos por volumen', 'Seguimiento programado', 'Atención prioritaria', 'Pack de tratamiento semanal'].map((feature, fIdx) => (
+                {(consultFeatures || ['Descuentos por volumen', 'Seguimiento programado', 'Atención prioritaria', 'Pack de tratamiento semanal']).map((feature, fIdx) => (
                   <li key={fIdx} style={{ paddingLeft: '0.5rem', marginBottom: '0.4rem' }}>
                     {feature}
                   </li>
