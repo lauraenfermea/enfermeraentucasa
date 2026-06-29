@@ -2,38 +2,46 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const reviews = [
+const defaultReviews = [
   {
-    name: "María T.",
+    name: "Maria Dolores",
     initial: "M",
     avatarBg: "#e57373",
-    text: "Una atención inmejorable. Vinieron a casa para unas curas de mi madre y el trato fue excepcional. Muy profesionales y cariñosas.",
+    text: "Muy buena experiencia. Contactamos para un familiar y el trato fue muy cercano y profesional. La atención en casa nos dio mucha tranquilidad y todo fue muy cómodo.",
     rating: 5,
-    date: "Hace 1 semana"
+    date: "Hace un mes"
   },
   {
-    name: "Carlos L.",
+    name: "C. de día Mayores Sonrisas",
     initial: "C",
     avatarBg: "#81c784",
-    text: "Totalmente recomendable. Me ahorraron muchas visitas al centro de salud. Llegaron puntuales y me resolvieron el problema enseguida.",
-    rating: 5,
-    date: "Hace 2 semanas"
-  },
-  {
-    name: "Ana G.",
-    initial: "A",
-    avatarBg: "#64b5f6",
-    text: "Un servicio fantástico en Zaragoza. Necesitaba que me pusieran unas inyecciones y la comodidad de no moverme de casa no tiene precio. Muchas gracias.",
-    rating: 5,
-    date: "Hace 1 mes"
-  },
-  {
-    name: "Javier M.",
-    initial: "J",
-    avatarBg: "#ffb74d",
-    text: "Grandes profesionales. Muy atentas, con mucha paciencia y delicadeza. Sin duda volveré a contactar con ellas si lo necesito.",
+    text: "impartieron una charla en nuestro centro de día, muy interesante y útil. Muchas gracias por vuestra labor y atención.",
     rating: 5,
     date: "Hace 3 semanas"
+  },
+  {
+    name: "jason",
+    initial: "J",
+    avatarBg: "#64b5f6",
+    text: "Me han puesto la inyección en casa, la verdad muy cómodo no tener que esperar ir al centro de salud, ha venido la chica en las fechas y horas que les pedí y genial. Lo recomiendo.",
+    rating: 5,
+    date: "Hace un mes"
+  },
+  {
+    name: "Ela",
+    initial: "E",
+    avatarBg: "#ffb74d",
+    text: "Muy buen servicio, con trato muy cercano.",
+    rating: 5,
+    date: "Hace 3 semanas"
+  },
+  {
+    name: "Eduardo Bermudo",
+    initial: "E",
+    avatarBg: "#ba68c8",
+    text: "Las dos enfermeras fueron muy amables y atentas con mi madre, puntuales y muy profesionales.",
+    rating: 5,
+    date: "Hace un mes"
   }
 ];
 
@@ -46,21 +54,47 @@ const GoogleLogo = () => (
   </svg>
 );
 
-export default function ReviewsSlider() {
+export default function ReviewsSlider({ title, rating, reviewsCount, reviewsList, backgroundColor, headingColor }) {
+  const sectionTitle = title || 'Reseñas en Google';
+  const avgRating = rating || 5.0;
+  const totalReviews = reviewsCount || '(5 reseñas)';
+  const reviews = reviewsList || defaultReviews;
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % reviews.length);
+      if (reviews.length > 0) {
+        setCurrentIndex((prev) => (prev + 1) % reviews.length);
+      }
     }, 6000); // 6 seconds per review
     return () => clearInterval(timer);
-  }, []);
+  }, [reviews]);
 
-  const nextReview = () => setCurrentIndex((prev) => (prev + 1) % reviews.length);
-  const prevReview = () => setCurrentIndex((prev) => (prev - 1 + reviews.length) % reviews.length);
+  const nextReview = () => {
+    if (reviews.length > 0) {
+      setCurrentIndex((prev) => (prev + 1) % reviews.length);
+    }
+  };
+  const prevReview = () => {
+    if (reviews.length > 0) {
+      setCurrentIndex((prev) => (prev - 1 + reviews.length) % reviews.length);
+    }
+  };
+
+  let bgStyle = '#F8FBF8'; // default is light-gray
+  if (backgroundColor === 'white') bgStyle = 'white';
+  else if (backgroundColor === 'light-green') bgStyle = '#eff5f1';
+  else if (backgroundColor === 'light-gray') bgStyle = '#F8FBF8';
+  else if (backgroundColor === 'brand-primary') bgStyle = '#8B9A91';
+
+  let titleColor = '#3c4043'; // default for reviews section
+  if (headingColor === 'brand-primary') titleColor = '#8B9A91';
+  else if (headingColor === 'white') titleColor = 'white';
+  else if (backgroundColor === 'brand-primary') titleColor = 'white';
 
   return (
-    <section style={{ padding: '5rem 0 6rem 0', backgroundColor: '#F8FBF8' }}>
+    <section style={{ padding: '5rem 0 6rem 0', backgroundColor: bgStyle }}>
       <div className="container" style={{ maxWidth: '850px', margin: '0 auto', padding: '0 1.5rem', textAlign: 'center' }}>
         
         {/* Google Reviews Header */}
@@ -70,15 +104,15 @@ export default function ReviewsSlider() {
             <h2 style={{
               fontSize: '1.6rem',
               fontWeight: '600',
-              color: '#3c4043',
+              color: titleColor,
               margin: 0,
               fontFamily: 'system-ui, -apple-system, sans-serif'
             }}>
-              Reseñas en Google
+              {sectionTitle}
             </h2>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.25rem' }}>
-            <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#3c4043' }}>4.9</span>
+            <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#3c4043' }}>{avgRating}</span>
             <div style={{ display: 'flex', color: '#ffb300' }}>
               {[...Array(5)].map((_, i) => (
                 <svg key={i} width="18" height="18" fill="currentColor" viewBox="0 0 20 20">
@@ -86,7 +120,7 @@ export default function ReviewsSlider() {
                 </svg>
               ))}
             </div>
-            <span style={{ fontSize: '0.95rem', color: '#70757a' }}>(43 reseñas)</span>
+            <span style={{ fontSize: '0.95rem', color: '#70757a' }}>{totalReviews}</span>
           </div>
         </div>
 
