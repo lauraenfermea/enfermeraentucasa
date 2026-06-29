@@ -2,15 +2,18 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 
-export default function AnimatedButton({ children, className, style, onClick }) {
+export default function AnimatedButton({ children, className, style, onClick, href }) {
   const [isHovered, setIsHovered] = useState(false);
 
   // Split text into individual letters for the staggered roll effect
   const text = typeof children === 'string' ? children : '';
   const letters = text.split('');
 
+  const MotionComponent = href ? motion.a : motion.button;
+
   return (
-    <motion.button
+    <MotionComponent
+      href={href}
       className={`btn ${className || ''}`}
       style={{
         position: 'relative',
@@ -56,6 +59,6 @@ export default function AnimatedButton({ children, className, style, onClick }) 
           </motion.span>
         ))}
       </span>
-    </motion.button>
+    </MotionComponent>
   );
 }

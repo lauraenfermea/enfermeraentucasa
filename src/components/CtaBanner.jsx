@@ -1,10 +1,30 @@
 "use client";
 import { motion } from 'framer-motion';
 import AnimatedButton from './AnimatedButton';
-import { useContactModal } from './ClientLayout';
+import { urlFor } from '../sanity/image';
 
-export default function CtaBanner() {
-  const { openContact } = useContactModal();
+export default function CtaBanner({ title, desc, image, backgroundColor, headingColor }) {
+  const heading = title || 'Únete a nuestra comunidad de atención';
+  const description = desc || 'Solicite una consulta hoy y permítanos crear un plan de atención que se adapte perfectamente a su familia.';
+  const imageSrc = image && typeof image === 'object' ? urlFor(image).url() : '/assets/book-appointment.jpg';
+
+  let cardBg = 'var(--primary)'; // Default primary brand color
+  if (backgroundColor === 'white') cardBg = 'white';
+  else if (backgroundColor === 'light-green') cardBg = '#eff5f1';
+  else if (backgroundColor === 'light-gray') cardBg = '#F8FBF8';
+  else if (backgroundColor === 'brand-primary') cardBg = 'var(--primary)';
+
+  const isDarkCard = cardBg === 'var(--primary)';
+
+  let titleColor = isDarkCard ? 'white' : 'var(--text-main)';
+  if (headingColor === 'brand-primary') titleColor = '#8B9A91';
+  else if (headingColor === 'white') titleColor = 'white';
+
+  let descColor = isDarkCard ? 'rgba(255, 255, 255, 0.9)' : 'var(--text-muted)';
+  
+  const btnStyle = isDarkCard 
+    ? { padding: '1rem 2rem', fontSize: '1.05rem', border: 'none', background: 'white', color: 'var(--primary)' }
+    : { padding: '1rem 2rem', fontSize: '1.05rem', border: 'none', background: 'var(--primary)', color: 'white' };
 
   return (
     <section id="contact" className="section" style={{ background: 'white', padding: '2rem 1.5rem 6rem' }}>
@@ -17,10 +37,11 @@ export default function CtaBanner() {
           style={{
             display: 'flex',
             flexWrap: 'wrap',
-            background: 'var(--primary)',
+            background: cardBg,
             borderRadius: '24px',
             overflow: 'hidden',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.1)'
+            boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+            border: isDarkCard ? 'none' : '1px solid rgba(139, 154, 145, 0.2)'
           }}
         >
           {/* Left Text Content */}
@@ -30,7 +51,7 @@ export default function CtaBanner() {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            color: 'white'
+            color: titleColor
           }}>
             <h2 style={{
               fontFamily: "'Playfair Display', serif",
@@ -39,31 +60,28 @@ export default function CtaBanner() {
               fontWeight: 700,
               marginBottom: '1.5rem',
               letterSpacing: '-0.02em',
+              color: titleColor
             }}>
-              Únete a nuestra comunidad de atención
+              {heading}
             </h2>
             
             <p style={{
               fontSize: '1.125rem',
               lineHeight: 1.6,
-              opacity: 0.9,
+              color: descColor,
               marginBottom: '2.5rem',
               maxWidth: '450px'
             }}>
-              Solicite una consulta hoy y permítanos crear un plan de atención que se adapte perfectamente a su familia.
+              {description}
             </p>
 
             <div>
               <AnimatedButton 
                 className="btn-primary" 
-                onClick={openContact}
-                style={{ 
-                  padding: '1rem 2rem', 
-                  fontSize: '1.05rem', 
-                  border: 'none', 
-                  background: 'white', 
-                  color: 'var(--primary)' 
-                }}
+                href="https://wa.me/34641635705"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={btnStyle}
               >
                 Realizar una consulta
               </AnimatedButton>
@@ -77,7 +95,7 @@ export default function CtaBanner() {
             position: 'relative'
           }}>
             <img 
-              src="/assets/book-appointment.jpg" 
+              src={imageSrc} 
               alt="Nurse and patient" 
               style={{
                 position: 'absolute',

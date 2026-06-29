@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import AnimatedButton from './AnimatedButton';
+import { urlFor } from '../sanity/image';
 
-export default function Header({ onContactClick }) {
+export default function Header({ settings }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -16,7 +17,7 @@ export default function Header({ onContactClick }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
+  const navLinks = settings?.navLinks || [
     { name: 'Servicios', path: '/#services' },
     { name: 'Tarifas', path: '/#rates' },
     { name: 'Quienes somos', path: '/#quienes-somos' },
@@ -53,8 +54,8 @@ export default function Header({ onContactClick }) {
         >
           <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
             <img 
-              src="/assets/logo_edited.avif" 
-              alt="Nursing Care Logo" 
+              src={settings?.logo ? urlFor(settings.logo).url() : "/assets/logo_edited.avif"} 
+              alt={settings?.title || "Nursing Care Logo"} 
               style={{ 
                 height: scrolled ? '68px' : '84px', 
                 width: scrolled ? '68px' : '84px', 
@@ -65,7 +66,7 @@ export default function Header({ onContactClick }) {
                 transition: 'all 0.3s ease'
               }} 
             />
-            <span className="mobile-header-title">Enfermera en tu casa</span>
+            <span className="mobile-header-title">{settings?.title || "Enfermera en tu casa"}</span>
           </Link>
         </motion.div>
 
@@ -106,7 +107,7 @@ export default function Header({ onContactClick }) {
             transition={{ delay: 0.4, duration: 0.5 }}
           >
             <a 
-              href="https://api.whatsapp.com/send?phone=34641635705"
+              href={settings?.whatsappLink || "https://api.whatsapp.com/send?phone=34641635705"}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-header-cta" 
@@ -194,7 +195,7 @@ export default function Header({ onContactClick }) {
               ))}
               <div style={{ width: '100%', height: '1px', backgroundColor: 'rgba(255,255,255,0.15)', margin: '0.5rem 0' }}></div>
               <a 
-                href="https://api.whatsapp.com/send?phone=34641635705"
+                href={settings?.whatsappLink || "https://api.whatsapp.com/send?phone=34641635705"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-header-cta" 

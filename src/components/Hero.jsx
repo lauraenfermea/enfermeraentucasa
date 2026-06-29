@@ -1,16 +1,27 @@
 "use client";
 import { motion } from 'framer-motion';
-import { useContactModal } from './ClientLayout';
+import { urlFor } from '../sanity/image';
 
-export default function Hero() {
-  const { openContact } = useContactModal();
+export default function Hero({ heading, body, backgroundImage }) {
+
+  const titleText = heading || "Enfermera a domicilio en Zaragoza";
+  const bodyParagraphs = body 
+    ? body.split('\n').filter(p => p.trim() !== '')
+    : [
+        "Atención sanitaria profesional en tu hogar.",
+        "- Sin esperas ni desplazamientos.",
+        "- Sin salas de espera y sin estrés; solo cuidados profesionales, personalizados y de calidad en tu hogar."
+      ];
+  
+  const bgImg = backgroundImage ? urlFor(backgroundImage).url() : "/assets/hero_bg.webp";
+
   return (
     <section className="hero-wrapper">
       <div className="hero-card">
         {/* Background Image */}
         <div className="hero-video-container">
           <img
-            src="/assets/hero_bg.webp"
+            src={bgImg}
             alt="Enfermera a domicilio"
             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
           />
@@ -25,13 +36,13 @@ export default function Hero() {
             style={{ maxWidth: '900px' }}
           >
             {/* Heading */}
-            <h1 className="hero-heading">Enfermera a domicilio en Zaragoza</h1>
+            <h1 className="hero-heading">{titleText}</h1>
 
             {/* Body text */}
             <div className="hero-body">
-              <p>Atención sanitaria profesional en tu hogar.</p>
-              <p>- Sin esperas ni desplazamientos.</p>
-              <p>- Sin salas de espera y sin estrés; solo cuidados profesionales, personalizados y de calidad en tu hogar.</p>
+              {bodyParagraphs.map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
             </div>
 
             {/* Contact */}
@@ -53,14 +64,15 @@ export default function Hero() {
               >
                 Enviar Whatsapp
               </motion.a>
-              <motion.button
+              <motion.a
                 className="hero-btn hero-btn-secondary"
-                onClick={openContact}
+                href="mailto:info@enfermeraentucasa.es"
+                style={{ textDecoration: 'none' }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
                 Enviar email
-              </motion.button>
+              </motion.a>
             </div>
           </motion.div>
         </div>
