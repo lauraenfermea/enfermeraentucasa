@@ -24,15 +24,34 @@ export default async function Home() {
   if (!pageData || !pageData.pageBuilder) {
     return (
       <>
+        <PageBuilder blocks={[{ _type: 'hero' }]} />
+        <FeaturesBand />
         <PageBuilder blocks={[
-          { _type: 'hero' },
           { _type: 'services' },
           { _type: 'rates' },
           { _type: 'team' },
           { _type: 'faq' },
           { _type: 'reviews' }
         ]} />
+        <MapSection />
+      </>
+    );
+  }
+
+  const blocks = pageData.pageBuilder || [];
+  const heroIndex = blocks.findIndex(block => block._type === 'hero');
+
+  if (heroIndex !== -1) {
+    const beforeHero = blocks.slice(0, heroIndex);
+    const heroBlock = blocks[heroIndex];
+    const afterHero = blocks.slice(heroIndex + 1);
+
+    return (
+      <>
+        <PageBuilder blocks={beforeHero} />
+        <PageBuilder blocks={[heroBlock]} />
         <FeaturesBand />
+        <PageBuilder blocks={afterHero} />
         <MapSection />
       </>
     );
@@ -40,7 +59,7 @@ export default async function Home() {
 
   return (
     <>
-      <PageBuilder blocks={pageData.pageBuilder} />
+      <PageBuilder blocks={blocks} />
       <FeaturesBand />
       <MapSection />
     </>
