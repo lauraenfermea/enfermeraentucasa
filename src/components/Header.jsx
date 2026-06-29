@@ -54,7 +54,7 @@ export default function Header({ settings }) {
         >
           <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
             <img 
-              src={settings?.logo ? urlFor(settings.logo).url() : "/assets/logo_edited.avif"} 
+              src={settings?.logo ? urlFor(settings.logo).url() : "/assets/logo.png"} 
               alt={settings?.title || "Nursing Care Logo"} 
               style={{ 
                 height: scrolled ? '68px' : '84px', 

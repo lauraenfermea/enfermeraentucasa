@@ -8,6 +8,9 @@ import { VisualEditing } from 'next-sanity/visual-editing';
 export const metadata = {
   title: 'Enfermera a domicilio en Zaragoza',
   description: 'Atención sanitaria profesional, personalizada y de calidad en la comodidad de tu hogar.',
+  icons: {
+    icon: '/favicon.png',
+  }
 };
 
 export default async function RootLayout({ children }) {
