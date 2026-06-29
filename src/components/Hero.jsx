@@ -48,7 +48,7 @@ export default function Hero({ heading, body, backgroundImage }) {
             {/* Contact */}
             <div className="hero-contact">
               <p className="hero-help">¿Necesitas ayuda?</p>
-              <p><span className="hero-contact-label">Teléfono:</span>  +34 641 635 705</p>
+              <p><span className="hero-contact-label">Teléfono:</span> <a href="tel:+34641635705">+34 641 635 705</a></p>
               <p><span className="hero-contact-label">email:</span> <a href="mailto:info@enfermeraentucasa.es">info@enfermeraentucasa.es</a></p>
             </div>
 
