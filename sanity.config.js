@@ -1,6 +1,7 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { presentationTool } from 'sanity/presentation'
+import { colorInput } from '@sanity/color-input'
 import { schema } from './src/sanity/schemas'
 import IframePreview from './src/sanity/components/IframePreview'
 
@@ -15,6 +16,7 @@ export default defineConfig({
   title: 'Laura Clinic Studio',
 
   plugins: [
+    colorInput(),
     structureTool({
       structure: (S) =>
         S.list()
