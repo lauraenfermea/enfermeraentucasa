@@ -6,8 +6,28 @@ import { VisualEditing } from 'next-sanity/visual-editing';
 
 
 export const metadata = {
-  title: 'Enfermera a domicilio en Zaragoza',
-  description: 'Atención sanitaria profesional, personalizada y de calidad en la comodidad de tu hogar.',
+  title: 'Enfermera a domicilio en Zaragoza | Enfermera en tu casa',
+  description: 'Atención sanitaria profesional, personalizada y de calidad en tu hogar en Zaragoza. Cuidados de enfermería a domicilio.',
+  metadataBase: new URL('https://enfermeraentucasa.es'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Enfermera a domicilio en Zaragoza | Enfermera en tu casa',
+    description: 'Atención sanitaria profesional, personalizada y de calidad a domicilio. Sin esperas ni desplazamientos.',
+    url: 'https://enfermeraentucasa.es',
+    siteName: 'Enfermera en tu casa',
+    images: [
+      {
+        url: '/assets/hero_bg.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Enfermera en tu casa',
+      },
+    ],
+    locale: 'es_ES',
+    type: 'website',
+  },
   icons: {
     icon: '/favicon.png',
   }

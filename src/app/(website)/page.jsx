@@ -20,10 +20,48 @@ export default async function Home() {
     console.error("Failed to fetch Sanity homepage data, falling back to defaults:", error);
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    "name": "Enfermera en tu casa",
+    "image": "https://enfermeraentucasa.es/assets/logo.png",
+    "@id": "https://enfermeraentucasa.es/#organization",
+    "url": "https://enfermeraentucasa.es",
+    "telephone": "+34641635705",
+    "email": "info@enfermeraentucasa.es",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Zaragoza",
+      "addressRegion": "Aragón",
+      "addressCountry": "ES"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 41.6504492,
+      "longitude": -0.8827468
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "sameAs": [
+      "https://www.google.com/maps/place/Enfermera+en+tu+casa/@41.6504532,-0.8853217,17z"
+    ]
+  };
+
   // Fallback to default block layout if Sanity has no data yet
   if (!pageData || !pageData.pageBuilder) {
     return (
       <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <PageBuilder blocks={[{ _type: 'hero' }]} />
         <FeaturesBand />
         <PageBuilder blocks={[
@@ -48,6 +86,10 @@ export default async function Home() {
 
     return (
       <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <PageBuilder blocks={beforeHero} />
         <PageBuilder blocks={[heroBlock]} />
         <FeaturesBand />
@@ -59,6 +101,10 @@ export default async function Home() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <PageBuilder blocks={blocks} />
       <FeaturesBand />
       <MapSection />
