@@ -6,7 +6,8 @@ import { urlFor } from '../sanity/image';
 export default function CtaBanner({ title, desc, image, backgroundColor, headingColor }) {
   const heading = title || 'Únete a nuestra comunidad de atención';
   const description = desc || 'Solicite una consulta hoy y permítanos crear un plan de atención que se adapte perfectamente a su familia.';
-  const imageSrc = image && typeof image === 'object' ? urlFor(image).url() : '/assets/book-appointment.jpg';
+  const imageSrc = image && typeof image === 'object' ? urlFor(image).url() : null;
+  const hasImage = !!imageSrc;
 
   let cardBg = 'var(--primary)'; // Default primary brand color
   if (backgroundColor === 'white') cardBg = 'white';
@@ -89,24 +90,26 @@ export default function CtaBanner({ title, desc, image, backgroundColor, heading
           </div>
 
           {/* Right Image */}
-          <div style={{
-            flex: '1 1 400px',
-            minHeight: '400px',
-            position: 'relative'
-          }}>
-            <img 
-              src={imageSrc} 
-              alt="Nurse and patient" 
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover'
-              }}
-            />
-          </div>
+          {hasImage && (
+            <div style={{
+              flex: '1 1 400px',
+              minHeight: '400px',
+              position: 'relative'
+            }}>
+              <img 
+                src={imageSrc} 
+                alt="Nurse and patient" 
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              />
+            </div>
+          )}
         </motion.div>
       </div>
     </section>
