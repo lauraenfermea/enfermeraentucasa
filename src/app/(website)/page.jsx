@@ -41,6 +41,8 @@ export default async function Home() {
   return (
     <>
       <PageBuilder blocks={pageData.pageBuilder} />
+      <FeaturesBand />
+      <MapSection />
     </>
   );
 }
