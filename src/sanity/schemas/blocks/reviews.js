@@ -46,7 +46,7 @@ export default {
       name: 'reviewsCount',
       title: 'Reviews Count Label',
       type: 'string',
-      initialValue: '(5 reseñas)',
+      initialValue: '(6 reviews)',
     },
     {
       name: 'reviewsList',
@@ -59,10 +59,12 @@ export default {
             { name: 'name', title: 'Name', type: 'string' },
             { name: 'initial', title: 'Initial Letter', type: 'string' },
             { name: 'avatarBg', title: 'Avatar Background Color', type: 'string', description: 'Hex or color name' },
+            { name: 'reviewerReviewsCount', title: 'Reviewer Reviews Count (e.g. 3 reviews)', type: 'string' },
             { name: 'text', title: 'Review Text', type: 'text' },
             { name: 'rating', title: 'Rating Stars (1-5)', type: 'number', initialValue: 5 },
-            { name: 'date', title: 'Relative Date (e.g. Hace 1 semana)', type: 'string' },
-            { name: 'ownerReply', title: 'Owner Reply (Optional)', type: 'string' }
+            { name: 'date', title: 'Relative Date (e.g. a month ago)', type: 'string' },
+            { name: 'ownerReply', title: 'Owner Reply (Optional)', type: 'string' },
+            { name: 'ownerReplyDate', title: 'Owner Reply Date (e.g. 2 days ago)', type: 'string' }
           ]
         }
       ],
@@ -71,54 +73,67 @@ export default {
           name: "Maria Dolores",
           initial: "M",
           avatarBg: "#e57373",
+          reviewerReviewsCount: "3 reviews",
           text: "Muy buena experiencia. Contactamos para un familiar y el trato fue muy cercano y profesional. La atención en casa nos dio mucha tranquilidad y todo fue muy cómodo.",
           rating: 5,
-          date: "Hace un mes",
-          ownerReply: "¡Gracias por tu comentario!"
+          date: "a month ago",
+          ownerReply: "¡Gracias por tu comentario!",
+          ownerReplyDate: "a month ago"
         },
         {
           name: "Juan Camilo Valencia Escobar",
           initial: "J",
           avatarBg: "#4db6ac",
-          text: "Muy amables y súper profesionales en su trabajo.",
+          reviewerReviewsCount: "2 reviews",
+          text: "Muy amables y super profesionales en su trabajo",
           rating: 5,
-          date: "Hace 5 días",
-          ownerReply: "Gracias por tu comentario!"
+          date: "5 days ago",
+          ownerReply: "Gracias por tu comentario!",
+          ownerReplyDate: "2 days ago"
         },
         {
           name: "jason",
           initial: "J",
           avatarBg: "#64b5f6",
+          reviewerReviewsCount: "1 review",
           text: "Me han puesto la inyección en casa, la verdad muy cómodo no tener que esperar ir al centro de salud, ha venido la chica en las fechas y horas que les pedí y genial. Lo recomiendo.",
           rating: 5,
-          date: "Hace un mes"
+          date: "Edited a month ago",
+          ownerReply: "Gracias por tu comentario",
+          ownerReplyDate: "a month ago"
         },
         {
           name: "Ela",
           initial: "E",
           avatarBg: "#ffb74d",
+          reviewerReviewsCount: "3 reviews",
           text: "Muy buen servicio, con trato muy cercano.",
           rating: 5,
-          date: "Hace un mes",
-          ownerReply: "Gracias por tu comentario!"
+          date: "a month ago",
+          ownerReply: "Gracias por tu comentario!",
+          ownerReplyDate: "2 days ago"
         },
         {
           name: "C. de día Mayores Sonrisas",
           initial: "C",
           avatarBg: "#81c784",
+          reviewerReviewsCount: "3 reviews",
           text: "impartieron una charla en nuestro centro de día, muy interesante y útil. Muchas gracias por vuestra labor y atención.",
           rating: 5,
-          date: "Hace un mes",
-          ownerReply: "Encantadas de ayudar!"
+          date: "a month ago",
+          ownerReply: "Encantadas de ayudar!",
+          ownerReplyDate: "2 days ago"
         },
         {
           name: "Eduardo Bermudo",
           initial: "E",
           avatarBg: "#ba68c8",
+          reviewerReviewsCount: "2 reviews",
           text: "Las dos enfermeras fueron muy amables y atentas con mi madre, puntuales y muy profesionales.",
           rating: 5,
-          date: "Hace un mes",
-          ownerReply: "¡Gracias por el comentario!"
+          date: "a month ago",
+          ownerReply: "¡Gracias por el comentario!",
+          ownerReplyDate: "2 days ago"
         }
       ]
     }

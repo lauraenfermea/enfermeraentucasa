@@ -7,54 +7,67 @@ const defaultReviews = [
     name: "Maria Dolores",
     initial: "M",
     avatarBg: "#e57373",
+    reviewerReviewsCount: "3 reviews",
     text: "Muy buena experiencia. Contactamos para un familiar y el trato fue muy cercano y profesional. La atención en casa nos dio mucha tranquilidad y todo fue muy cómodo.",
     rating: 5,
-    date: "Hace un mes",
-    ownerReply: "¡Gracias por tu comentario!"
+    date: "a month ago",
+    ownerReply: "¡Gracias por tu comentario!",
+    ownerReplyDate: "a month ago"
   },
   {
     name: "Juan Camilo Valencia Escobar",
     initial: "J",
     avatarBg: "#4db6ac",
-    text: "Muy amables y súper profesionales en su trabajo.",
+    reviewerReviewsCount: "2 reviews",
+    text: "Muy amables y super profesionales en su trabajo",
     rating: 5,
-    date: "Hace 5 días",
-    ownerReply: "Gracias por tu comentario!"
+    date: "5 days ago",
+    ownerReply: "Gracias por tu comentario!",
+    ownerReplyDate: "2 days ago"
   },
   {
     name: "jason",
     initial: "J",
     avatarBg: "#64b5f6",
+    reviewerReviewsCount: "1 review",
     text: "Me han puesto la inyección en casa, la verdad muy cómodo no tener que esperar ir al centro de salud, ha venido la chica en las fechas y horas que les pedí y genial. Lo recomiendo.",
     rating: 5,
-    date: "Hace un mes"
+    date: "Edited a month ago",
+    ownerReply: "Gracias por tu comentario",
+    ownerReplyDate: "a month ago"
   },
   {
     name: "Ela",
     initial: "E",
     avatarBg: "#ffb74d",
+    reviewerReviewsCount: "3 reviews",
     text: "Muy buen servicio, con trato muy cercano.",
     rating: 5,
-    date: "Hace un mes",
-    ownerReply: "Gracias por tu comentario!"
+    date: "a month ago",
+    ownerReply: "Gracias por tu comentario!",
+    ownerReplyDate: "2 days ago"
   },
   {
     name: "C. de día Mayores Sonrisas",
     initial: "C",
     avatarBg: "#81c784",
+    reviewerReviewsCount: "3 reviews",
     text: "impartieron una charla en nuestro centro de día, muy interesante y útil. Muchas gracias por vuestra labor y atención.",
     rating: 5,
-    date: "Hace un mes",
-    ownerReply: "Encantadas de ayudar!"
+    date: "a month ago",
+    ownerReply: "Encantadas de ayudar!",
+    ownerReplyDate: "2 days ago"
   },
   {
     name: "Eduardo Bermudo",
     initial: "E",
     avatarBg: "#ba68c8",
+    reviewerReviewsCount: "2 reviews",
     text: "Las dos enfermeras fueron muy amables y atentas con mi madre, puntuales y muy profesionales.",
     rating: 5,
-    date: "Hace un mes",
-    ownerReply: "¡Gracias por el comentario!"
+    date: "a month ago",
+    ownerReply: "¡Gracias por el comentario!",
+    ownerReplyDate: "2 days ago"
   }
 ];
 
@@ -63,18 +76,23 @@ export default function ReviewsSlider({
   backgroundColor, 
   headingColor, 
   rating = 5.0, 
-  reviewsCount = '(6 reseñas)', 
+  reviewsCount = '(6 reviews)', 
   reviewsList 
 }) {
   const containerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
+  // Use Sanity list or fallback to our default reviews list
   const reviews = reviewsList && Array.isArray(reviewsList) && reviewsList.length > 0
     ? reviewsList 
     : defaultReviews;
 
   const sectionTitle = title || 'Reseñas en Google';
+
+  // Override props with correct values representing your 6 real 5-star reviews
+  const displayRating = 5.0;
+  const displayCount = '(6 reviews)';
 
   const checkScrollLimits = () => {
     if (containerRef.current) {
@@ -202,7 +220,6 @@ export default function ReviewsSlider({
         .owner-reply-title {
           font-weight: 700;
           color: var(--text-main);
-          margin-bottom: 0.25rem;
           font-size: 0.85rem;
         }
         .owner-reply-text {
@@ -276,7 +293,7 @@ export default function ReviewsSlider({
             </svg>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--text-main)' }}>{rating.toFixed(1)}</span>
+                <span style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--text-main)' }}>{displayRating.toFixed(1)}</span>
                 <div className="stars-container">
                   {[...Array(5)].map((_, i) => (
                     <svg key={i} viewBox="0 0 24 24" width="16" height="16" fill="#FBBC05">
@@ -286,7 +303,7 @@ export default function ReviewsSlider({
                 </div>
               </div>
               <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-                {reviewsCount} en Google
+                {displayCount} on Google
               </span>
             </div>
           </div>
@@ -359,7 +376,7 @@ export default function ReviewsSlider({
                       {rev.name}
                     </span>
                     <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-                      Opinión en Google
+                      {rev.reviewerReviewsCount || rev.reviewsCount || '1 review'}
                     </span>
                   </div>
                 </div>
@@ -374,7 +391,7 @@ export default function ReviewsSlider({
                     ))}
                   </div>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                    {rev.date || 'Hace un mes'}
+                    {rev.date || 'a month ago'}
                   </span>
                 </div>
 
@@ -393,8 +410,9 @@ export default function ReviewsSlider({
                 {/* Owner Response (if exists) */}
                 {rev.ownerReply && (
                   <div className="owner-reply-box">
-                    <div className="owner-reply-title">
-                      Respuesta del propietario
+                    <div className="owner-reply-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                      <span className="owner-reply-title">Response from the owner</span>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{rev.ownerReplyDate || rev.date || 'a month ago'}</span>
                     </div>
                     <div className="owner-reply-text">
                       "{rev.ownerReply}"
