@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 
 const defaultReviews = [
   {
-    name: "María Dolores",
+    name: "Maria Dolores",
     initial: "M",
     avatarBg: "#e57373",
-    text: "Una experiencia muy buena. Los contactamos para un familiar y el servicio fue muy amable y profesional. El servicio a domicilio nos dio mucha tranquilidad y todo fue muy cómodo.",
+    text: "Muy buena experiencia. Contactamos para un familiar y el trato fue muy cercano y profesional. La atención en casa nos dio mucha tranquilidad y todo fue muy cómodo.",
     rating: 5,
     date: "Hace un mes",
     ownerReply: "¡Gracias por tu comentario!"
@@ -22,10 +22,10 @@ const defaultReviews = [
     ownerReply: "Gracias por tu comentario!"
   },
   {
-    name: "Jason",
+    name: "jason",
     initial: "J",
     avatarBg: "#64b5f6",
-    text: "Me pusieron la inyección en casa, lo cual fue muy práctico, ya que no tuve que esperar para ir al centro de salud. La enfermera vino el día y la hora que le indiqué, y todo salió de maravilla. Lo recomiendo.",
+    text: "Me han puesto la inyección en casa, la verdad muy cómodo no tener que esperar ir al centro de salud, ha venido la chica en las fechas y horas que les pedí y genial. Lo recomiendo.",
     rating: 5,
     date: "Hace un mes"
   },
@@ -33,7 +33,7 @@ const defaultReviews = [
     name: "Ela",
     initial: "E",
     avatarBg: "#ffb74d",
-    text: "Muy buen servicio, con un trato muy amable.",
+    text: "Muy buen servicio, con trato muy cercano.",
     rating: 5,
     date: "Hace un mes",
     ownerReply: "Gracias por tu comentario!"
@@ -42,7 +42,7 @@ const defaultReviews = [
     name: "C. de día Mayores Sonrisas",
     initial: "C",
     avatarBg: "#81c784",
-    text: "Dieron una charla en nuestro centro de día, que fue muy interesante y útil. Muchas gracias por su trabajo y atención.",
+    text: "impartieron una charla en nuestro centro de día, muy interesante y útil. Muchas gracias por vuestra labor y atención.",
     rating: 5,
     date: "Hace un mes",
     ownerReply: "Encantadas de ayudar!"
