@@ -12,7 +12,7 @@ const defaultReviews = [
     rating: 5,
     date: "a month ago",
     ownerReply: "¡Gracias por tu comentario!",
-    ownerReplyDate: "a month ago"
+    ownerReplyDate: "2 days ago"
   },
   {
     name: "Juan Camilo Valencia Escobar",
@@ -83,14 +83,12 @@ export default function ReviewsSlider({
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
-  // Use Sanity list or fallback to our default reviews list
-  const reviews = reviewsList && Array.isArray(reviewsList) && reviewsList.length > 0
-    ? reviewsList 
-    : defaultReviews;
+  // Force using the hardcoded defaultReviews list to ensure Sanity overrides don't apply old data
+  const reviews = defaultReviews;
 
   const sectionTitle = title || 'Reseñas en Google';
 
-  // Override props with correct values representing your 6 real 5-star reviews
+  // Strictly enforce 5.0 average rating and 6 reviews from Google Maps screenshots
   const displayRating = 5.0;
   const displayCount = '(6 reviews)';
 
@@ -376,7 +374,7 @@ export default function ReviewsSlider({
                       {rev.name}
                     </span>
                     <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-                      {rev.reviewerReviewsCount || rev.reviewsCount || '1 review'}
+                      {rev.reviewerReviewsCount || '1 review'}
                     </span>
                   </div>
                 </div>
@@ -412,7 +410,7 @@ export default function ReviewsSlider({
                   <div className="owner-reply-box">
                     <div className="owner-reply-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
                       <span className="owner-reply-title">Response from the owner</span>
-                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{rev.ownerReplyDate || rev.date || 'a month ago'}</span>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{rev.ownerReplyDate || '2 days ago'}</span>
                     </div>
                     <div className="owner-reply-text">
                       "{rev.ownerReply}"
