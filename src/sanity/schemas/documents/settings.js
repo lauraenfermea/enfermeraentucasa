@@ -37,7 +37,7 @@ export default {
       name: 'googleMapsUrl',
       title: 'Google Maps Link',
       type: 'url',
-      initialValue: 'https://maps.app.goo.gl/mrgfGi4YZuDYp3yv6',
+      initialValue: 'https://share.google/jfi2BZwBHaDbi7EFt',
     },
     {
       name: 'whatsappLink',

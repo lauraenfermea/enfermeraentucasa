@@ -144,7 +144,7 @@ export default async function Home() {
     ],
     "disambiguatingDescription": seo.aiSummary || "Servicio sanitario certificado de enfermería a domicilio en Zaragoza",
     "sameAs": [
-      "https://www.google.com/maps/place/Enfermera+en+tu+casa/@41.6504532,-0.8853217,17z"
+      "https://share.google/jfi2BZwBHaDbi7EFt"
     ]
   };
 

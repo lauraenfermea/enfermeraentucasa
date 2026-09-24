@@ -236,7 +236,7 @@ export default function ReviewsSlider({
 
             {/* Link: Direct Google Maps Business Profile */}
             <a
-              href="https://maps.app.goo.gl/Zaragoza"
+              href="https://share.google/jfi2BZwBHaDbi7EFt"
               target="_blank"
               rel="noopener noreferrer"
               style={{

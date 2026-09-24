@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Footer({ settings }) {
   const email = settings?.email || "info@enfermeraentucasa.es";
   const location = settings?.location || "Zaragoza";
-  const mapsUrl = settings?.googleMapsUrl || "https://maps.app.goo.gl/mrgfGi4YZuDYp3yv6";
+  const mapsUrl = settings?.googleMapsUrl || "https://share.google/jfi2BZwBHaDbi7EFt";
   const phone = settings?.phoneNumber || "+34 641 63 57 05";
   const phoneClean = phone.replace(/\s+/g, '');
 

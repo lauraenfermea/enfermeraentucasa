@@ -1260,6 +1260,17 @@ function HomePageTab({ homePage = {}, onChange, onUploadImage }) {
             style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
         </div>
+
+        <div style={{ marginBottom: "1rem" }}>
+          <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Enlace Directo de Google Maps / Compartir</label>
+          <input
+            type="text"
+            value={mapSection.mapsUrl || ""}
+            placeholder="https://share.google/jfi2BZwBHaDbi7EFt"
+            onChange={(e) => onChange({ ...homePage, mapSection: { ...mapSection, mapsUrl: e.target.value } })}
+            style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+          />
+        </div>
       </div>
     </div>
   );

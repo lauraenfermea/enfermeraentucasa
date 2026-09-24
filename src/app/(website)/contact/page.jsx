@@ -17,7 +17,7 @@ export default function ContactPage() {
         <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           {/* Card 1: Address */}
           <a 
-            href="https://www.google.com/maps/place/Enfermera+en+tu+casa/@41.6504532,-0.8853217,17z" 
+            href="https://share.google/jfi2BZwBHaDbi7EFt" 
             target="_blank" 
             rel="noopener noreferrer" 
             style={{ 
