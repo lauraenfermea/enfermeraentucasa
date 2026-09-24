@@ -2447,16 +2447,40 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
   );
 }
 
-// ── Reviews Tab (With Google GMB API Integration) ─────────────
-function ReviewsTab({ reviews = [], settings = {}, filter = "", onChange, onSettingsChange, showToast }) {
-  const [googleApiKey, setGoogleApiKey] = useState(settings.googleApiKey || "");
-  const [googlePlaceId, setGooglePlaceId] = useState(settings.googlePlaceId || "");
-  const [syncing, setSyncing] = useState(false);
+// ── Reviews Tab (0-API-Key Direct Paste & Manager) ─────────────
+function ReviewsTab({ reviews = [], filter = "", onChange, showToast }) {
+  const [quickName, setQuickName] = useState("");
+  const [quickText, setQuickText] = useState("");
+  const [quickRating, setQuickRating] = useState(5);
 
   function updateReview(index, updatedItem) {
     const list = [...reviews];
     list[index] = updatedItem;
     onChange(list);
+  }
+
+  function handleQuickAdd(e) {
+    e.preventDefault();
+    if (!quickName.trim() || !quickText.trim()) return;
+
+    const colors = ["#10B981", "#2563EB", "#8B5CF6", "#EC4899", "#F59E0B"];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+    const newRev = {
+      id: `rev_${Date.now()}`,
+      name: quickName.trim(),
+      initial: quickName.trim().charAt(0).toUpperCase(),
+      avatarBg: randomColor,
+      rating: parseInt(quickRating, 10) || 5,
+      date: "hace unos días",
+      text: quickText.trim(),
+      source: "Google / Directo",
+    };
+
+    onChange([newRev, ...reviews]);
+    setQuickName("");
+    setQuickText("");
+    showToast("¡Reseña añadida correctamente a la web!");
   }
 
   function addReview() {
@@ -2480,41 +2504,11 @@ function ReviewsTab({ reviews = [], settings = {}, filter = "", onChange, onSett
     }
   }
 
-  async function syncGoogleReviews() {
-    if (!googleApiKey || !googlePlaceId) {
-      alert("Por favor, introduce primero tu Clave API de Google Maps y tu Place ID.");
-      return;
-    }
-
-    setSyncing(true);
-    try {
-      const res = await fetch("/api/google-reviews", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ apiKey: googleApiKey, placeId: googlePlaceId }),
-      });
-      const data = await res.json();
-      if (res.ok && data.reviews) {
-        onChange(data.reviews);
-        if (onSettingsChange) {
-          onSettingsChange({ ...settings, googleApiKey, googlePlaceId });
-        }
-        showToast(data.message || "¡Reseñas sincronizadas con éxito desde Google!");
-      } else {
-        alert(data.error || "Error al sincronizar con Google API.");
-      }
-    } catch {
-      alert("Error de conexión al consultar la API de Google.");
-    } finally {
-      setSyncing(false);
-    }
-  }
-
   const filtered = reviews.filter((r) => (r.name || "").toLowerCase().includes(filter.toLowerCase()));
 
   return (
     <div>
-      {/* Google GMB Places API Auto-Sync Card */}
+      {/* 1-Click Fast Import Card (No API Key Required) */}
       <div
         style={{
           backgroundColor: DESIGN.cardBg,
@@ -2526,80 +2520,65 @@ function ReviewsTab({ reviews = [], settings = {}, filter = "", onChange, onSett
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
-          <span style={{ fontSize: "1.5rem" }}>⭐</span>
+          <span style={{ fontSize: "1.5rem" }}>⚡</span>
           <h2 style={{ margin: 0, fontSize: "1.2rem", fontWeight: "800", color: DESIGN.textMain }}>
-            Integración de Reseñas de Google Business Profile (GMB API)
+            Importador Rápido de Reseñas de Google (Sin Necesidad de Clave API)
           </h2>
         </div>
         <p style={{ color: DESIGN.textMuted, fontSize: "0.88rem", marginBottom: "1.5rem", lineHeight: 1.5 }}>
-          Conecta la API Key de Google Developer Console y el ID de tu negocio en Google Maps para que las reseñas se importen y actualicen de forma 100% automática en la web.
+          Copia cualquier reseña desde tu perfil de Google Maps o WhatsApp y pégala aquí en 5 segundos. Aparecerá inmediatamente en el carrusel de la web con estrellas y avatar.
         </p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
-          <div>
-            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>
-              Clave API de Google Developer Console (Google Places API Key)
-            </label>
-            <input
-              type="password"
-              value={googleApiKey}
-              placeholder="AIzaSy..."
-              onChange={(e) => {
-                setGoogleApiKey(e.target.value);
-                if (onSettingsChange) onSettingsChange({ ...settings, googleApiKey: e.target.value });
-              }}
-              style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
-            />
-          </div>
-          <div>
-            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>
-              Google Place ID del Perfil (ID del Negocio en Google Maps)
-            </label>
-            <input
-              type="text"
-              value={googlePlaceId}
-              placeholder="ChIJ... (ej: Enfermera en tu casa)"
-              onChange={(e) => {
-                setGooglePlaceId(e.target.value);
-                if (onSettingsChange) onSettingsChange({ ...settings, googlePlaceId: e.target.value });
-              }}
-              style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
-            />
-          </div>
-        </div>
-
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
-          <div style={{ fontSize: "0.8rem", color: DESIGN.textMuted }}>
-            💡 ¿Dónde conseguir estos datos? Genera la API Key en <a href="https://console.cloud.google.com/" target="_blank" rel="noreferrer" style={{ color: DESIGN.primary, fontWeight: "700" }}>Google Cloud Console</a> y encuentra tu ID de negocio en el <a href="https://developers.google.com/maps/documentation/places/web-service/place-id" target="_blank" rel="noreferrer" style={{ color: DESIGN.primary, fontWeight: "700" }}>Buscador de Place ID de Google</a>.
-          </div>
-          <button
-            type="button"
-            onClick={syncGoogleReviews}
-            disabled={syncing}
-            style={{
-              padding: "0.75rem 1.5rem",
-              backgroundColor: DESIGN.primary,
-              color: "white",
-              border: "none",
-              borderRadius: "10px",
-              fontWeight: "700",
-              cursor: syncing ? "wait" : "pointer",
-              boxShadow: "0 4px 12px rgba(37, 99, 235, 0.3)",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.5rem",
-            }}
+        <form onSubmit={handleQuickAdd} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 130px", gap: "1rem", marginBottom: "1rem" }}>
+          <input
+            type="text"
+            required
+            value={quickName}
+            placeholder="Nombre del cliente..."
+            onChange={(e) => setQuickName(e.target.value)}
+            style={{ padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+          />
+          <input
+            type="text"
+            required
+            value={quickText}
+            placeholder="Texto de la reseña de Google..."
+            onChange={(e) => setQuickText(e.target.value)}
+            style={{ padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+          />
+          <select
+            value={quickRating}
+            onChange={(e) => setQuickRating(e.target.value)}
+            style={{ padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontWeight: "700" }}
           >
-            <span>{syncing ? "⏳" : "🔄"}</span>
-            <span>{syncing ? "Sincronizando..." : "Sincronizar Reseñas de Google Ahora"}</span>
-          </button>
-        </div>
+            <option value={5}>5 ★★★★★</option>
+            <option value={4}>4 ★★★★</option>
+            <option value={3}>3 ★★★</option>
+          </select>
+          <div style={{ gridColumn: "1 / -1", textAlign: "right" }}>
+            <button
+              type="submit"
+              style={{
+                padding: "0.75rem 1.8rem",
+                backgroundColor: DESIGN.success,
+                color: "white",
+                border: "none",
+                borderRadius: "10px",
+                fontWeight: "700",
+                cursor: "pointer",
+                boxShadow: "0 4px 12px rgba(16, 185, 129, 0.3)",
+              }}
+            >
+              ⚡ Añadir Reseña a la Web al Instante
+            </button>
+          </div>
+        </form>
       </div>
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
         <div>
           <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "800" }}>Lista de Reseñas Mostradas en la Web</h2>
-          <span style={{ fontSize: "0.85rem", color: DESIGN.textMuted }}>{reviews.length} opiniones registradas</span>
+          <span style={{ fontSize: "0.85rem", color: DESIGN.textMuted }}>{reviews.length} opiniones activas</span>
         </div>
         <button
           onClick={addReview}
@@ -2651,22 +2630,23 @@ function ReviewsTab({ reviews = [], settings = {}, filter = "", onChange, onSett
                 />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Puntuación (1-5 ⭐)</label>
-                <input
-                  type="number"
-                  min="1"
-                  max="5"
+                <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Estrellas</label>
+                <select
                   value={rev.rating || 5}
-                  onChange={(e) => updateReview(idx, { ...rev, rating: Number(e.target.value) })}
+                  onChange={(e) => updateReview(idx, { ...rev, rating: parseInt(e.target.value) })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
-                />
+                >
+                  <option value={5}>5 ★★★★★</option>
+                  <option value={4}>4 ★★★★</option>
+                  <option value={3}>3 ★★★</option>
+                </select>
               </div>
               <div>
                 <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Fecha</label>
                 <input
                   type="text"
                   value={rev.date || ""}
-                  placeholder="hace un mes"
+                  placeholder="hace 2 días"
                   onChange={(e) => updateReview(idx, { ...rev, date: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -2675,7 +2655,6 @@ function ReviewsTab({ reviews = [], settings = {}, filter = "", onChange, onSett
                 <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Inicial Avatar</label>
                 <input
                   type="text"
-                  maxLength={2}
                   value={rev.initial || ""}
                   placeholder="M"
                   onChange={(e) => updateReview(idx, { ...rev, initial: e.target.value })}
@@ -2685,11 +2664,11 @@ function ReviewsTab({ reviews = [], settings = {}, filter = "", onChange, onSett
             </div>
 
             <div>
-              <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Texto de la Opinión</label>
+              <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Texto de la Reseña</label>
               <textarea
                 rows={3}
                 value={rev.text || ""}
-                placeholder="Escribe el comentario del cliente..."
+                placeholder="Escribe la opinión..."
                 onChange={(e) => updateReview(idx, { ...rev, text: e.target.value })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
               />
