@@ -997,6 +997,13 @@ function HomePageTab({ homePage = {}, onChange, onUploadImage }) {
             style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
           />
         </div>
+
+        <ImageField
+          label="Imagen de Fondo de la Portada (Hero Background Image)"
+          value={hero.bgImage || "/assets/hero_bg.webp"}
+          onChange={(url) => onChange({ ...homePage, hero: { ...hero, bgImage: url } })}
+          onUploadImage={onUploadImage}
+        />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
           <div>
             <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Texto Botón WhatsApp</label>

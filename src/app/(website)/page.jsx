@@ -64,6 +64,7 @@ function mergeBlockWithJson(block, siteContent) {
         ...block,
         heading: siteContent.homePage?.hero?.heading ?? siteContent.hero?.heading ?? block.heading,
         body: siteContent.homePage?.hero?.body ?? siteContent.hero?.body ?? block.body,
+        bgImage: siteContent.homePage?.hero?.bgImage ?? siteContent.hero?.bgImage ?? block.bgImage,
         badgeText: siteContent.homePage?.hero?.badgeText ?? siteContent.hero?.badgeText ?? block.badgeText,
         primaryCtaText: siteContent.homePage?.hero?.primaryCtaText ?? siteContent.hero?.primaryCtaText ?? block.primaryCtaText,
         primaryCtaUrl: siteContent.homePage?.hero?.primaryCtaUrl ?? siteContent.hero?.primaryCtaUrl ?? block.primaryCtaUrl,

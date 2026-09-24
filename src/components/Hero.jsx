@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import { urlFor } from '../sanity/image';
 
-export default function Hero({ heading, body, backgroundImage }) {
+export default function Hero({ heading, body, backgroundImage, bgImage }) {
 
   const titleText = heading || "Enfermera a domicilio en Zaragoza";
   const bodyParagraphs = body 
@@ -13,7 +13,16 @@ export default function Hero({ heading, body, backgroundImage }) {
         "- Sin salas de espera y sin estrés; solo cuidados profesionales, personalizados y de calidad en tu hogar."
       ];
   
-  const bgImg = backgroundImage ? urlFor(backgroundImage).url() : "/assets/hero_bg.webp";
+  let bgImg = "/assets/hero_bg.webp";
+  if (bgImage) {
+    bgImg = bgImage.startsWith('/') || bgImage.startsWith('http') ? bgImage : `/assets/${bgImage}`;
+  } else if (backgroundImage) {
+    try {
+      bgImg = typeof backgroundImage === 'string' ? backgroundImage : urlFor(backgroundImage).url();
+    } catch {
+      bgImg = "/assets/hero_bg.webp";
+    }
+  }
 
   return (
     <section className="hero-wrapper">
