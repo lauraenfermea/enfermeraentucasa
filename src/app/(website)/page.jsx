@@ -1,13 +1,70 @@
 import { draftMode } from 'next/headers';
+import fs from 'fs';
+import path from 'path';
 import { getClient } from '../../sanity/client';
 import PageBuilder from '../../components/PageBuilder';
 import FeaturesBand from '../../components/FeaturesBand';
 import MapSection from '../../components/MapSection';
 
+// Load local JSON content (from custom admin panel)
+function getSiteContent() {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'site-content.json');
+    return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  } catch {
+    return null;
+  }
+}
+
+// Merge JSON admin data into a Sanity block, so JSON always wins
+function mergeBlockWithJson(block, siteContent) {
+  if (!siteContent) return block;
+  switch (block._type) {
+    case 'services':
+      return {
+        ...block,
+        servicesList: siteContent.services?.map(s => ({
+          title: s.title,
+          desc: s.desc,
+          image: s.image,
+          price: s.price,
+        })) ?? block.servicesList,
+      };
+    case 'rates':
+      return {
+        ...block,
+        ratesList: siteContent.rates ?? block.ratesList,
+        bonosList: siteContent.bonos ?? block.bonosList,
+      };
+    case 'reviews':
+      return {
+        ...block,
+        reviewsList: siteContent.reviews ?? block.reviewsList,
+      };
+    case 'faq':
+      return {
+        ...block,
+        faqsList: siteContent.faq?.map(f => ({
+          question: f.question,
+          answer: f.answer,
+        })) ?? block.faqsList,
+      };
+    case 'hero':
+      return {
+        ...block,
+        heading: siteContent.hero?.heading ?? block.heading,
+        body: siteContent.hero?.body ?? block.body,
+      };
+    default:
+      return block;
+  }
+}
 
 export default async function Home() {
   const isDraftMode = (await draftMode()).isEnabled;
+  const siteContent = getSiteContent();
   let pageData = null;
+
   try {
     const fetchClient = getClient(isDraftMode);
     pageData = await fetchClient.fetch(
@@ -27,12 +84,12 @@ export default async function Home() {
     "image": "https://enfermeraentucasa.es/assets/logo.png",
     "@id": "https://enfermeraentucasa.es/#organization",
     "url": "https://enfermeraentucasa.es",
-    "telephone": "+34641635705",
-    "email": "info@enfermeraentucasa.es",
+    "telephone": siteContent?.settings?.phone || "+34641635705",
+    "email": siteContent?.settings?.email || "info@enfermeraentucasa.es",
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Zaragoza",
+      "addressLocality": siteContent?.settings?.location || "Zaragoza",
       "addressRegion": "Aragón",
       "addressCountry": "ES"
     },
@@ -43,9 +100,7 @@ export default async function Home() {
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
-      ],
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
       "opens": "00:00",
       "closes": "23:59"
     },
@@ -54,42 +109,43 @@ export default async function Home() {
     ]
   };
 
-  // Fallback to default block layout if Sanity has no data yet
+  // No Sanity data — render pure defaults (JSON will still be applied via component fallbacks)
   if (!pageData || !pageData.pageBuilder) {
+    const defaultBlocks = [
+      { _type: 'hero',     ...(siteContent?.hero || {}) },
+      { _type: 'services', servicesList: siteContent?.services },
+      { _type: 'rates',    ratesList: siteContent?.rates, bonosList: siteContent?.bonos },
+      { _type: 'team' },
+      { _type: 'faq',     faqsList: siteContent?.faq },
+      { _type: 'reviews',  reviewsList: siteContent?.reviews },
+    ];
+    const heroBlock = defaultBlocks[0];
+    const rest = defaultBlocks.slice(1);
     return (
       <>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <PageBuilder blocks={[{ _type: 'hero' }]} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <PageBuilder blocks={[heroBlock]} />
         <FeaturesBand />
-        <PageBuilder blocks={[
-          { _type: 'services' },
-          { _type: 'rates' },
-          { _type: 'team' },
-          { _type: 'faq' },
-          { _type: 'reviews' }
-        ]} />
+        <PageBuilder blocks={rest} />
         <MapSection />
       </>
     );
   }
 
-  const blocks = (pageData.pageBuilder || []).filter(block => block._type !== 'blogSection' && block._type !== 'ctaBanner');
-  const heroIndex = blocks.findIndex(block => block._type === 'hero');
+  // Sanity data found — merge JSON overrides into each block
+  const allBlocks = (pageData.pageBuilder || [])
+    .filter(b => b._type !== 'blogSection' && b._type !== 'ctaBanner')
+    .map(b => mergeBlockWithJson(b, siteContent));
+
+  const heroIndex = allBlocks.findIndex(b => b._type === 'hero');
 
   if (heroIndex !== -1) {
-    const beforeHero = blocks.slice(0, heroIndex);
-    const heroBlock = blocks[heroIndex];
-    const afterHero = blocks.slice(heroIndex + 1);
-
+    const beforeHero = allBlocks.slice(0, heroIndex);
+    const heroBlock  = allBlocks[heroIndex];
+    const afterHero  = allBlocks.slice(heroIndex + 1);
     return (
       <>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <PageBuilder blocks={beforeHero} />
         <PageBuilder blocks={[heroBlock]} />
         <FeaturesBand />
@@ -101,11 +157,8 @@ export default async function Home() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <PageBuilder blocks={blocks} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <PageBuilder blocks={allBlocks} />
       <FeaturesBand />
       <MapSection />
     </>

@@ -83,14 +83,14 @@ export default function ReviewsSlider({
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
-  // Force using the hardcoded defaultReviews list to ensure Sanity overrides don't apply old data
-  const reviews = defaultReviews;
+  // Use Sanity data if provided, otherwise fall back to hardcoded defaults
+  const reviews = (reviewsList && reviewsList.length > 0) ? reviewsList : defaultReviews;
 
   const sectionTitle = title || 'Reseñas en Google';
 
-  // Strictly enforce 5.0 average rating and 6 reviews from Google Maps screenshots
-  const displayRating = 5.0;
-  const displayCount = '(6 reviews)';
+  // Use Sanity-provided rating/count, or fall back to defaults
+  const displayRating = (typeof rating === 'number' && rating > 0) ? rating : 5.0;
+  const displayCount = reviewsCount || `(${reviews.length} reviews)`;
 
   const checkScrollLimits = () => {
     if (containerRef.current) {
