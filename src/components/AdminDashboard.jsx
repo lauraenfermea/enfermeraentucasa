@@ -270,6 +270,7 @@ export default function AdminDashboard() {
       group: "PÁGINAS Y EDICIÓN COMPLETA",
       items: [
         { id: "homepage", label: "Página Principal (Home)", icon: "🏠" },
+        { id: "custom_pages", label: "Páginas Personalizadas", icon: "📄", count: content.customPages?.length || 0 },
         { id: "services", label: "Servicios", icon: "💉", count: content.services?.length },
         { id: "rates", label: "Tarifas & Planes", icon: "💰", count: content.rates?.length },
         { id: "bonos", label: "Bonos Heparina", icon: "📦", count: content.bonos?.length },
@@ -602,6 +603,16 @@ export default function AdminDashboard() {
               homePage={content.homePage || {}}
               onChange={(homePage) => setContent({ ...content, homePage })}
               onUploadImage={triggerFileUpload}
+            />
+          )}
+
+          {activeTab === "custom_pages" && (
+            <CustomPagesTab
+              customPages={content.customPages || []}
+              filter={searchFilter}
+              onChange={(customPages) => setContent({ ...content, customPages })}
+              onUploadImage={triggerFileUpload}
+              showToast={showToast}
             />
           )}
 
@@ -1107,6 +1118,403 @@ function HomePageTab({ homePage = {}, onChange, onUploadImage }) {
             style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Custom Dynamic Pages Builder Tab ─────────────────────────────
+function CustomPagesTab({ customPages = [], filter = "", onChange, onUploadImage, showToast }) {
+  const [activePageIdx, setActivePageIdx] = useState(null);
+
+  function updatePage(index, updatedItem) {
+    const list = [...customPages];
+    list[index] = updatedItem;
+    onChange(list);
+  }
+
+  function addPage() {
+    const timeId = Date.now();
+    const newPage = {
+      id: `page_${timeId}`,
+      title: "Nueva Página",
+      slug: `pagina-${timeId}`,
+      description: "Descripción breve de la nueva página...",
+      metaTitle: "Nueva Página | Enfermera en tu casa",
+      metaDescription: "Servicio profesional de enfermería a domicilio...",
+      blocks: [
+        { type: "paragraph", text: "Bienvenido a la nueva página..." }
+      ],
+    };
+    onChange([newPage, ...customPages]);
+    setActivePageIdx(0);
+  }
+
+  function deletePage(index) {
+    if (confirm("¿Estás seguro de que deseas eliminar esta página personalizada?")) {
+      onChange(customPages.filter((_, i) => i !== index));
+      if (activePageIdx === index) setActivePageIdx(null);
+    }
+  }
+
+  function addBlock(pageIdx, blockType) {
+    const page = customPages[pageIdx];
+    const blocks = page.blocks || [];
+    let newBlock = { type: blockType, text: "" };
+    if (blockType === "image") newBlock = { type: "image", src: "", caption: "", width: "100%", align: "center" };
+    if (blockType === "heading2") newBlock = { type: "heading2", text: "", color: "#0F172A", align: "left" };
+    if (blockType === "heading3") newBlock = { type: "heading3", text: "", color: "#2563EB", align: "left" };
+    if (blockType === "quote") newBlock = { type: "quote", text: "", bgColor: "#EFF6FF", borderColor: "#2563EB", textColor: "#1E40AF" };
+    if (blockType === "cta") newBlock = { type: "cta", text: "Solicitar Atención por WhatsApp", url: "https://wa.me/34641635705", bgColor: "#2563EB", textColor: "#FFFFFF", align: "center" };
+    if (blockType === "html") newBlock = { type: "html", text: "<div>Bloque HTML personalizado</div>" };
+    
+    updatePage(pageIdx, { ...page, blocks: [...blocks, newBlock] });
+  }
+
+  function updateBlock(pageIdx, blockIdx, updatedBlock) {
+    const page = customPages[pageIdx];
+    const blocks = [...(page.blocks || [])];
+    blocks[blockIdx] = updatedBlock;
+    updatePage(pageIdx, { ...page, blocks });
+  }
+
+  function deleteBlock(pageIdx, blockIdx) {
+    const page = customPages[pageIdx];
+    const blocks = (page.blocks || []).filter((_, i) => i !== blockIdx);
+    updatePage(pageIdx, { ...page, blocks });
+  }
+
+  function moveBlock(pageIdx, blockIdx, direction) {
+    const page = customPages[pageIdx];
+    const blocks = [...(page.blocks || [])];
+    const targetIdx = blockIdx + direction;
+    if (targetIdx < 0 || targetIdx >= blocks.length) return;
+    const temp = blocks[blockIdx];
+    blocks[blockIdx] = blocks[targetIdx];
+    blocks[targetIdx] = temp;
+    updatePage(pageIdx, { ...page, blocks });
+  }
+
+  function duplicateBlock(pageIdx, blockIdx) {
+    const page = customPages[pageIdx];
+    const blocks = [...(page.blocks || [])];
+    const copy = JSON.parse(JSON.stringify(blocks[pageIdx]));
+    blocks.splice(blockIdx + 1, 0, copy);
+    updatePage(pageIdx, { ...page, blocks });
+    showToast("¡Bloque duplicado!");
+  }
+
+  function insertHyperlinkHelper(pageIdx, blockIdx, currentText) {
+    const label = prompt("Introduce el texto visible del enlace (ej: Ver Tarifas):");
+    if (!label) return;
+    const url = prompt("Introduce la URL destino (ej: https://wa.me/34641635705 o /blog):");
+    if (!url) return;
+
+    const markdownLink = `[${label}](${url})`;
+    const updatedText = currentText ? `${currentText} ${markdownLink}` : markdownLink;
+    
+    const page = customPages[pageIdx];
+    const blocks = [...(page.blocks || [])];
+    blocks[blockIdx] = { ...blocks[blockIdx], text: updatedText };
+    updatePage(pageIdx, { ...page, blocks });
+    showToast("¡Hipervínculo insertado correctamente!");
+  }
+
+  const filtered = customPages.filter((p) => (p.title || "").toLowerCase().includes(filter.toLowerCase()));
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+        <div>
+          <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "800" }}>Gestor y Creador de Páginas Personalizadas</h2>
+          <span style={{ fontSize: "0.85rem", color: DESIGN.textMuted }}>{customPages.length} páginas personalizadas creadas</span>
+        </div>
+        <button
+          onClick={addPage}
+          style={{
+            padding: "0.75rem 1.4rem",
+            backgroundColor: DESIGN.primary,
+            color: "white",
+            border: "none",
+            borderRadius: "10px",
+            fontWeight: "700",
+            cursor: "pointer",
+          }}
+        >
+          + Crear Nueva Página
+        </button>
+      </div>
+
+      <div style={{ display: "grid", gap: "1.5rem" }}>
+        {filtered.map((page, idx) => {
+          const isExpanded = activePageIdx === idx;
+          const blocks = page.blocks || [];
+
+          return (
+            <div
+              key={page.id || idx}
+              style={{
+                backgroundColor: DESIGN.cardBg,
+                padding: "1.75rem",
+                borderRadius: "14px",
+                border: `1px solid ${DESIGN.border}`,
+                boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.2rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                  <span style={{ fontWeight: "800", color: DESIGN.primary, backgroundColor: `${DESIGN.primary}15`, padding: "0.2rem 0.6rem", borderRadius: "6px", fontSize: "0.85rem" }}>
+                    #{idx + 1}
+                  </span>
+                  <span style={{ fontWeight: "800", fontSize: "1.1rem" }}>{page.title || "Página Sin Título"}</span>
+                  {page.slug && (
+                    <a href={`/${page.slug}`} target="_blank" rel="noreferrer" style={{ fontSize: "0.8rem", color: DESIGN.primary, fontWeight: "600", textDecoration: "underline" }}>
+                      🔗 Ver /{page.slug}
+                    </a>
+                  )}
+                </div>
+                <div style={{ display: "flex", gap: "0.6rem" }}>
+                  <button
+                    onClick={() => setActivePageIdx(isExpanded ? null : idx)}
+                    style={{ padding: "0.4rem 0.8rem", backgroundColor: DESIGN.mainBg, border: `1px solid ${DESIGN.border}`, borderRadius: "6px", fontWeight: "700", cursor: "pointer", fontSize: "0.85rem" }}
+                  >
+                    {isExpanded ? "▲ Plegar Editor" : "✏️ Diseñar Contenido Bloques"}
+                  </button>
+                  <button onClick={() => deletePage(idx)} style={{ color: DESIGN.danger, border: "none", background: "none", cursor: "pointer", fontWeight: "700" }}>
+                    🗑️ Eliminar
+                  </button>
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Título de la Página</label>
+                  <input
+                    type="text"
+                    value={page.title || ""}
+                    placeholder="ej: Servicios Especiales Zaragoza"
+                    onChange={(e) => {
+                      const titleVal = e.target.value;
+                      const autoSlug = titleVal.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                      updatePage(idx, { ...page, title: titleVal, slug: page.slug || autoSlug });
+                    }}
+                    style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Slug URL (`/slug`)</label>
+                  <input
+                    type="text"
+                    value={page.slug || ""}
+                    placeholder="servicios-especiales"
+                    onChange={(e) => updatePage(idx, { ...page, slug: e.target.value })}
+                    style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Meta Título SEO</label>
+                  <input
+                    type="text"
+                    value={page.metaTitle || ""}
+                    placeholder="Título para Google..."
+                    onChange={(e) => updatePage(idx, { ...page, metaTitle: e.target.value })}
+                    style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Meta Descripción SEO</label>
+                  <input
+                    type="text"
+                    value={page.metaDescription || ""}
+                    placeholder="Descripción para buscadores..."
+                    onChange={(e) => updatePage(idx, { ...page, metaDescription: e.target.value })}
+                    style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+                  />
+                </div>
+              </div>
+
+              {isExpanded && (
+                <div style={{ marginTop: "1.5rem", paddingTop: "1.5rem", borderTop: `2px dashed ${DESIGN.border}` }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.2rem" }}>
+                    <div>
+                      <h3 style={{ margin: 0, fontSize: "1.1rem", fontWeight: "800", color: DESIGN.primary }}>
+                        🎨 Constructor de Bloques de la Página ({blocks.length} bloques)
+                      </h3>
+                    </div>
+                    <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                      <button onClick={() => addBlock(idx, "paragraph")} style={btnBlockStyle}>+ 📝 Párrafo</button>
+                      <button onClick={() => addBlock(idx, "heading2")} style={btnBlockStyle}>+ 📌 Subtítulo H2</button>
+                      <button onClick={() => addBlock(idx, "heading3")} style={btnBlockStyle}>+ 📍 Subtítulo H3</button>
+                      <button onClick={() => addBlock(idx, "image")} style={btnBlockStyle}>+ 🖼️ Imagen</button>
+                      <button onClick={() => addBlock(idx, "quote")} style={btnBlockStyle}>+ 💡 Cita</button>
+                      <button onClick={() => addBlock(idx, "cta")} style={btnBlockStyle}>+ 🔘 Botón CTA</button>
+                      <button onClick={() => addBlock(idx, "html")} style={btnBlockStyle}>+ 💻 HTML</button>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "grid", gap: "1rem" }}>
+                    {blocks.map((b, bIdx) => (
+                      <div
+                        key={bIdx}
+                        style={{
+                          backgroundColor: DESIGN.mainBg,
+                          padding: "1.2rem",
+                          borderRadius: "10px",
+                          border: `1px solid ${DESIGN.border}`,
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem", flexWrap: "wrap", gap: "0.5rem" }}>
+                          <span style={{ fontSize: "0.78rem", fontWeight: "800", color: DESIGN.primary, textTransform: "uppercase" }}>
+                            #{bIdx + 1} — {b.type === "heading2" ? "📌 Subtítulo H2" : b.type === "heading3" ? "📍 Subtítulo H3" : b.type === "image" ? "🖼️ Imagen" : b.type === "quote" ? "💡 Cita" : b.type === "cta" ? "🔘 Botón CTA" : b.type === "html" ? "💻 Código HTML" : "📝 Párrafo"}
+                          </span>
+                          <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
+                            <button onClick={() => moveBlock(idx, bIdx, -1)} disabled={bIdx === 0} style={miniBtnStyle} title="Mover arriba">⬆️</button>
+                            <button onClick={() => moveBlock(idx, bIdx, 1)} disabled={bIdx === blocks.length - 1} style={miniBtnStyle} title="Mover abajo">⬇️</button>
+                            <button onClick={() => duplicateBlock(idx, bIdx)} style={miniBtnStyle} title="Duplicar bloque">📋</button>
+                            {(b.type === "paragraph" || b.type === "quote") && (
+                              <button
+                                onClick={() => insertHyperlinkHelper(idx, bIdx, b.text)}
+                                style={{ fontSize: "0.75rem", fontWeight: "700", color: DESIGN.primary, border: `1px solid ${DESIGN.primary}`, borderRadius: "4px", padding: "0.2rem 0.5rem", background: "white", cursor: "pointer" }}
+                              >
+                                🔗 Insertar Enlace
+                              </button>
+                            )}
+                            <button
+                              onClick={() => deleteBlock(idx, bIdx)}
+                              style={{ fontSize: "0.75rem", fontWeight: "700", color: DESIGN.danger, border: "none", background: "none", cursor: "pointer" }}
+                            >
+                              ✕ Eliminar
+                            </button>
+                          </div>
+                        </div>
+
+                        {b.type === "image" ? (
+                          <div>
+                            <ImageField
+                              label="Foto / Imagen del bloque"
+                              value={b.src}
+                              onChange={(url) => updateBlock(idx, bIdx, { ...b, src: url })}
+                              onUploadImage={onUploadImage}
+                            />
+                            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: "0.75rem", marginTop: "0.5rem" }}>
+                              <div>
+                                <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Pie de foto / Leyenda</label>
+                                <input
+                                  type="text"
+                                  value={b.caption || ""}
+                                  placeholder="Pie de foto opcional..."
+                                  onChange={(e) => updateBlock(idx, bIdx, { ...b, caption: e.target.value })}
+                                  style={inputSmallStyle}
+                                />
+                              </div>
+                              <div>
+                                <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Ancho</label>
+                                <select
+                                  value={b.width || "100%"}
+                                  onChange={(e) => updateBlock(idx, bIdx, { ...b, width: e.target.value })}
+                                  style={inputSmallStyle}
+                                >
+                                  <option value="100%">100% (Ancho completo)</option>
+                                  <option value="75%">75% (Mediano)</option>
+                                  <option value="50%">50% (Pequeño)</option>
+                                </select>
+                              </div>
+                              <div>
+                                <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Alineación</label>
+                                <select
+                                  value={b.align || "center"}
+                                  onChange={(e) => updateBlock(idx, bIdx, { ...b, align: e.target.value })}
+                                  style={inputSmallStyle}
+                                >
+                                  <option value="center">Centro</option>
+                                  <option value="left">Izquierda</option>
+                                  <option value="right">Derecha</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        ) : b.type === "cta" ? (
+                          <div style={{ display: "grid", gridTemplateColumns: "2fr 2fr 1fr 1fr", gap: "0.75rem" }}>
+                            <div>
+                              <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Texto del Botón</label>
+                              <input
+                                type="text"
+                                value={b.text || ""}
+                                placeholder="ej: Solicitar Atención por WhatsApp"
+                                onChange={(e) => updateBlock(idx, bIdx, { ...b, text: e.target.value })}
+                                style={inputSmallStyle}
+                              />
+                            </div>
+                            <div>
+                              <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>URL Enlace Target</label>
+                              <input
+                                type="text"
+                                value={b.url || ""}
+                                placeholder="https://wa.me/34641635705"
+                                onChange={(e) => updateBlock(idx, bIdx, { ...b, url: e.target.value })}
+                                style={inputSmallStyle}
+                              />
+                            </div>
+                            <div>
+                              <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Color Fondo</label>
+                              <input
+                                type="color"
+                                value={b.bgColor || "#2563EB"}
+                                onChange={(e) => updateBlock(idx, bIdx, { ...b, bgColor: e.target.value })}
+                                style={{ width: "100%", height: "34px", padding: "0.1rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}` }}
+                              />
+                            </div>
+                            <div>
+                              <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Color Texto</label>
+                              <input
+                                type="color"
+                                value={b.textColor || "#FFFFFF"}
+                                onChange={(e) => updateBlock(idx, bIdx, { ...b, textColor: e.target.value })}
+                                style={{ width: "100%", height: "34px", padding: "0.1rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}` }}
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <div>
+                            <textarea
+                              rows={b.type.startsWith("heading") ? 1 : 3}
+                              value={b.text || ""}
+                              placeholder={b.type.startsWith("heading") ? "Escribe el subtítulo..." : "Escribe el texto..."}
+                              onChange={(e) => updateBlock(idx, bIdx, { ...b, text: e.target.value })}
+                              style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit", fontSize: "0.9rem", marginBottom: "0.4rem" }}
+                            />
+                            <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+                              <label style={{ fontSize: "0.75rem", fontWeight: "700", color: DESIGN.textMuted }}>Color Texto:</label>
+                              <input
+                                type="color"
+                                value={b.color || "#0F172A"}
+                                onChange={(e) => updateBlock(idx, bIdx, { ...b, color: e.target.value })}
+                                style={{ width: "36px", height: "26px", padding: "0", border: "none", cursor: "pointer", borderRadius: "4px" }}
+                              />
+                              <label style={{ fontSize: "0.75rem", fontWeight: "700", color: DESIGN.textMuted }}>Alineación:</label>
+                              <select
+                                value={b.align || "left"}
+                                onChange={(e) => updateBlock(idx, bIdx, { ...b, align: e.target.value })}
+                                style={{ padding: "0.2rem 0.5rem", borderRadius: "4px", border: `1px solid ${DESIGN.border}`, fontSize: "0.8rem" }}
+                              >
+                                <option value="left">Izquierda</option>
+                                <option value="center">Centro</option>
+                                <option value="right">Derecha</option>
+                              </select>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

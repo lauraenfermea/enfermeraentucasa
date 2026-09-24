@@ -5,6 +5,7 @@ import Link from 'next/link';
 import fs from 'fs';
 import path from 'path';
 import PortableTextRenderer from '../../../../components/PortableTextRenderer';
+import SmartContentRenderer from '../../../../components/SmartContentRenderer';
 import { blogPosts as fallbackPosts } from '../../../../data/blogPosts';
 
 function getLocalBlogs() {
@@ -17,47 +18,19 @@ function getLocalBlogs() {
   }
 }
 
-// Render markdown style [Text](url) hyperlinks
-function renderTextWithLinks(text) {
-  if (!text) return null;
-  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
-  const parts = [];
-  let lastIndex = 0;
-  let match;
-
-  while ((match = regex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(text.substring(lastIndex, match.index));
-    }
-    const label = match[1];
-    const url = match[2];
-    parts.push(
-      <a
-        key={match.index}
-        href={url}
-        target={url.startsWith('http') ? '_blank' : '_self'}
-        rel="noopener noreferrer"
-        style={{ color: '#2563EB', fontWeight: '600', textDecoration: 'underline' }}
-      >
-        {label}
-      </a>
-    );
-    lastIndex = regex.lastIndex;
-  }
-  if (lastIndex < text.length) {
-    parts.push(text.substring(lastIndex));
-  }
-  return parts.length > 0 ? parts : text;
-}
-
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const localBlogs = getLocalBlogs();
   const localPost = localBlogs?.find((p) => p.slug === slug);
   if (localPost) {
     return {
-      title: `${localPost.title} | Enfermera en tu casa`,
-      description: localPost.description,
+      title: `${localPost.title} | Blog Enfermera en tu Casa`,
+      description: localPost.description || `Artículo sobre cuidados de enfermería a domicilio en Zaragoza.`,
+      openGraph: {
+        title: localPost.title,
+        description: localPost.description,
+        images: localPost.image ? [localPost.image] : [],
+      },
     };
   }
 
@@ -77,7 +50,7 @@ export async function generateMetadata({ params }) {
       },
     };
   } catch {
-    return { title: 'Blog | Enfermera en tu casa' };
+    return { title: 'Blog de Salud | Enfermera en tu casa' };
   }
 }
 
@@ -125,238 +98,344 @@ export default async function BlogPostPage({ params }) {
 
   const publishDate = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
-    : null;
+    : '10 de Febrero, 2026';
 
   let imgUrl = null;
   if (typeof post.image === 'string') {
     imgUrl = post.image.startsWith('/') || post.image.startsWith('http') ? post.image : `/assets/${post.image}`;
   } else if (post.image && typeof post.image === 'object') {
     try {
-      imgUrl = urlFor(post.image).width(900).url();
+      imgUrl = urlFor(post.image).width(1200).url();
     } catch {
       imgUrl = null;
     }
   }
 
+  const allBlogs = localBlogs || fallbackPosts;
+  const currentIndex = allBlogs.findIndex((b) => b.slug === slug);
+  const nextPost = currentIndex >= 0 && currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null;
+  const prevPost = currentIndex > 0 ? allBlogs[currentIndex - 1] : null;
+
   return (
-    <>
-      {/* Hero Banner */}
-      <div style={{
-        background: 'linear-gradient(135deg, var(--primary) 0%, #3d5a5c 100%)',
-        padding: '5rem 0 4rem',
+    <main style={{ backgroundColor: '#F8FAFC', minHeight: '100vh' }}>
+      {/* Top Header Hero Banner */}
+      <section style={{
+        background: 'linear-gradient(135deg, #0F172A 0%, #0D5C63 60%, #1E3A8A 100%)',
+        padding: '5.5rem 1rem 4.5rem',
         color: 'white',
-        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden',
       }}>
-        <div className="container" style={{ maxWidth: '900px', margin: '0 auto', padding: '0 2rem' }}>
-          <Link href="/blog" style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'none', fontSize: '0.95rem', marginBottom: '1.5rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
-            ← Volver al Blog
-          </Link>
-          {publishDate && (
-            <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.65)', margin: '1rem 0 0.5rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-              {publishDate} {post.author ? `• Por ${post.author}` : ''}
-            </p>
-          )}
-          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: '800', lineHeight: 1.2, margin: '0.5rem 0 1.5rem' }}>
+        {/* Glow backdrop elements */}
+        <div style={{
+          position: 'absolute',
+          top: '-20%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '600px',
+          height: '600px',
+          background: 'radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(0,0,0,0) 70%)',
+          pointerEvents: 'none',
+        }} />
+
+        <div className="container" style={{ maxWidth: '940px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
+          {/* Top Breadcrumb Badge */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
+            <Link
+              href="/blog"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                backgroundColor: 'rgba(255, 255, 255, 0.12)',
+                backdropFilter: 'blur(10px)',
+                color: '#E2E8F0',
+                padding: '0.5rem 1.25rem',
+                borderRadius: '9999px',
+                fontSize: '0.9rem',
+                fontWeight: '600',
+                textDecoration: 'none',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              ← Volver al Blog
+            </Link>
+
+            <span style={{
+              backgroundColor: 'rgba(16, 185, 129, 0.25)',
+              color: '#34D399',
+              padding: '0.4rem 1rem',
+              borderRadius: '9999px',
+              fontSize: '0.85rem',
+              fontWeight: '700',
+              border: '1px solid rgba(52, 211, 153, 0.3)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+            }}>
+              🩺 Consejos de Salud en Casa
+            </span>
+          </div>
+
+          {/* Title */}
+          <h1 style={{
+            fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
+            fontWeight: '900',
+            lineHeight: 1.2,
+            margin: '0.5rem 0 1.5rem',
+            letterSpacing: '-0.025em',
+            color: '#FFFFFF',
+            textShadow: '0 2px 10px rgba(0,0,0,0.2)',
+          }}>
             {post.title}
           </h1>
+
+          {/* Subtitle / Excerpt */}
           {post.description && (
-            <p style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.8)', maxWidth: '700px', margin: '0 auto', lineHeight: 1.6 }}>
+            <p style={{
+              fontSize: '1.2rem',
+              color: 'rgba(241, 245, 249, 0.9)',
+              maxWidth: '780px',
+              lineHeight: 1.65,
+              marginBottom: '2rem',
+            }}>
               {post.description}
             </p>
           )}
-        </div>
-      </div>
 
-      {/* Featured Main Image */}
+          {/* Author & Published Metadata Bar */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1.5rem',
+            flexWrap: 'wrap',
+            paddingTop: '1rem',
+            borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{
+                width: '44px',
+                height: '44px',
+                borderRadius: '50%',
+                backgroundColor: '#10B981',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: '800',
+                fontSize: '1.2rem',
+                border: '2px solid rgba(255,255,255,0.4)',
+                boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
+              }}>
+                👩‍⚕️
+              </div>
+              <div>
+                <p style={{ margin: 0, fontSize: '0.95rem', fontWeight: '700', color: '#FFFFFF' }}>
+                  {post.author || 'Laura Pueyo'}
+                </p>
+                <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)' }}>
+                  Enfermera Colegiada en Zaragoza
+                </p>
+              </div>
+            </div>
+
+            <div style={{ color: 'rgba(255,255,255,0.3)' }}>|</div>
+
+            <div style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              📅 <span>{publishDate}</span>
+            </div>
+
+            <div style={{ color: 'rgba(255,255,255,0.3)' }}>|</div>
+
+            <div style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              ⏱️ <span>4 min de lectura</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Main Cover Image */}
       {imgUrl && (
-        <div style={{ backgroundColor: '#f7f9f9' }}>
-          <div className="container" style={{ maxWidth: '900px', margin: '0 auto', padding: '0 2rem' }}>
-            <img
-              src={imgUrl}
-              alt={post.title}
-              style={{
-                width: '100%',
-                height: 'auto',
-                maxHeight: '480px',
-                objectFit: 'cover',
-                borderRadius: '0 0 16px 16px',
-                display: 'block',
-              }}
-            />
+        <div style={{ marginTop: '-2.5rem', position: 'relative', zIndex: 20 }}>
+          <div className="container" style={{ maxWidth: '940px', margin: '0 auto', padding: '0 1rem' }}>
+            <div style={{
+              borderRadius: '24px',
+              overflow: 'hidden',
+              boxShadow: '0 25px 50px -12px rgba(15, 23, 42, 0.18)',
+              border: '4px solid #FFFFFF',
+              backgroundColor: '#FFFFFF',
+            }}>
+              <img
+                src={imgUrl}
+                alt={post.title}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  maxHeight: '500px',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+              />
+            </div>
           </div>
         </div>
       )}
 
-      {/* Article Body */}
-      <div style={{ backgroundColor: '#f7f9f9', padding: '4rem 0 6rem' }}>
+      {/* Main Article Reading Body */}
+      <section style={{ padding: '3.5rem 1rem 6rem' }}>
         <div className="container" style={{
-          maxWidth: '820px',
+          maxWidth: '860px',
           margin: '0 auto',
-          padding: '0 2rem',
-          backgroundColor: 'white',
-          borderRadius: '16px',
-          boxShadow: '0 4px 30px rgba(0,0,0,0.06)',
+          backgroundColor: '#FFFFFF',
+          borderRadius: '24px',
+          boxShadow: '0 20px 40px -15px rgba(15, 23, 42, 0.06)',
+          border: '1px solid #E2E8F0',
+          overflow: 'hidden',
         }}>
-          <div style={{ padding: '3.5rem 3rem' }}>
-            {/* Case A: Rich Content Blocks Array */}
-            {Array.isArray(post.blocks) && post.blocks.length > 0 ? (
-              post.blocks.map((block, i) => {
-                if (block.type === 'heading2') {
-                  return (
-                    <h2
-                      key={i}
-                      style={{
-                        fontSize: '1.75rem',
-                        fontWeight: '800',
-                        color: block.color || 'var(--text-main)',
-                        marginTop: '2.5rem',
-                        marginBottom: '1rem',
-                        textAlign: block.align || 'left',
-                        borderBottom: block.underline ? '2px solid var(--primary)' : 'none',
-                        paddingBottom: block.underline ? '0.3rem' : 0,
-                      }}
-                    >
-                      {block.text}
-                    </h2>
-                  );
-                }
-                if (block.type === 'heading3') {
-                  return (
-                    <h3
-                      key={i}
-                      style={{
-                        fontSize: '1.4rem',
-                        fontWeight: '700',
-                        color: block.color || 'var(--text-main)',
-                        marginTop: '2rem',
-                        marginBottom: '0.8rem',
-                        textAlign: block.align || 'left',
-                      }}
-                    >
-                      {block.text}
-                    </h3>
-                  );
-                }
-                if (block.type === 'image') {
-                  const src = block.src ? (block.src.startsWith('/') || block.src.startsWith('http') ? block.src : `/assets/${block.src}`) : '';
-                  return (
-                    <div key={i} style={{ margin: '2rem 0', textAlign: block.align || 'center' }}>
-                      <img
-                        src={src}
-                        alt={block.caption || post.title}
-                        style={{
-                          width: block.width || '100%',
-                          maxWidth: '100%',
-                          maxHeight: '520px',
-                          objectFit: 'cover',
-                          borderRadius: '14px',
-                          boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
-                          display: 'inline-block',
-                        }}
-                      />
-                      {block.caption && (
-                        <p style={{ fontSize: '0.88rem', color: '#6B7280', marginTop: '0.5rem', fontStyle: 'italic' }}>
-                          {block.caption}
-                        </p>
-                      )}
-                    </div>
-                  );
-                }
-                if (block.type === 'quote') {
-                  return (
-                    <blockquote
-                      key={i}
-                      style={{
-                        margin: '2rem 0',
-                        padding: '1.25rem 1.75rem',
-                        backgroundColor: block.bgColor || '#EFF6FF',
-                        borderLeft: `5px solid ${block.borderColor || '#2563EB'}`,
-                        borderRadius: '0 12px 12px 0',
-                        color: block.textColor || '#1E40AF',
-                        fontSize: '1.1rem',
-                        fontStyle: 'italic',
-                        lineHeight: 1.7,
-                      }}
-                    >
-                      {renderTextWithLinks(block.text)}
-                    </blockquote>
-                  );
-                }
-                if (block.type === 'cta' || block.type === 'button') {
-                  return (
-                    <div key={i} style={{ margin: '2.5rem 0', textAlign: block.align || 'center' }}>
-                      <a
-                        href={block.url || 'https://wa.me/34641635705'}
-                        target={block.url?.startsWith('http') ? '_blank' : '_self'}
-                        rel="noopener noreferrer"
-                        style={{
-                          display: 'inline-block',
-                          padding: '0.9rem 2.2rem',
-                          backgroundColor: block.bgColor || '#2563EB',
-                          color: block.textColor || '#FFFFFF',
-                          borderRadius: '9999px',
-                          fontWeight: '700',
-                          fontSize: '1.05rem',
-                          textDecoration: 'none',
-                          boxShadow: '0 4px 15px rgba(37, 99, 235, 0.3)',
-                          transition: 'transform 0.2s ease',
-                        }}
-                      >
-                        {block.text || 'Contactar por WhatsApp'}
-                      </a>
-                    </div>
-                  );
-                }
-                if (block.type === 'html') {
-                  return (
-                    <div key={i} style={{ margin: '1.5rem 0' }} dangerouslySetInnerHTML={{ __html: block.html || block.text }} />
-                  );
-                }
-                return (
-                  <p key={i} style={{ marginBottom: '1.35rem', lineHeight: 1.8, color: block.color || '#374151', fontSize: '1.08rem' }}>
-                    {renderTextWithLinks(block.text)}
-                  </p>
-                );
-              })
-            ) : Array.isArray(post.content) ? (
-              typeof post.content[0] === 'string' ? (
-                post.content.map((para, i) => (
-                  <p key={i} style={{ marginBottom: '1.35rem', lineHeight: 1.8, color: '#374151', fontSize: '1.08rem' }}>
-                    {renderTextWithLinks(para)}
-                  </p>
-                ))
-              ) : (
-                <PortableTextRenderer content={post.content} />
-              )
-            ) : (
-              post.content && typeof post.content === 'string' ? (
-                post.content.split('\n\n').map((para, i) => (
-                  <p key={i} style={{ marginBottom: '1.35rem', lineHeight: 1.8, color: '#374151', fontSize: '1.08rem' }}>
-                    {renderTextWithLinks(para)}
-                  </p>
-                ))
-              ) : null
-            )}
+          <div style={{ padding: 'clamp(2rem, 5vw, 4rem)' }}>
+            {/* Render Content Blocks using Smart Renderer */}
+            <SmartContentRenderer blocks={post.blocks} fallbackContent={post.content} />
+
+            {/* Author Profile & WhatsApp Consultation Card */}
+            <div style={{
+              marginTop: '4rem',
+              padding: '2.5rem 2rem',
+              backgroundColor: '#F0FDF4',
+              borderRadius: '20px',
+              border: '1px solid #BBF7D0',
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: '1.5rem',
+              flexWrap: 'wrap',
+            }}>
+              <div style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                backgroundColor: '#10B981',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '2rem',
+                flexShrink: 0,
+                boxShadow: '0 8px 20px rgba(16, 185, 129, 0.3)',
+              }}>
+                👩‍⚕️
+              </div>
+              <div style={{ flex: 1, minWidth: '240px' }}>
+                <h4 style={{ margin: '0 0 0.4rem', fontSize: '1.25rem', fontWeight: '800', color: '#065F46' }}>
+                  ¿Necesitas atención de enfermería a domicilio en Zaragoza?
+                </h4>
+                <p style={{ margin: 0, fontSize: '0.98rem', color: '#166534', lineHeight: 1.5 }}>
+                  Ofrecemos atención médica personalizada en tu hogar sin esperas ni desplazamientos. Curas, inyectables, analíticas y seguimiento continuado.
+                </p>
+              </div>
+              <a
+                href="https://wa.me/34641635705?text=Hola,%20he%20le%C3%ADdo%20vuestro%20blog%20y%20quisiera%20solicitar%20informaci%C3%B3n"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  padding: '0.9rem 1.8rem',
+                  backgroundColor: '#10B981',
+                  color: 'white',
+                  fontWeight: '800',
+                  borderRadius: '9999px',
+                  textDecoration: 'none',
+                  fontSize: '1rem',
+                  boxShadow: '0 8px 20px rgba(16, 185, 129, 0.35)',
+                  flexShrink: 0,
+                }}
+              >
+                <span>💬</span> Consultar por WhatsApp
+              </a>
+            </div>
+
+            {/* Next / Previous Post Navigation */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: '1.5rem',
+              marginTop: '3.5rem',
+              paddingTop: '2.5rem',
+              borderTop: '1px solid #E2E8F0',
+            }}>
+              {prevPost ? (
+                <Link
+                  href={`/blog/${prevPost.slug}`}
+                  style={{
+                    padding: '1.25rem 1.5rem',
+                    borderRadius: '16px',
+                    border: '1px solid #E2E8F0',
+                    backgroundColor: '#F8FAFC',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    display: 'block',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  <span style={{ fontSize: '0.8rem', fontWeight: '700', color: '#64748B', display: 'block', marginBottom: '0.4rem', textTransform: 'uppercase' }}>
+                    ← Artículo Anterior
+                  </span>
+                  <strong style={{ fontSize: '1.05rem', color: '#0F172A', lineHeight: 1.4, display: 'block' }}>
+                    {prevPost.title}
+                  </strong>
+                </Link>
+              ) : <div />}
+
+              {nextPost ? (
+                <Link
+                  href={`/blog/${nextPost.slug}`}
+                  style={{
+                    padding: '1.25rem 1.5rem',
+                    borderRadius: '16px',
+                    border: '1px solid #E2E8F0',
+                    backgroundColor: '#F8FAFC',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    display: 'block',
+                    textAlign: 'right',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  <span style={{ fontSize: '0.8rem', fontWeight: '700', color: '#64748B', display: 'block', marginBottom: '0.4rem', textTransform: 'uppercase' }}>
+                    Siguiente Artículo →
+                  </span>
+                  <strong style={{ fontSize: '1.05rem', color: '#0F172A', lineHeight: 1.4, display: 'block' }}>
+                    {nextPost.title}
+                  </strong>
+                </Link>
+              ) : <div />}
+            </div>
           </div>
         </div>
 
-        {/* Back to blog */}
-        <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-          <Link href="/blog" style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            color: 'var(--primary)',
-            textDecoration: 'none',
-            fontWeight: '600',
-            fontSize: '1rem',
-            borderBottom: '2px solid var(--primary)',
-            paddingBottom: '2px',
-          }}>
-            ← Ver todos los artículos
+        {/* Bottom Back Button */}
+        <div style={{ textAlign: 'center', marginTop: '3.5rem' }}>
+          <Link
+            href="/blog"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.6rem',
+              padding: '0.85rem 2rem',
+              backgroundColor: '#FFFFFF',
+              color: '#0F172A',
+              fontWeight: '700',
+              borderRadius: '9999px',
+              textDecoration: 'none',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.06)',
+              border: '1px solid #E2E8F0',
+            }}
+          >
+            ← Ver todos los artículos del Blog
           </Link>
         </div>
-      </div>
-    </>
+      </section>
+    </main>
   );
 }
