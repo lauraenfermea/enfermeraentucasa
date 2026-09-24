@@ -35,7 +35,7 @@ export default function Rates({
   const rates = ratesList || [
     {
       title: 'Servicio Básico',
-      price: 'Desde 35€',
+      price: 'Desde 38€',
       desc: 'Intervenciones de enfermería específicas en el domicilio.',
       features: [
         'Inyectables',
@@ -56,6 +56,29 @@ export default function Rates({
         'Educación para la salud familiar'
       ],
       recommended: true
+    },
+    {
+      title: 'Extracciones de analíticas a domicilio',
+      price: 'Precio a consultar',
+      desc: 'Realizamos extracciones de sangre y recogida de muestras en la comodidad de tu hogar, evitando desplazamientos y esperas.',
+      features: [
+        'Extracción de sangre en domicilio',
+        'Recogida de muestras',
+        'Sin desplazamientos ni esperas'
+      ],
+      recommended: false
+    },
+    {
+      title: 'Servicio de cuidadoras a domicilio',
+      price: 'Desde 12 €/h',
+      desc: 'Acompañamiento y cuidados a domicilio para personas que necesitan apoyo en su día a día (mínimo 2h).',
+      features: [
+        'Apoyo en actividades diarias',
+        'Compañía y atención en el hogar',
+        'Atención puntual o continuada',
+        'Mínimo 2 horas por servicio'
+      ],
+      recommended: false
     },
     {
       title: 'Formación en primeros auxilios',
@@ -156,7 +179,7 @@ export default function Rates({
                   marginBottom: '0',
                   listStyleType: 'disc'
                 }}>
-                  {rate.features.map((feature, fIdx) => (
+                  {(rate.features || []).map((feature, fIdx) => (
                     <li key={fIdx} style={{ paddingLeft: '0.5rem', marginBottom: '0.4rem' }}>
                       {feature}
                     </li>
@@ -271,10 +294,10 @@ export default function Rates({
 
                 {/* Table Rows */}
                 {(bonosList || [
-                  { name: 'Sesión individual', price: '35€', total: '35€', saving: '—' },
-                  { name: '7 sesiones*', price: '31€', total: '217€', saving: '28€' },
-                  { name: '10 sesiones*', price: '29€', total: '290€', saving: '60€' },
-                  { name: '20 sesiones*', price: '27€', total: '540€', saving: '160€' },
+                  { name: 'Sesión individual', price: '38€', total: '38€', saving: '—' },
+                  { name: '7 sesiones*', price: '35€', total: '245€', saving: '21€' },
+                  { name: '10 sesiones*', price: '33€', total: '330€', saving: '50€' },
+                  { name: '20 sesiones*', price: '31€', total: '620€', saving: '140€' },
                 ]).map((row, rIdx) => (
                   <div key={rIdx} className="rates-grid" style={{ 
                     color: '#4a5f62', 

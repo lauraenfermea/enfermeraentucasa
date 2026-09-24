@@ -21,7 +21,7 @@ export default function Team({ title, subtitle, teamMembers, bio, backgroundColo
     }
   ];
   const paragraphs = bio || [
-    '<strong>Enfermeras desde 2015</strong> con experiencia en España y otros lugares (Reino Unido, Colombia y EU).',
+    '<strong>Enfermeras desde 2015</strong> con experiencia en España y otros lugares (Reino Unido y Colombia).',
     'Ahora en Zaragoza queremos ayudar a esas personas con dificultad de desplazamiento o saturación del sistema, por ello nace <strong>"Enfermera en tu casa"</strong>.',
     'Ofrecemos una atención cercana, profesional y de calidad con una dedicación de primera mano.',
     'Sabemos que cuidar no solo es aplicar técnicas, <em>es estar presentes cuando más se necesita</em>.'

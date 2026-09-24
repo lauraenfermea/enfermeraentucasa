@@ -16,6 +16,16 @@ export default function Services({ title, servicesList, backgroundColor, heading
       image: 'imgi_9_inyeccion.webp'
     },
     {
+      title: 'Extracciones de analíticas a domicilio',
+      desc: 'Realizamos extracciones de sangre y recogida de muestras en la comodidad de tu hogar, evitando desplazamientos y esperas.',
+      image: 'sample.jpeg'
+    },
+    {
+      title: 'Servicio de cuidadoras a domicilio',
+      desc: 'Acompañamiento y cuidados a domicilio para personas que necesitan apoyo en su día a día. Contamos con cuidadoras para ayudar en las actividades diarias y ofrecer compañía y atención en el hogar, de forma puntual o continuada.',
+      image: 'damil.jpeg'
+    },
+    {
       title: 'Control de Constantes',
       desc: 'Monitorización integral de presión arterial, frecuencia cardíaca, saturación de oxígeno y niveles de glucosa. Seguimiento de hipertensión en embarazadas.',
       image: 'imgi_10_779030c5-a200-421f-8dd8-8e85eb97be20.jpg'
@@ -32,7 +42,7 @@ export default function Services({ title, servicesList, backgroundColor, heading
     },
     {
       title: 'Formación en primeros auxilios',
-      desc: '¿Sabrían usted o en su empresa cómo actuar ante una parada cardiorrespiratoria? Ofrecemos formación en primeros auxilios en Zaragoza.',
+      desc: '¿Sabrías cómo actuar ante una parada cardiorrespiratoria? Ofrecemos formación en primeros auxilios en Zaragoza.',
       image: 'imgi_13_group-diverse-people-cpr-training-class.jpg'
     }
   ];
@@ -55,6 +65,12 @@ export default function Services({ title, servicesList, backgroundColor, heading
     }
     if (lowercaseTitle.includes('inyectables') || lowercaseTitle.includes('medicaci')) {
       return 'imgi_9_inyeccion.webp';
+    }
+    if (lowercaseTitle.includes('analítica') || lowercaseTitle.includes('extracci') || lowercaseTitle.includes('sangre')) {
+      return 'sample.jpeg';
+    }
+    if (lowercaseTitle.includes('cuidadora') || lowercaseTitle.includes('acombañ') || lowercaseTitle.includes('apoyo')) {
+      return 'damil.jpeg';
     }
     if (lowercaseTitle.includes('constantes') || lowercaseTitle.includes('presi')) {
       return 'imgi_10_779030c5-a200-421f-8dd8-8e85eb97be20.jpg';

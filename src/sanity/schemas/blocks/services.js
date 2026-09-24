@@ -60,6 +60,14 @@ export default {
           desc: 'Administración segura de medicación intravenosa, intramuscular o subcutánea siguiendo estrictamente las pautas médicas.'
         },
         {
+          title: 'Extracciones de analíticas a domicilio',
+          desc: 'Realizamos extracciones de sangre y recogida de muestras en la comodidad de tu hogar, evitando desplazamientos y esperas.'
+        },
+        {
+          title: 'Servicio de cuidadoras a domicilio',
+          desc: 'Acompañamiento y cuidados a domicilio para personas que necesitan apoyo en su día a día. Contamos con cuidadoras para ayudar en las actividades diarias y ofrecer compañía y atención en el hogar, de forma puntual o continuada.'
+        },
+        {
           title: 'Control de Constantes',
           desc: 'Monitorización integral de presión arterial, frecuencia cardíaca, saturación de oxígeno y niveles de glucosa. Seguimiento de hipertensión en embarazadas.'
         },
@@ -73,7 +81,7 @@ export default {
         },
         {
           title: 'Formación en primeros auxilios',
-          desc: '¿Sabrían usted o en su empresa cómo actuar ante una parada cardiorrespiratoria? Ofrecemos formación en primeros auxilios en Zaragoza.'
+          desc: '¿Sabrías cómo actuar ante una parada cardiorrespiratoria? Ofrecemos formación en primeros auxilios en Zaragoza.'
         }
       ]
     }
