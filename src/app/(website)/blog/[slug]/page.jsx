@@ -22,13 +22,36 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const localBlogs = getLocalBlogs();
   const localPost = localBlogs?.find((p) => p.slug === slug);
+  
+  // Try to get global SEO config for canonical base
+  let globalSeo = null;
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'site-content.json');
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    globalSeo = data.seo || null;
+  } catch {}
+  const baseUrl = globalSeo?.canonicalUrl || 'https://enfermeraentucasa.es';
+
   if (localPost) {
+    const title = localPost.seoTitle || `${localPost.title} | Blog Enfermera en tu Casa`;
+    const description = localPost.seoDescription || localPost.description || `Artículo sobre cuidados de enfermería a domicilio en Zaragoza.`;
+    const canonical = localPost.canonical || `${baseUrl}/blog/${localPost.slug}`;
+    
     return {
-      title: `${localPost.title} | Blog Enfermera en tu Casa`,
-      description: localPost.description || `Artículo sobre cuidados de enfermería a domicilio en Zaragoza.`,
+      title,
+      description,
+      keywords: localPost.focusKeyword || undefined,
+      alternates: {
+        canonical,
+      },
+      robots: localPost.noIndex ? { index: false, follow: true } : undefined,
       openGraph: {
-        title: localPost.title,
-        description: localPost.description,
+        title: localPost.seoTitle || localPost.title,
+        description,
+        url: canonical,
+        type: 'article',
+        publishedTime: localPost.publishedAt,
+        authors: [localPost.author || 'Laura Pueyo'],
         images: localPost.image ? [localPost.image] : [],
       },
     };
@@ -116,8 +139,47 @@ export default async function BlogPostPage({ params }) {
   const nextPost = currentIndex >= 0 && currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null;
   const prevPost = currentIndex > 0 ? allBlogs[currentIndex - 1] : null;
 
+  // Get global SEO config for schema
+  let globalSeo = null;
+  try {
+    const seoPath = path.join(process.cwd(), 'data', 'site-content.json');
+    const seoData = JSON.parse(fs.readFileSync(seoPath, 'utf-8'));
+    globalSeo = seoData.seo || null;
+  } catch {}
+  const baseUrl = globalSeo?.canonicalUrl || 'https://enfermeraentucasa.es';
+
+  // Build JSON-LD Schema for this blog post
+  const blogSchema = {
+    '@context': 'https://schema.org',
+    '@type': post.schemaType || 'BlogPosting',
+    headline: post.seoTitle || post.title,
+    description: post.seoDescription || post.description || '',
+    image: imgUrl || '',
+    datePublished: post.publishedAt || '',
+    dateModified: post.publishedAt || '',
+    author: {
+      '@type': 'Person',
+      name: post.author || 'Laura Pueyo',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: globalSeo?.businessName || 'Enfermera en tu casa',
+      url: baseUrl,
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': post.canonical || `${baseUrl}/blog/${post.slug}`,
+    },
+    keywords: post.focusKeyword || '',
+  };
+
   return (
     <main style={{ backgroundColor: '#F8FAFC', minHeight: '100vh' }}>
+      {/* JSON-LD Schema for Rich Results */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+      />
       {/* Top Header Hero Banner */}
       <section style={{
         background: 'linear-gradient(135deg, #0F172A 0%, #0D5C63 60%, #1E3A8A 100%)',

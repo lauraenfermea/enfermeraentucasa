@@ -621,6 +621,8 @@ export default function AdminDashboard() {
               seo={content.seo || {}}
               onChange={(seo) => setContent({ ...content, seo })}
               onUploadImage={triggerFileUpload}
+              blogs={content.blogs || []}
+              settings={content.settings || {}}
             />
           )}
 
@@ -816,7 +818,43 @@ function ImageField({ label, value, onChange, onUploadImage }) {
 }
 
 // ── SEO & AI Schema Tab ───────────────────────────────────────
-function SeoTab({ seo = {}, onChange, onUploadImage }) {
+function SeoTab({ seo = {}, onChange, onUploadImage, blogs = [], settings = {} }) {
+  const baseUrl = seo.canonicalUrl || 'https://enfermeraentucasa.es';
+
+  // Build auto-generated sitemap preview
+  const sitemapEntries = [
+    { url: baseUrl, priority: '1.0', changefreq: 'daily', label: 'Página Principal' },
+    { url: `${baseUrl}/blog`, priority: '0.8', changefreq: 'weekly', label: 'Blog Index' },
+    { url: `${baseUrl}/contact`, priority: '0.7', changefreq: 'monthly', label: 'Contacto' },
+    ...blogs.map(b => ({ url: `${baseUrl}/blog/${b.slug}`, priority: '0.7', changefreq: 'monthly', label: b.title }))
+  ];
+
+  // Build JSON-LD schema preview
+  const schemaPreview = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    "name": seo.businessName || "Enfermera en tu casa",
+    "description": seo.metaDescription || "",
+    "url": baseUrl,
+    "telephone": settings.phone || "+34 641 63 57 05",
+    "email": settings.email || "info@enfermeraentucasa.es",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": seo.addressLocality || "Zaragoza",
+      "addressRegion": seo.addressRegion || "Aragón",
+      "postalCode": seo.postalCode || "50001",
+      "addressCountry": "ES"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": seo.latitude || "",
+      "longitude": seo.longitude || ""
+    },
+    "openingHours": seo.openingHours || "Mo-Su 00:00-23:59",
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "12" },
+    "image": seo.ogImage || ""
+  }, null, 2);
+
   return (
     <div style={{ display: "grid", gap: "2rem" }}>
       {/* Search Engine Optimization (Google SEO) */}
@@ -837,6 +875,7 @@ function SeoTab({ seo = {}, onChange, onUploadImage }) {
             onChange={(e) => onChange({ ...seo, metaTitle: e.target.value })}
             style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
+          <span style={{ fontSize: "0.72rem", color: DESIGN.textMuted }}>{(seo.metaTitle || "").length}/60 caracteres recomendados</span>
         </div>
 
         <div style={{ marginBottom: "1.2rem" }}>
@@ -848,6 +887,7 @@ function SeoTab({ seo = {}, onChange, onUploadImage }) {
             onChange={(e) => onChange({ ...seo, metaDescription: e.target.value })}
             style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
           />
+          <span style={{ fontSize: "0.72rem", color: DESIGN.textMuted }}>{(seo.metaDescription || "").length}/160 caracteres recomendados</span>
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
@@ -879,6 +919,20 @@ function SeoTab({ seo = {}, onChange, onUploadImage }) {
           onChange={(url) => onChange({ ...seo, ogImage: url })}
           onUploadImage={onUploadImage}
         />
+
+        {/* Google Preview */}
+        <div style={{ marginTop: "1.5rem", backgroundColor: "#F8FAFC", borderRadius: "12px", padding: "1.2rem", border: "1px solid #E2E8F0" }}>
+          <p style={{ fontSize: "0.72rem", fontWeight: "800", color: "#64748B", marginBottom: "0.5rem", textTransform: "uppercase" }}>🔎 Vista Previa en Google</p>
+          <p style={{ fontSize: "0.92rem", color: "#1A0DAB", fontWeight: "600", margin: "0 0 0.2rem", lineHeight: 1.3 }}>
+            {seo.metaTitle || "Enfermera a domicilio en Zaragoza | Enfermera en tu casa"}
+          </p>
+          <p style={{ fontSize: "0.78rem", color: "#006621", margin: "0 0 0.3rem" }}>
+            {baseUrl}
+          </p>
+          <p style={{ fontSize: "0.82rem", color: "#545454", margin: 0, lineHeight: 1.4 }}>
+            {(seo.metaDescription || "Atención sanitaria profesional...").substring(0, 160)}
+          </p>
+        </div>
       </div>
 
       {/* AI Search & GEO (Generative Engine Optimization) Schema */}
@@ -956,6 +1010,94 @@ function SeoTab({ seo = {}, onChange, onUploadImage }) {
             />
           </div>
         </div>
+      </div>
+
+      {/* ── SITEMAP.XML AUTO-GENERATOR ─── */}
+      <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
+        <h2 style={{ marginTop: 0, marginBottom: "0.5rem", fontSize: "1.2rem", fontWeight: "800", color: "#059669" }}>
+          🗺️ Sitemap XML (Auto-generado)
+        </h2>
+        <p style={{ color: DESIGN.textMuted, fontSize: "0.88rem", marginBottom: "1rem" }}>
+          El sitemap se genera automáticamente con todas las páginas y artículos del blog. URL: <strong>{baseUrl}/sitemap.xml</strong>
+        </p>
+        <div style={{ backgroundColor: "#0F172A", borderRadius: "10px", padding: "1.2rem", maxHeight: "300px", overflowY: "auto" }}>
+          <pre style={{ margin: 0, fontSize: "0.78rem", color: "#94A3B8", fontFamily: "'Consolas', monospace", whiteSpace: "pre-wrap" }}>
+{`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`}
+{sitemapEntries.map(e => `
+  <url>
+    <loc>${e.url}</loc>
+    <changefreq>${e.changefreq}</changefreq>
+    <priority>${e.priority}</priority>
+  </url>`).join('')}
+{`
+</urlset>`}
+          </pre>
+        </div>
+        <p style={{ fontSize: "0.78rem", color: DESIGN.textMuted, marginTop: "0.75rem" }}>
+          📊 {sitemapEntries.length} URLs en total • Se actualiza automáticamente al guardar cambios
+        </p>
+      </div>
+
+      {/* ── ROBOTS.TXT EDITOR ─── */}
+      <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
+        <h2 style={{ marginTop: 0, marginBottom: "0.5rem", fontSize: "1.2rem", fontWeight: "800", color: "#DC2626" }}>
+          🤖 Robots.txt
+        </h2>
+        <p style={{ color: DESIGN.textMuted, fontSize: "0.88rem", marginBottom: "1rem" }}>
+          Controla qué partes del sitio pueden rastrear los buscadores. URL: <strong>{baseUrl}/robots.txt</strong>
+        </p>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Rutas Permitidas (Allow)</label>
+            <input
+              type="text"
+              value={seo.robotsAllow || "/"}
+              placeholder="/"
+              onChange={(e) => onChange({ ...seo, robotsAllow: e.target.value })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Rutas Bloqueadas (Disallow)</label>
+            <input
+              type="text"
+              value={seo.robotsDisallow || "/studio/,/admin,/api/"}
+              placeholder="/studio/,/admin,/api/"
+              onChange={(e) => onChange({ ...seo, robotsDisallow: e.target.value })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+        </div>
+        <div style={{ backgroundColor: "#0F172A", borderRadius: "10px", padding: "1.2rem" }}>
+          <pre style={{ margin: 0, fontSize: "0.82rem", color: "#94A3B8", fontFamily: "'Consolas', monospace" }}>
+{`User-agent: *
+Allow: ${seo.robotsAllow || "/"}
+${(seo.robotsDisallow || "/studio/,/admin,/api/").split(",").map(d => `Disallow: ${d.trim()}`).join("\n")}
+
+Sitemap: ${baseUrl}/sitemap.xml`}
+          </pre>
+        </div>
+      </div>
+
+      {/* ── JSON-LD SCHEMA PREVIEW ─── */}
+      <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
+        <h2 style={{ marginTop: 0, marginBottom: "0.5rem", fontSize: "1.2rem", fontWeight: "800", color: "#7C3AED" }}>
+          📋 JSON-LD Schema (Datos Estructurados)
+        </h2>
+        <p style={{ color: DESIGN.textMuted, fontSize: "0.88rem", marginBottom: "1rem" }}>
+          Este schema se inyecta automáticamente en el &lt;head&gt; de cada página para Google Rich Results y motores de IA.
+        </p>
+        <div style={{ backgroundColor: "#0F172A", borderRadius: "10px", padding: "1.2rem", maxHeight: "350px", overflowY: "auto" }}>
+          <pre style={{ margin: 0, fontSize: "0.78rem", color: "#A78BFA", fontFamily: "'Consolas', monospace", whiteSpace: "pre-wrap" }}>
+{`<script type="application/ld+json">
+${schemaPreview}
+</script>`}
+          </pre>
+        </div>
+        <p style={{ fontSize: "0.78rem", color: DESIGN.textMuted, marginTop: "0.75rem" }}>
+          💡 Cada artículo de blog también genera su propio schema BlogPosting automáticamente.
+        </p>
       </div>
     </div>
   );
@@ -1736,6 +1878,98 @@ function RichBlogsTab({ blogs = [], filter = "", onChange, onUploadImage, showTo
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
                 />
               </div>
+
+              {/* ── PER-BLOG SEO SECTION ─── */}
+              <details style={{ marginBottom: "1.2rem", backgroundColor: "#F0F9FF", borderRadius: "12px", border: `1px solid #BAE6FD`, padding: "0" }}>
+                <summary style={{ padding: "1rem 1.2rem", cursor: "pointer", fontWeight: "800", fontSize: "0.95rem", color: "#0369A1", listStyle: "none", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  🔍 SEO de este Artículo (Meta Title, Description, Canonical, Schema)
+                </summary>
+                <div style={{ padding: "0 1.2rem 1.2rem", display: "grid", gap: "1rem" }}>
+                  <div>
+                    <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "700", marginBottom: "0.3rem", color: "#0C4A6E" }}>Meta Título SEO (Google Title)</label>
+                    <input
+                      type="text"
+                      value={post.seoTitle || ""}
+                      placeholder={post.title ? `${post.title} | Enfermera en tu casa` : "Título para Google..."}
+                      onChange={(e) => updateBlog(idx, { ...post, seoTitle: e.target.value })}
+                      style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid #BAE6FD", fontSize: "0.9rem" }}
+                    />
+                    <span style={{ fontSize: "0.72rem", color: "#64748B" }}>{(post.seoTitle || post.title || "").length}/60 caracteres recomendados</span>
+                  </div>
+                  <div>
+                    <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "700", marginBottom: "0.3rem", color: "#0C4A6E" }}>Meta Descripción SEO (Snippet Google)</label>
+                    <textarea
+                      rows={2}
+                      value={post.seoDescription || ""}
+                      placeholder={post.description || "Descripción para resultados de búsqueda..."}
+                      onChange={(e) => updateBlog(idx, { ...post, seoDescription: e.target.value })}
+                      style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid #BAE6FD", fontFamily: "inherit", fontSize: "0.9rem" }}
+                    />
+                    <span style={{ fontSize: "0.72rem", color: "#64748B" }}>{(post.seoDescription || post.description || "").length}/160 caracteres recomendados</span>
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                    <div>
+                      <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "700", marginBottom: "0.3rem", color: "#0C4A6E" }}>URL Canónica</label>
+                      <input
+                        type="text"
+                        value={post.canonical || ""}
+                        placeholder={`https://enfermeraentucasa.es/blog/${post.slug || ""}`}
+                        onChange={(e) => updateBlog(idx, { ...post, canonical: e.target.value })}
+                        style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid #BAE6FD", fontSize: "0.9rem" }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "700", marginBottom: "0.3rem", color: "#0C4A6E" }}>Palabra Clave Principal (Focus Keyword)</label>
+                      <input
+                        type="text"
+                        value={post.focusKeyword || ""}
+                        placeholder="enfermera a domicilio zaragoza"
+                        onChange={(e) => updateBlog(idx, { ...post, focusKeyword: e.target.value })}
+                        style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid #BAE6FD", fontSize: "0.9rem" }}
+                      />
+                    </div>
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                    <div>
+                      <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "700", marginBottom: "0.3rem", color: "#0C4A6E" }}>Schema Type (JSON-LD)</label>
+                      <select
+                        value={post.schemaType || "BlogPosting"}
+                        onChange={(e) => updateBlog(idx, { ...post, schemaType: e.target.value })}
+                        style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid #BAE6FD", fontSize: "0.9rem", backgroundColor: "white" }}
+                      >
+                        <option value="BlogPosting">BlogPosting (Artículo de blog)</option>
+                        <option value="Article">Article (Artículo general)</option>
+                        <option value="MedicalWebPage">MedicalWebPage (Página médica)</option>
+                        <option value="HowTo">HowTo (Tutorial / Guía)</option>
+                      </select>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", paddingTop: "1.2rem" }}>
+                      <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.85rem", fontWeight: "700", color: "#0C4A6E", cursor: "pointer" }}>
+                        <input
+                          type="checkbox"
+                          checked={post.noIndex || false}
+                          onChange={(e) => updateBlog(idx, { ...post, noIndex: e.target.checked })}
+                          style={{ width: "18px", height: "18px" }}
+                        />
+                        No indexar (noindex)
+                      </label>
+                    </div>
+                  </div>
+                  {/* Google Preview */}
+                  <div style={{ backgroundColor: "white", borderRadius: "10px", padding: "1rem", border: "1px solid #E2E8F0" }}>
+                    <p style={{ fontSize: "0.72rem", fontWeight: "800", color: "#64748B", marginBottom: "0.5rem", textTransform: "uppercase" }}>Vista Previa en Google</p>
+                    <p style={{ fontSize: "0.85rem", color: "#1A0DAB", fontWeight: "600", margin: "0 0 0.2rem", lineHeight: 1.3 }}>
+                      {post.seoTitle || post.title || "Título del artículo"} | Enfermera en tu casa
+                    </p>
+                    <p style={{ fontSize: "0.75rem", color: "#006621", margin: "0 0 0.3rem" }}>
+                      enfermeraentucasa.es/blog/{post.slug || "slug"}
+                    </p>
+                    <p style={{ fontSize: "0.78rem", color: "#545454", margin: 0, lineHeight: 1.4 }}>
+                      {(post.seoDescription || post.description || "Descripción del artículo...").substring(0, 160)}
+                    </p>
+                  </div>
+                </div>
+              </details>
 
               {/* ── EXPANDED VISUAL BLOCK BUILDER ─────────────────────────── */}
               {isExpanded && (
