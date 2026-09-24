@@ -2,10 +2,32 @@ import { client } from '../../../../sanity/client';
 import { urlFor } from '../../../../sanity/image';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import fs from 'fs';
+import path from 'path';
 import PortableTextRenderer from '../../../../components/PortableTextRenderer';
+import { blogPosts as fallbackPosts } from '../../../../data/blogPosts';
+
+function getLocalBlogs() {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'site-content.json');
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    return data.blogs || null;
+  } catch {
+    return null;
+  }
+}
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
+  const localBlogs = getLocalBlogs();
+  const localPost = localBlogs?.find(p => p.slug === slug);
+  if (localPost) {
+    return {
+      title: `${localPost.title} | Enfermera en tu casa`,
+      description: localPost.description,
+    };
+  }
+
   try {
     const post = await client.fetch(
       `*[_type == "post" && slug.current == $slug][0]{ title, description, image }`,
@@ -18,7 +40,7 @@ export async function generateMetadata({ params }) {
       openGraph: {
         title: post.title,
         description: post.description,
-        images: post.image ? [urlFor(post.image).width(1200).height(630).url()] : [],
+        images: post.image && typeof post.image === 'object' ? [urlFor(post.image).width(1200).height(630).url()] : [],
       },
     };
   } catch {
@@ -27,32 +49,43 @@ export async function generateMetadata({ params }) {
 }
 
 export async function generateStaticParams() {
+  const localBlogs = getLocalBlogs();
+  if (localBlogs && localBlogs.length > 0) {
+    return localBlogs.map((post) => ({ slug: post.slug }));
+  }
   try {
     const posts = await client.fetch(`*[_type == "post" && defined(slug.current)]{ "slug": slug.current }`);
     return posts.map((post) => ({ slug: post.slug }));
   } catch {
-    return [];
+    return fallbackPosts.map((p) => ({ slug: p.slug }));
   }
 }
 
 export default async function BlogPostPage({ params }) {
   const { slug } = await params;
+  const localBlogs = getLocalBlogs();
+  let post = localBlogs?.find(p => p.slug === slug);
 
-  let post = null;
-  try {
-    post = await client.fetch(
-      `*[_type == "post" && slug.current == $slug][0]{
-        title,
-        description,
-        image,
-        content,
-        publishedAt,
-        "slug": slug.current
-      }`,
-      { slug }
-    );
-  } catch (error) {
-    console.error('Failed to fetch blog post:', error);
+  if (!post) {
+    try {
+      post = await client.fetch(
+        `*[_type == "post" && slug.current == $slug][0]{
+          title,
+          description,
+          image,
+          content,
+          publishedAt,
+          "slug": slug.current
+        }`,
+        { slug }
+      );
+    } catch (error) {
+      console.error('Failed to fetch blog post from Sanity:', error);
+    }
+  }
+
+  if (!post) {
+    post = fallbackPosts.find(p => p.slug === slug);
   }
 
   if (!post) notFound();
@@ -60,6 +93,17 @@ export default async function BlogPostPage({ params }) {
   const publishDate = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
     : null;
+
+  let imgUrl = null;
+  if (typeof post.image === 'string') {
+    imgUrl = post.image;
+  } else if (post.image && typeof post.image === 'object') {
+    try {
+      imgUrl = urlFor(post.image).width(900).url();
+    } catch {
+      imgUrl = null;
+    }
+  }
 
   return (
     <>
@@ -91,12 +135,12 @@ export default async function BlogPostPage({ params }) {
       </div>
 
       {/* Featured Image */}
-      {post.image && (
+      {imgUrl && (
         <div style={{ backgroundColor: '#f7f9f9' }}>
           <div className="container" style={{ maxWidth: '900px', margin: '0 auto', padding: '0 2rem' }}>
             <img
-              src={urlFor(post.image).width(900).url()}
-              alt={post.image.alt || post.title}
+              src={imgUrl}
+              alt={post.title}
               style={{
                 width: '100%',
                 height: 'auto',
@@ -122,14 +166,23 @@ export default async function BlogPostPage({ params }) {
         }}>
           <div style={{ padding: '3rem 3rem' }}>
             {Array.isArray(post.content) ? (
-              <PortableTextRenderer content={post.content} />
+              typeof post.content[0] === 'string' ? (
+                post.content.map((para, i) => (
+                  <p key={i} style={{ marginBottom: '1.25rem', lineHeight: 1.8, color: '#3d4f51', fontSize: '1.05rem' }}>
+                    {para}
+                  </p>
+                ))
+              ) : (
+                <PortableTextRenderer content={post.content} />
+              )
             ) : (
-              /* Fallback for old plain-text posts */
-              post.content && post.content.split('\n\n').map((para, i) => (
-                <p key={i} style={{ marginBottom: '1.25rem', lineHeight: 1.8, color: '#3d4f51', fontSize: '1.05rem' }}>
-                  {para}
-                </p>
-              ))
+              post.content && typeof post.content === 'string' ? (
+                post.content.split('\n\n').map((para, i) => (
+                  <p key={i} style={{ marginBottom: '1.25rem', lineHeight: 1.8, color: '#3d4f51', fontSize: '1.05rem' }}>
+                    {para}
+                  </p>
+                ))
+              ) : null
             )}
           </div>
         </div>

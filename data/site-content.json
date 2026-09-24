@@ -1,54 +1,63 @@
 {
+  "hero": {
+    "heading": "Enfermera a domicilio en Zaragoza",
+    "body": "Atención sanitaria profesional en tu hogar.\n- Sin esperas ni desplazamientos.\n- Sin salas de espera y sin estrés; solo cuidados profesionales, personalizados y de calidad en tu hogar.",
+    "badgeText": "⭐ Servicio de Enfermería Profesional",
+    "primaryCtaText": "Solicitar Atención",
+    "primaryCtaUrl": "https://wa.me/34641635705",
+    "secondaryCtaText": "Ver Servicios y Tarifas",
+    "secondaryCtaUrl": "#servicios"
+  },
   "services": [
     {
       "id": "curas",
       "title": "Curas y valoración de heridas",
       "desc": "Tratamiento de heridas y úlceras por presión (UPP), seguimiento de la cicatrización, educación para la salud y prevención. Retirada de puntos o grapas.",
-      "image": "imgi_8_como-curar-una-herida-infectada.jpg"
+      "image": "/assets/imgi_8_como-curar-una-herida-infectada.jpg"
     },
     {
       "id": "inyectables",
       "title": "Inyectables y Medicación",
       "desc": "Administración segura de medicación intravenosa, intramuscular o subcutánea siguiendo estrictamente las pautas médicas.",
-      "image": "imgi_9_inyeccion.webp"
+      "image": "/assets/imgi_9_inyeccion.webp"
     },
     {
       "id": "analiticas",
       "title": "Extracciones de analíticas a domicilio",
       "desc": "Realizamos extracciones de sangre y recogida de muestras en la comodidad de tu hogar, evitando desplazamientos y esperas.",
-      "image": "sample.jpeg",
+      "image": "/assets/sample.jpeg",
       "price": "Precio a consultar"
     },
     {
       "id": "cuidadoras",
       "title": "Servicio de cuidadoras a domicilio",
       "desc": "Acompañamiento y cuidados a domicilio para personas que necesitan apoyo en su día a día. Contamos con cuidadoras para ayudar en las actividades diarias y ofrecer compañía y atención en el hogar, de forma puntual o continuada.",
-      "image": "damil.jpeg",
+      "image": "/assets/damil.jpeg",
       "price": "Desde 12 €/h"
     },
     {
       "id": "constantes",
       "title": "Control de Constantes",
       "desc": "Monitorización integral de presión arterial, frecuencia cardíaca, saturación de oxígeno y niveles de glucosa. Seguimiento de hipertensión en embarazadas.",
-      "image": "imgi_10_779030c5-a200-421f-8dd8-8e85eb97be20.jpg"
+      "image": "/assets/imgi_10_779030c5-a200-421f-8dd8-8e85eb97be20.jpg"
     },
     {
       "id": "reciennacido",
       "title": "Cuidados del recién nacido",
       "desc": "Higiene del cordón, cura de heridas. Primeros baños del recién nacido. Seguimiento de heridas (episiotomías, cesáreas...)",
-      "image": "imgi_11_Baby Feet Close-Up.jpg"
+      "image": "/assets/imgi_11_Baby Feet Close-Up.jpg"
     },
     {
       "id": "sondas",
       "title": "Sondas, drenajes y ostomías",
       "desc": "Mantenimiento, limpieza y cambio de sondas urinarias o nasogástricas, asegurando el confort total del paciente. Valoración de ostomías.",
-      "image": "imgi_12_e62b038d-504f-49e5-8e4f-266def66acc1.jpg"
+      "image": "/assets/imgi_12_e62b038d-504f-49e5-8e4f-266def66acc1.jpg"
     },
     {
       "id": "auxilios",
       "title": "Formación en primeros auxilios",
       "desc": "¿Sabrías cómo actuar ante una parada cardiorrespiratoria? Ofrecemos formación en primeros auxilios en Zaragoza.",
-      "image": "imgi_13_group-diverse-people-cpr-training-class.jpg"
+      "image": "/assets/imgi_13_group-diverse-people-cpr-training-class.jpg"
     }
   ],
   "rates": [
@@ -99,6 +108,32 @@
     { "id": "10ses", "name": "10 sesiones*", "price": "33€", "total": "330€", "saving": "50€" },
     { "id": "20ses", "name": "20 sesiones*", "price": "31€", "total": "620€", "saving": "140€" }
   ],
+  "team": {
+    "title": "¿Quienes somos?",
+    "subtitle": "Sobre nosotras:",
+    "paragraphs": [
+      "<strong>Enfermeras desde 2015</strong> con experiencia en España y otros lugares (Reino Unido y Colombia).",
+      "Ahora en Zaragoza queremos ayudar a esas personas con dificultad de desplazamiento o saturación del sistema, por ello nace <strong>\"Enfermera en tu casa\"</strong>.",
+      "Ofrecemos una atención cercana, profesional y de calidad con una dedicación de primera mano.",
+      "Sabemos que cuidar no solo es aplicar técnicas, <em>es estar presentes cuando más se necesita</em>."
+    ],
+    "members": [
+      {
+        "id": "laura",
+        "name": "Laura Pueyo",
+        "colegiada": "Colegiada 16521",
+        "experience": "+8 años de experiencia",
+        "image": "/assets/wix_img_12_laura.jpg"
+      },
+      {
+        "id": "karen",
+        "name": "Karen Mira",
+        "colegiada": "Colegiada 20474",
+        "experience": "+6 años de experiencia",
+        "image": "/assets/wix_img_13_karen.jpg"
+      }
+    ]
+  },
   "reviews": [
     {
       "id": "maria",
@@ -173,16 +208,48 @@
       "ownerReplyDate": "hace 2 días"
     }
   ],
-  "hero": {
-    "heading": "Enfermera a domicilio en Zaragoza",
-    "body": "Atención sanitaria profesional en tu hogar.\n- Sin esperas ni desplazamientos.\n- Sin salas de espera y sin estrés; solo cuidados profesionales, personalizados y de calidad en tu hogar."
-  },
-  "settings": {
-    "phone": "+34 641 63 57 05",
-    "whatsapp": "https://wa.me/34641635705",
-    "email": "info@enfermeraentucasa.es",
-    "location": "Zaragoza"
-  },
+  "blogs": [
+    {
+      "id": "1",
+      "title": "Beneficios de la enfermería a domicilio en Zaragoza",
+      "slug": "beneficios-de-la-enfermer-a-a-domicilio-en-zaragoza",
+      "description": "La atención médica ha evolucionado significativamente en las últimas décadas, y uno de los cambios más notables ha sido el aumento de la enfermería a domicilio. Este servicio no solo proporciona atención médica, sino que también ofrece un enfoque más humano y personalizado para los pacientes.",
+      "image": "https://static.wixstatic.com/media/a3b5c9_17d6da8e16c141008a1f36fbd7cdb1a7~mv2.png/v1/fill/w_1000,h_563,al_c,q_90,usm_0.66_1.00_0.01/a3b5c9_17d6da8e16c141008a1f36fbd7cdb1a7~mv2.png",
+      "publishedAt": "2026-01-15",
+      "author": "Laura Pueyo",
+      "content": "La atención médica ha evolucionado significativamente en las últimas décadas, y uno de los cambios más notables ha sido el aumento de la enfermería a domicilio. Este servicio no solo proporciona atención médica, sino que también ofrece un enfoque más humano y personalizado para los pacientes.\n\n¿Qué es la enfermería a domicilio?\nLa enfermería a domicilio implica la prestación de servicios de atención médica en el hogar del paciente. Esto puede incluir desde cuidados básicos, como la administración de medicamentos, hasta tratamientos más complejos, como la atención a pacientes con enfermedades crónicas.\n\nBeneficios de la enfermería a domicilio:\n- Atención personalizada y dedicada\n- Comodidad y familiaridad en el propio hogar\n- Reducción del estrés y la ansiedad\n- Monitoreo continuo y prevención de complicaciones"
+    },
+    {
+      "id": "2",
+      "title": "Cuidado de salud en casa: Enfermera en Zaragoza",
+      "slug": "cuidado-de-salud-en-casa-enfermera-en-zaragoza",
+      "description": "La atención médica en casa se ha convertido en una opción cada vez más popular para muchas familias en Zaragoza. Con el aumento de la demanda de servicios de salud personalizados y accesibles, contar con una enfermera en casa puede marcar una gran diferencia.",
+      "image": "https://static.wixstatic.com/media/a3b5c9_a976ffa150364523af606e341e1352d8~mv2.png/v1/fill/w_1000,h_571,al_c,q_90,usm_0.66_1.00_0.01/a3b5c9_a976ffa150364523af606e341e1352d8~mv2.png",
+      "publishedAt": "2026-02-10",
+      "author": "Karen Mira",
+      "content": "La atención médica en casa no solo es conveniente, sino que también puede ser más efectiva para ciertos pacientes. La tranquilidad de contar con profesionales tituladas en tu propio hogar ofrece una experiencia superior en el cuidado de la salud."
+    },
+    {
+      "id": "3",
+      "title": "Enfermería personalizada en la comodidad de tu hogar",
+      "slug": "enfermer-a-personalizada-en-la-comodidad-de-tu-hogar",
+      "description": "La atención médica ha evolucionado significativamente en las últimas décadas, y uno de los cambios más notables es el aumento de la enfermería personalizada en el hogar.",
+      "image": "https://static.wixstatic.com/media/a3b5c9_cc9d80e8c34e4f9aad10b13d1adc0bd6~mv2.png/v1/fill/w_1000,h_563,al_c,q_90,usm_0.66_1.00_0.01/a3b5c9_cc9d80e8c34e4f9aad10b13d1adc0bd6~mv2.png",
+      "publishedAt": "2026-02-28",
+      "author": "Laura Pueyo",
+      "content": "La enfermería personalizada se refiere a un enfoque de atención que se adapta a las necesidades individuales de cada paciente, abarcando no solo la parte médica sino el acompañamiento emocional."
+    },
+    {
+      "id": "4",
+      "title": "Primeros auxilios en casa: qué hacer ante emergencias",
+      "slug": "primeros-auxilios-en-casa-qu-hacer-ante-emergencias",
+      "description": "En cualquier hogar pueden ocurrir accidentes inesperados: una caída, una quemadura o un atragantamiento. Saber cómo actuar en esos primeros minutos es fundamental para evitar complicaciones.",
+      "image": "https://static.wixstatic.com/media/a3b5c9_df813b74a9fa4edb825941acd3e1c587~mv2.jpeg/v1/fill/w_1000,h_667,al_c,q_85,usm_0.66_1.00_0.01/a3b5c9_df813b74a9fa4edb825941acd3e1c587~mv2.jpeg",
+      "publishedAt": "2026-03-05",
+      "author": "Karen Mira",
+      "content": "En cualquier hogar pueden ocurrir accidentes inesperados: una caída, una quemadura o un atragantamiento. Saber cómo actuar en esos primeros minutos es fundamental para evitar complicaciones en personas mayores o niños."
+    }
+  ],
   "faq": [
     {
       "id": "faq1",
@@ -219,5 +286,17 @@
       "question": "¿Cuál es vuestro horario de atención?",
       "answer": "Atendemos de lunes a domingo con flexibilidad horaria total. Nuestro objetivo es adaptarnos a tu ritmo y al de tu familia, pactando las visitas en el momento que mejor os convenga para garantizar unos cuidados sin esperas."
     }
-  ]
+  ],
+  "settings": {
+    "siteName": "Enfermera en tu casa",
+    "phone": "+34 641 63 57 05",
+    "whatsapp": "https://wa.me/34641635705",
+    "email": "info@enfermeraentucasa.es",
+    "location": "Zaragoza, España",
+    "address": "Zaragoza centro urbano",
+    "hours": "Lunes a Domingo - Adaptación total de horarios",
+    "instagram": "",
+    "facebook": "",
+    "emergencyBannerText": "🚨 ¿Necesitas atención urgente o consulta rápida? Contáctanos por WhatsApp o Teléfono"
+  }
 }

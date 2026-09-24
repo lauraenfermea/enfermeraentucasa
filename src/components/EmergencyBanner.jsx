@@ -42,16 +42,16 @@ export default function EmergencyBanner() {
                 <AlertTriangle size={18} />
               </motion.div>
               <span style={{ fontWeight: 600, fontSize: '0.875rem', letterSpacing: '0.02em' }}>
-                ¿Necesitas atención urgente?
+                ¿Necesitas atención urgente o consulta médica en casa?
               </span>
               <span style={{ fontSize: '0.875rem', opacity: 0.9 }} className="hide-mobile">
-                Enfermeros capacitados listos para asistir a tu domicilio.
+                Enfermeras cualificadas listas para asistir a tu domicilio en Zaragoza.
               </span>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <a
-                href="tel:+525512345678"
+                href="tel:+34641635705"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -74,7 +74,7 @@ export default function EmergencyBanner() {
                 }}
               >
                 <Phone size={14} />
-                Llamar Ahora: +52 55 1234 5678
+                Llamar Ahora: +34 641 63 57 05
               </a>
 
               <button

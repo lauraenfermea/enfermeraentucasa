@@ -36,6 +36,14 @@ function mergeBlockWithJson(block, siteContent) {
         ratesList: siteContent.rates ?? block.ratesList,
         bonosList: siteContent.bonos ?? block.bonosList,
       };
+    case 'team':
+      return {
+        ...block,
+        title: siteContent.team?.title ?? block.title,
+        subtitle: siteContent.team?.subtitle ?? block.subtitle,
+        teamMembers: siteContent.team?.members ?? block.teamMembers,
+        bio: siteContent.team?.paragraphs ?? block.bio,
+      };
     case 'reviews':
       return {
         ...block,
@@ -54,6 +62,11 @@ function mergeBlockWithJson(block, siteContent) {
         ...block,
         heading: siteContent.hero?.heading ?? block.heading,
         body: siteContent.hero?.body ?? block.body,
+        badgeText: siteContent.hero?.badgeText ?? block.badgeText,
+        primaryCtaText: siteContent.hero?.primaryCtaText ?? block.primaryCtaText,
+        primaryCtaUrl: siteContent.hero?.primaryCtaUrl ?? block.primaryCtaUrl,
+        secondaryCtaText: siteContent.hero?.secondaryCtaText ?? block.secondaryCtaText,
+        secondaryCtaUrl: siteContent.hero?.secondaryCtaUrl ?? block.secondaryCtaUrl,
       };
     default:
       return block;
@@ -80,7 +93,7 @@ export default async function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "MedicalBusiness",
-    "name": "Enfermera en tu casa",
+    "name": siteContent?.settings?.siteName || "Enfermera en tu casa",
     "image": "https://enfermeraentucasa.es/assets/logo.png",
     "@id": "https://enfermeraentucasa.es/#organization",
     "url": "https://enfermeraentucasa.es",
@@ -109,16 +122,17 @@ export default async function Home() {
     ]
   };
 
-  // No Sanity data — render pure defaults (JSON will still be applied via component fallbacks)
+  // Default fallback blocks if Sanity query fails or returns no pageBuilder
+  const defaultBlocks = [
+    { _type: 'hero',     ...(siteContent?.hero || {}) },
+    { _type: 'services', servicesList: siteContent?.services },
+    { _type: 'rates',    ratesList: siteContent?.rates, bonosList: siteContent?.bonos },
+    { _type: 'team',     title: siteContent?.team?.title, subtitle: siteContent?.team?.subtitle, teamMembers: siteContent?.team?.members, bio: siteContent?.team?.paragraphs },
+    { _type: 'faq',      faqsList: siteContent?.faq },
+    { _type: 'reviews',  reviewsList: siteContent?.reviews },
+  ];
+
   if (!pageData || !pageData.pageBuilder) {
-    const defaultBlocks = [
-      { _type: 'hero',     ...(siteContent?.hero || {}) },
-      { _type: 'services', servicesList: siteContent?.services },
-      { _type: 'rates',    ratesList: siteContent?.rates, bonosList: siteContent?.bonos },
-      { _type: 'team' },
-      { _type: 'faq',     faqsList: siteContent?.faq },
-      { _type: 'reviews',  reviewsList: siteContent?.reviews },
-    ];
     const heroBlock = defaultBlocks[0];
     const rest = defaultBlocks.slice(1);
     return (

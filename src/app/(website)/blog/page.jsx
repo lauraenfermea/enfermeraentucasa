@@ -1,7 +1,19 @@
 import Link from 'next/link';
-import { blogPosts } from '../../../data/blogPosts';
+import fs from 'fs';
+import path from 'path';
+import { blogPosts as fallbackPosts } from '../../../data/blogPosts';
 import { client } from '../../../sanity/client';
 import { urlFor } from '../../../sanity/image';
+
+function getLocalBlogs() {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'site-content.json');
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    return data.blogs || null;
+  } catch {
+    return null;
+  }
+}
 
 export const metadata = {
   title: 'Blog y Artículos | Enfermera en tu Casa',
@@ -9,22 +21,26 @@ export const metadata = {
 };
 
 export default async function BlogListPage() {
-  let posts = [];
-  try {
-    posts = await client.fetch(`*[_type == "post"] | order(publishedAt desc){
-      _id,
-      title,
-      "slug": slug.current,
-      description,
-      image,
-      publishedAt
-    }`);
-  } catch (error) {
-    console.error("Failed to fetch blog posts from Sanity, falling back to defaults:", error);
+  const localBlogs = getLocalBlogs();
+  let posts = localBlogs;
+
+  if (!posts || posts.length === 0) {
+    try {
+      posts = await client.fetch(`*[_type == "post"] | order(publishedAt desc){
+        _id,
+        title,
+        "slug": slug.current,
+        description,
+        image,
+        publishedAt
+      }`);
+    } catch (error) {
+      console.error("Failed to fetch blog posts from Sanity, falling back to defaults:", error);
+    }
   }
 
   if (!posts || posts.length === 0) {
-    posts = blogPosts;
+    posts = fallbackPosts;
   }
 
   return (
@@ -35,7 +51,7 @@ export default async function BlogListPage() {
         <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', fontWeight: '600', marginBottom: '2.5rem', textDecoration: 'none' }}>
           &larr; Volver al inicio
         </Link>
- 
+
         {/* Section Header */}
         <div style={{ marginBottom: '4rem', textAlign: 'center' }}>
           <h1 style={{
@@ -52,19 +68,25 @@ export default async function BlogListPage() {
             Descubre consejos profesionales, guías prácticas y noticias de salud para ti y tus seres queridos.
           </p>
         </div>
- 
+
         {/* Blog Post Grid */}
         <div className="blog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem' }}>
           {posts.map((blog) => {
-            const staticPost = blogPosts.find(p => p.slug === blog.slug);
-            const fallbackImg = staticPost ? staticPost.image : '';
-            const imgUrl = blog.image && typeof blog.image === 'object' 
-              ? urlFor(blog.image).url() 
-              : (blog.image || fallbackImg);
+            const fallbackImg = '/assets/sample.jpeg';
+            let imgUrl = fallbackImg;
+            if (typeof blog.image === 'string') {
+              imgUrl = blog.image;
+            } else if (blog.image && typeof blog.image === 'object') {
+              try {
+                imgUrl = urlFor(blog.image).url();
+              } catch {
+                imgUrl = fallbackImg;
+              }
+            }
 
             return (
               <Link 
-                key={blog._id || blog.id}
+                key={blog.id || blog._id || blog.slug}
                 href={`/blog/${blog.slug}`}
                 className="blog-card"
                 style={{ 
@@ -93,7 +115,7 @@ export default async function BlogListPage() {
                     {blog.title}
                   </h3>
                   <p className="blog-excerpt" style={{ color: 'var(--text-muted)', fontSize: '0.98rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>
-                    {blog.description.length > 140 ? blog.description.substring(0, 140) + '...' : blog.description}
+                    {(blog.description || '').length > 140 ? (blog.description || '').substring(0, 140) + '...' : blog.description}
                   </p>
                   <span className="blog-read-more" style={{ fontWeight: '600', color: 'var(--primary)', fontSize: '0.95rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
                     Leer más &rarr;
@@ -103,7 +125,7 @@ export default async function BlogListPage() {
             );
           })}
         </div>
- 
+
       </div>
     </div>
   );
