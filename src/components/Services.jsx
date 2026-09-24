@@ -2,6 +2,27 @@
 import { motion } from 'framer-motion';
 import { urlFor } from '../sanity/image';
 
+function resolveImage(img, defaultImg = '') {
+  if (!img) {
+    if (!defaultImg) return '';
+    return defaultImg.startsWith('/') || defaultImg.startsWith('http') ? defaultImg : `/assets/${defaultImg}`;
+  }
+  if (typeof img === 'object' && img.asset) {
+    try {
+      return urlFor(img).url();
+    } catch {
+      return defaultImg ? (defaultImg.startsWith('/') || defaultImg.startsWith('http') ? defaultImg : `/assets/${defaultImg}`) : '';
+    }
+  }
+  if (typeof img === 'string') {
+    if (img.startsWith('/') || img.startsWith('http://') || img.startsWith('https://')) {
+      return img;
+    }
+    return `/assets/${img}`;
+  }
+  return defaultImg ? (defaultImg.startsWith('/') || defaultImg.startsWith('http') ? defaultImg : `/assets/${defaultImg}`) : '';
+}
+
 export default function Services({ title, servicesList, backgroundColor, headingColor }) {
   const sectionTitle = title || 'Servicios';
   const services = servicesList || [
@@ -58,8 +79,8 @@ export default function Services({ title, servicesList, backgroundColor, heading
   else if (headingColor === 'white') titleColor = 'white';
   else if (backgroundColor === 'brand-primary') titleColor = 'white';
 
-  function getDefaultServiceImage(title) {
-    const lowercaseTitle = (title || '').toLowerCase();
+  function getDefaultServiceImage(titleText) {
+    const lowercaseTitle = (titleText || '').toLowerCase();
     if (lowercaseTitle.includes('curas') || lowercaseTitle.includes('herida')) {
       return 'imgi_8_como-curar-una-herida-infectada.jpg';
     }
@@ -104,9 +125,8 @@ export default function Services({ title, servicesList, backgroundColor, heading
           marginBottom: '4rem'
         }}>
           {services.map((svc, idx) => {
-            const imgUrl = svc.image 
-              ? (typeof svc.image === 'object' ? urlFor(svc.image).url() : `/assets/${svc.image}`)
-              : `/assets/${getDefaultServiceImage(svc.title)}`;
+            const defaultImgName = getDefaultServiceImage(svc.title);
+            const imgUrl = resolveImage(svc.image, defaultImgName);
 
             return (
               <motion.div
@@ -132,23 +152,23 @@ export default function Services({ title, servicesList, backgroundColor, heading
                     src={imgUrl} 
                     alt={svc.title} 
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.4 }}
-                />
-              </div>
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.4 }}
+                  />
+                </div>
               
-              {/* Service Content */}
-              <div style={{ padding: '2rem 1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <h3 style={{ fontSize: '1.35rem', marginBottom: '1rem', color: 'var(--text-main)', fontWeight: 600 }}>
-                  {svc.title}
-                </h3>
-                <p style={{ color: 'var(--text-muted)', lineHeight: 1.6, fontSize: '1.1rem', margin: 0 }}>
-                  {svc.desc}
-                </p>
-              </div>
-            </motion.div>
-          )
-        })}
+                {/* Service Content */}
+                <div style={{ padding: '2rem 1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <h3 style={{ fontSize: '1.35rem', marginBottom: '1rem', color: 'var(--text-main)', fontWeight: 600 }}>
+                    {svc.title}
+                  </h3>
+                  <p style={{ color: 'var(--text-muted)', lineHeight: 1.6, fontSize: '1.1rem', margin: 0 }}>
+                    {svc.desc}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Action Buttons */}

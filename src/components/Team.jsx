@@ -1,7 +1,27 @@
 "use client";
 import { motion } from 'framer-motion';
-
 import { urlFor } from '../sanity/image';
+
+function resolveImage(img, defaultImg = '') {
+  if (!img) {
+    if (!defaultImg) return '';
+    return defaultImg.startsWith('/') || defaultImg.startsWith('http') ? defaultImg : `/assets/${defaultImg}`;
+  }
+  if (typeof img === 'object' && img.asset) {
+    try {
+      return urlFor(img).url();
+    } catch {
+      return defaultImg ? (defaultImg.startsWith('/') || defaultImg.startsWith('http') ? defaultImg : `/assets/${defaultImg}`) : '';
+    }
+  }
+  if (typeof img === 'string') {
+    if (img.startsWith('/') || img.startsWith('http://') || img.startsWith('https://')) {
+      return img;
+    }
+    return `/assets/${img}`;
+  }
+  return defaultImg ? (defaultImg.startsWith('/') || defaultImg.startsWith('http') ? defaultImg : `/assets/${defaultImg}`) : '';
+}
 
 export default function Team({ title, subtitle, teamMembers, bio, backgroundColor, headingColor }) {
   const titleText = title || '¿Quienes somos?';
@@ -27,13 +47,13 @@ export default function Team({ title, subtitle, teamMembers, bio, backgroundColo
     'Sabemos que cuidar no solo es aplicar técnicas, <em>es estar presentes cuando más se necesita</em>.'
   ];
 
-  let bgStyle = '#eff5f1'; // default is light-green
+  let bgStyle = '#eff5f1';
   if (backgroundColor === 'white') bgStyle = 'white';
   else if (backgroundColor === 'light-green') bgStyle = '#eff5f1';
   else if (backgroundColor === 'light-gray') bgStyle = '#F8FBF8';
   else if (backgroundColor === 'brand-primary') bgStyle = '#8B9A91';
 
-  let titleColor = '#4a5568'; // default dark text color for team section
+  let titleColor = '#4a5568';
   if (headingColor === 'brand-primary') titleColor = '#8B9A91';
   else if (headingColor === 'white') titleColor = 'white';
   else if (backgroundColor === 'brand-primary') titleColor = 'white';
@@ -53,7 +73,7 @@ export default function Team({ title, subtitle, teamMembers, bio, backgroundColo
     <section id="quienes-somos" style={{ backgroundColor: bgStyle, padding: '3rem 0' }}>
       <div className="container" style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 1.5rem' }}>
         
-        {/* Main Title - Left Aligned */}
+        {/* Main Title */}
         <div style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -85,9 +105,8 @@ export default function Team({ title, subtitle, teamMembers, bio, backgroundColo
             gap: '2rem',
           }}>
             {members.map((member, idx) => {
-              const imgUrl = member.image && member.image.asset
-                ? (typeof member.image === 'object' ? urlFor(member.image).url() : `/assets/${member.image}`)
-                : `/assets/${getDefaultTeamImage(member.name)}`;
+              const defaultImgName = getDefaultTeamImage(member.name);
+              const imgUrl = resolveImage(member.image, defaultImgName);
 
               return (
                 <motion.div
@@ -107,61 +126,64 @@ export default function Team({ title, subtitle, teamMembers, bio, backgroundColo
                   }}
                 >
                   <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  marginBottom: '1rem',
-                }}>
-                  <div style={{
                     position: 'relative',
                     width: '100%',
-                    aspectRatio: '3/4',
-                    borderRadius: '16px',
-                    overflow: 'hidden',
-                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-                    zIndex: 1
+                    marginBottom: '1rem',
                   }}>
-                    <img 
-                      src={imgUrl} 
-                      alt={member.name} 
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                    />
-                  </div>
+                    <div style={{
+                      position: 'relative',
+                      width: '100%',
+                      aspectRatio: '3/4',
+                      borderRadius: '16px',
+                      overflow: 'hidden',
+                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                      zIndex: 1
+                    }}>
+                      <img 
+                        src={imgUrl} 
+                        alt={member.name} 
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                      />
+                    </div>
                 
-                {/* Floating Experience Circle */}
-                <div style={{
-                  position: 'absolute',
-                  bottom: '-15px',
-                  left: '-15px',
-                  width: '85px',
-                  height: '85px',
-                  backgroundColor: '#829B8C',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  boxShadow: '0 4px 12px rgba(130, 155, 140, 0.4)',
-                  zIndex: 2,
-                  border: '3px solid white'
-                }}>
-                  <span style={{ fontSize: '1.4rem', fontWeight: '800', lineHeight: '1' }}>
-                    {member.experience.split(' ')[0]}
-                  </span>
-                  <span style={{ fontSize: '0.65rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '2px' }}>
-                    años exp.
-                  </span>
-                </div>
-              </div>
+                    {/* Floating Experience Circle */}
+                    {member.experience && (
+                      <div style={{
+                        position: 'absolute',
+                        bottom: '-15px',
+                        left: '-15px',
+                        width: '85px',
+                        height: '85px',
+                        backgroundColor: '#829B8C',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        boxShadow: '0 4px 12px rgba(130, 155, 140, 0.4)',
+                        zIndex: 2,
+                        border: '3px solid white'
+                      }}>
+                        <span style={{ fontSize: '1.4rem', fontWeight: '800', lineHeight: '1' }}>
+                          {member.experience.split(' ')[0]}
+                        </span>
+                        <span style={{ fontSize: '0.65rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '2px' }}>
+                          años exp.
+                        </span>
+                      </div>
+                    )}
+                  </div>
               
-              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
-                {member.name}
-              </h3>
-              <p style={{ fontSize: '14px', fontWeight: '700', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
-                {member.colegiada}
-              </p>
-              </motion.div>
-            )})}
+                  <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
+                    {member.name}
+                  </h3>
+                  <p style={{ fontSize: '14px', fontWeight: '700', color: '#4a5568', margin: '0 0 4px 0', lineHeight: '1.2' }}>
+                    {member.colegiada}
+                  </p>
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* Right Side: Sobre nosotras subtitle and text */}
