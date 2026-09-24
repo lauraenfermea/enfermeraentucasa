@@ -3,23 +3,23 @@ import { useState, useEffect } from "react";
 
 const ADMIN_PASSWORD = "enfermera2024";
 
-// ── Design Tokens based on the reference design ─────────
+// ── Design Tokens ─────────────────────────────────────────
 const DESIGN = {
   sidebarBg: "#0B132B", // Deep midnight navy
   sidebarGroupTitle: "#64748B",
   sidebarText: "#94A3B8",
   sidebarActiveBg: "#1E293B",
-  sidebarActiveAccent: "#2563EB", // Vibrant blue active indicator
+  sidebarActiveAccent: "#2563EB",
   sidebarActiveText: "#FFFFFF",
   
-  mainBg: "#F8FAFC", // Crisp bright light background
+  mainBg: "#F8FAFC",
   cardBg: "#FFFFFF",
   headerBg: "#FFFFFF",
   border: "#E2E8F0",
   
-  primary: "#2563EB", // Vibrant Indigo/Blue
+  primary: "#2563EB",
   primaryHover: "#1D4ED8",
-  success: "#10B981", // Emerald green
+  success: "#10B981",
   successLight: "#DCFCE7",
   successText: "#15803D",
   danger: "#EF4444",
@@ -167,7 +167,6 @@ export default function AdminDashboard() {
             textAlign: "center",
           }}
         >
-          {/* Logo Badge */}
           <div
             style={{
               width: "60px",
@@ -221,7 +220,6 @@ export default function AdminDashboard() {
                   fontSize: "1rem",
                   boxSizing: "border-box",
                   outline: "none",
-                  transition: "all 0.2s",
                 }}
               />
             </div>
@@ -238,7 +236,6 @@ export default function AdminDashboard() {
                 fontSize: "1rem",
                 cursor: "pointer",
                 boxShadow: "0 4px 12px rgba(37, 99, 235, 0.3)",
-                transition: "background 0.2s",
               }}
             >
               Iniciar Sesión →
@@ -268,7 +265,6 @@ export default function AdminDashboard() {
     );
   }
 
-  // Navigation structure organized by groups
   const menuGroups = [
     {
       group: "CONTENT CMS",
@@ -327,7 +323,6 @@ export default function AdminDashboard() {
             display: "flex",
             alignItems: "center",
             gap: "0.5rem",
-            animation: "fadeIn 0.2s ease-in-out",
           }}
         >
           <span>{toast.type === "error" ? "❌" : toast.type === "info" ? "ℹ️" : "✅"}</span>
@@ -335,7 +330,7 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {/* ── Left Sidebar (Midnight Navy) ──────────────────────── */}
+      {/* ── Left Sidebar ──────────────────────────────────────── */}
       <aside
         style={{
           width: "270px",
@@ -347,7 +342,6 @@ export default function AdminDashboard() {
           borderRight: "1px solid rgba(255,255,255,0.05)",
         }}
       >
-        {/* Brand Header */}
         <div
           style={{
             padding: "1.75rem 1.5rem",
@@ -382,7 +376,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Navigation Menu */}
         <nav style={{ flex: 1, padding: "1.25rem 0.85rem", overflowY: "auto" }}>
           {menuGroups.map((group, idx) => (
             <div key={idx} style={{ marginBottom: "1.75rem" }}>
@@ -429,7 +422,6 @@ export default function AdminDashboard() {
                       <span>{item.label}</span>
                     </div>
 
-                    {/* Active accent pill */}
                     {isActive && (
                       <div
                         style={{
@@ -444,7 +436,6 @@ export default function AdminDashboard() {
                       />
                     )}
 
-                    {/* Badge Count */}
                     {item.count !== undefined && (
                       <span
                         style={{
@@ -466,7 +457,6 @@ export default function AdminDashboard() {
           ))}
         </nav>
 
-        {/* User Footer */}
         <div
           style={{
             padding: "1.25rem 1.5rem",
@@ -551,7 +541,6 @@ export default function AdminDashboard() {
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            {/* Quick Filter search */}
             <input
               type="text"
               placeholder="🔍 Buscar contenidos..."
@@ -568,7 +557,6 @@ export default function AdminDashboard() {
               }}
             />
 
-            {/* Save Button */}
             <button
               onClick={handleSave}
               disabled={saving}
@@ -585,7 +573,6 @@ export default function AdminDashboard() {
                 display: "flex",
                 alignItems: "center",
                 gap: "0.5rem",
-                transition: "all 0.2s ease",
               }}
             >
               <span>{saving ? "⏳" : "💾"}</span>
@@ -596,7 +583,6 @@ export default function AdminDashboard() {
 
         {/* Content Container */}
         <div style={{ flex: 1, padding: "2.5rem", overflowY: "auto" }}>
-          {/* Top Metrics Banner (Inspired by reference screenshot) */}
           <div
             style={{
               display: "grid",
@@ -605,33 +591,12 @@ export default function AdminDashboard() {
               marginBottom: "2rem",
             }}
           >
-            <StatCard
-              icon="💉"
-              label="SERVICIOS ACTIVOS"
-              count={content.services?.length || 0}
-              color="#3B82F6"
-            />
-            <StatCard
-              icon="💰"
-              label="TARIFAS Y PLANES"
-              count={content.rates?.length || 0}
-              color="#F59E0B"
-            />
-            <StatCard
-              icon="📰"
-              label="ARTÍCULOS BLOG"
-              count={content.blogs?.length || 0}
-              color="#8B5CF6"
-            />
-            <StatCard
-              icon="⭐"
-              label="RESEÑAS GOOGLE"
-              count={content.reviews?.length || 0}
-              color="#10B981"
-            />
+            <StatCard icon="💉" label="SERVICIOS ACTIVOS" count={content.services?.length || 0} color="#3B82F6" />
+            <StatCard icon="💰" label="TARIFAS Y PLANES" count={content.rates?.length || 0} color="#F59E0B" />
+            <StatCard icon="📰" label="ARTÍCULOS BLOG" count={content.blogs?.length || 0} color="#8B5CF6" />
+            <StatCard icon="⭐" label="RESEÑAS GOOGLE" count={content.reviews?.length || 0} color="#10B981" />
           </div>
 
-          {/* Success Banner Alert (matching reference screenshot green banner) */}
           <div
             style={{
               backgroundColor: DESIGN.successLight,
@@ -648,10 +613,9 @@ export default function AdminDashboard() {
             }}
           >
             <span style={{ fontSize: "1.1rem" }}>✅</span>
-            <span>El panel administra los contenidos de la web en tiempo real. Cualquier cambio se verá reflejado inmediatamente.</span>
+            <span>Al pulsar "Añadir Nuevo", los campos se crean limpios y vacíos para que introduzcas el título, descripción e imagen deseados.</span>
           </div>
 
-          {/* Active Tab View */}
           {activeTab === "hero" && (
             <HeroTab hero={content.hero} onChange={(hero) => setContent({ ...content, hero })} />
           )}
@@ -796,7 +760,7 @@ function ImageField({ label, value, onChange, onUploadImage }) {
           type="text"
           value={value || ""}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="Ruta o URL de la imagen..."
+          placeholder="Subir imagen o pegar URL..."
           style={{
             flex: 1,
             padding: "0.65rem 0.9rem",
@@ -825,14 +789,18 @@ function ImageField({ label, value, onChange, onUploadImage }) {
           📤 Subir Imagen
         </button>
       </div>
-      {value && (
+      {value ? (
         <div style={{ marginTop: "0.6rem", display: "flex", alignItems: "center", gap: "1rem" }}>
           <div style={{ width: "90px", height: "60px", borderRadius: "8px", overflow: "hidden", border: `1px solid ${DESIGN.border}` }}>
             <img src={value} alt="Vista previa" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
           <span style={{ fontSize: "0.78rem", color: DESIGN.textMuted }}>
-            Vista previa de la imagen seleccionada
+            Vista previa de la imagen cargada
           </span>
+        </div>
+      ) : (
+        <div style={{ marginTop: "0.4rem", fontSize: "0.78rem", color: DESIGN.textMuted }}>
+          📷 Ninguna imagen asignada aún. Pulsa <strong>"Subir Imagen"</strong> para seleccionar una foto de tu equipo.
         </div>
       )}
     </div>
@@ -842,7 +810,7 @@ function ImageField({ label, value, onChange, onUploadImage }) {
 // ── Hero Tab ──────────────────────────────────────────────────
 function HeroTab({ hero = {}, onChange }) {
   return (
-    <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}`, boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)" }}>
+    <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
       <h2 style={{ marginTop: 0, marginBottom: "1.5rem", fontSize: "1.2rem", fontWeight: "800" }}>
         Sección de Portada / Hero Banner
       </h2>
@@ -852,8 +820,9 @@ function HeroTab({ hero = {}, onChange }) {
         <input
           type="text"
           value={hero.badgeText || ""}
+          placeholder="ej: ⭐ Servicio de Enfermería Profesional"
           onChange={(e) => onChange({ ...hero, badgeText: e.target.value })}
-          style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontSize: "0.95rem" }}
+          style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
         />
       </div>
 
@@ -862,8 +831,9 @@ function HeroTab({ hero = {}, onChange }) {
         <input
           type="text"
           value={hero.heading || ""}
+          placeholder="ej: Enfermera a domicilio en Zaragoza"
           onChange={(e) => onChange({ ...hero, heading: e.target.value })}
-          style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontSize: "0.95rem" }}
+          style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
         />
       </div>
 
@@ -872,8 +842,9 @@ function HeroTab({ hero = {}, onChange }) {
         <textarea
           rows={4}
           value={hero.body || ""}
+          placeholder="Escribe la descripción o puntos principales del encabezado..."
           onChange={(e) => onChange({ ...hero, body: e.target.value })}
-          style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontSize: "0.95rem", fontFamily: "inherit" }}
+          style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
         />
       </div>
 
@@ -883,6 +854,7 @@ function HeroTab({ hero = {}, onChange }) {
           <input
             type="text"
             value={hero.primaryCtaText || ""}
+            placeholder="ej: Solicitar Atención"
             onChange={(e) => onChange({ ...hero, primaryCtaText: e.target.value })}
             style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
@@ -892,6 +864,7 @@ function HeroTab({ hero = {}, onChange }) {
           <input
             type="text"
             value={hero.primaryCtaUrl || ""}
+            placeholder="ej: https://wa.me/34641635705"
             onChange={(e) => onChange({ ...hero, primaryCtaUrl: e.target.value })}
             style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
@@ -909,16 +882,17 @@ function ServicesTab({ services = [], filter = "", onChange, onUploadImage }) {
     onChange(list);
   }
 
+  // CLEAN EMPTY CREATION: NO hardcoded sample images or dummy text!
   function addService() {
     onChange([
-      ...services,
       {
         id: `service_${Date.now()}`,
-        title: "Nuevo Servicio Sanitario",
-        desc: "Descripción detallada del nuevo servicio.",
-        price: "Precio a consultar",
-        image: "/assets/sample.jpeg",
+        title: "",
+        desc: "",
+        price: "",
+        image: "",
       },
+      ...services,
     ]);
   }
 
@@ -971,7 +945,7 @@ function ServicesTab({ services = [], filter = "", onChange, onUploadImage }) {
                 <span style={{ fontWeight: "800", color: DESIGN.primary, backgroundColor: `${DESIGN.primary}15`, padding: "0.2rem 0.6rem", borderRadius: "6px", fontSize: "0.85rem" }}>
                   #{idx + 1}
                 </span>
-                <span style={{ fontWeight: "800", fontSize: "1.1rem" }}>{item.title}</span>
+                <span style={{ fontWeight: "800", fontSize: "1.1rem" }}>{item.title || "Nuevo Servicio Sin Título"}</span>
               </div>
               <button
                 onClick={() => deleteService(idx)}
@@ -987,6 +961,7 @@ function ServicesTab({ services = [], filter = "", onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={item.title || ""}
+                  placeholder="Introduce el título del servicio..."
                   onChange={(e) => updateService(idx, { ...item, title: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -996,8 +971,8 @@ function ServicesTab({ services = [], filter = "", onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={item.price || ""}
-                  onChange={(e) => updateService(idx, { ...item, price: e.target.value })}
                   placeholder="ej: Desde 12 €/h o Precio a consultar"
+                  onChange={(e) => updateService(idx, { ...item, price: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
               </div>
@@ -1015,6 +990,7 @@ function ServicesTab({ services = [], filter = "", onChange, onUploadImage }) {
               <textarea
                 rows={3}
                 value={item.desc || ""}
+                placeholder="Escribe la descripción del servicio que verán tus pacientes..."
                 onChange={(e) => updateService(idx, { ...item, desc: e.target.value })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
               />
@@ -1034,17 +1010,18 @@ function RatesTab({ rates = [], filter = "", onChange }) {
     onChange(list);
   }
 
+  // CLEAN EMPTY CREATION: NO hardcoded dummy text!
   function addRate() {
     onChange([
-      ...rates,
       {
         id: `rate_${Date.now()}`,
-        title: "Nueva Tarifa",
-        price: "Desde 40€",
-        desc: "Descripción de la tarifa.",
-        features: ["Servicio a domicilio", "Atención personalizada"],
+        title: "",
+        price: "",
+        desc: "",
+        features: [],
         recommended: false,
       },
+      ...rates,
     ]);
   }
 
@@ -1104,6 +1081,7 @@ function RatesTab({ rates = [], filter = "", onChange }) {
                 <input
                   type="text"
                   value={rate.title || ""}
+                  placeholder="ej: Servicio Básico"
                   onChange={(e) => updateRate(idx, { ...rate, title: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1113,6 +1091,7 @@ function RatesTab({ rates = [], filter = "", onChange }) {
                 <input
                   type="text"
                   value={rate.price || ""}
+                  placeholder="ej: Desde 38€"
                   onChange={(e) => updateRate(idx, { ...rate, price: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1135,6 +1114,7 @@ function RatesTab({ rates = [], filter = "", onChange }) {
               <input
                 type="text"
                 value={rate.desc || ""}
+                placeholder="Escribe un breve resumen de esta tarifa..."
                 onChange={(e) => updateRate(idx, { ...rate, desc: e.target.value })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
               />
@@ -1145,7 +1125,8 @@ function RatesTab({ rates = [], filter = "", onChange }) {
               <input
                 type="text"
                 value={Array.isArray(rate.features) ? rate.features.join(", ") : rate.features || ""}
-                onChange={(e) => updateRate(idx, { ...rate, features: e.target.value.split(",").map((s) => s.trim()) })}
+                placeholder="Inyectables, Control de constantes, Curas sencillas..."
+                onChange={(e) => updateRate(idx, { ...rate, features: e.target.value ? e.target.value.split(",").map((s) => s.trim()) : [] })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
               />
             </div>
@@ -1226,18 +1207,19 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
     onChange({ ...team, members: list });
   }
 
+  // CLEAN EMPTY CREATION: NO hardcoded sample images!
   function addMember() {
     onChange({
       ...team,
       members: [
-        ...members,
         {
           id: `member_${Date.now()}`,
-          name: "Nombre Enfermera",
-          colegiada: "Colegiada 00000",
-          experience: "+5 años de experiencia",
-          image: "/assets/wix_img_12_laura.jpg",
+          name: "",
+          colegiada: "",
+          experience: "",
+          image: "",
         },
+        ...members,
       ],
     });
   }
@@ -1258,7 +1240,8 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
             <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Título Principal</label>
             <input
               type="text"
-              value={team.title || "¿Quienes somos?"}
+              value={team.title || ""}
+              placeholder="¿Quienes somos?"
               onChange={(e) => onChange({ ...team, title: e.target.value })}
               style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
             />
@@ -1267,7 +1250,8 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
             <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Subtítulo</label>
             <input
               type="text"
-              value={team.subtitle || "Sobre nosotras:"}
+              value={team.subtitle || ""}
+              placeholder="Sobre nosotras:"
               onChange={(e) => onChange({ ...team, subtitle: e.target.value })}
               style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
             />
@@ -1279,6 +1263,7 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
           <textarea
             rows={5}
             value={paragraphs.join("\n")}
+            placeholder="Escribe cada párrafo de presentación..."
             onChange={(e) => onChange({ ...team, paragraphs: e.target.value.split("\n") })}
             style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
           />
@@ -1308,6 +1293,7 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={m.name || ""}
+                  placeholder="Introduce el nombre completo..."
                   onChange={(e) => updateMember(idx, { ...m, name: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1317,6 +1303,7 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={m.colegiada || ""}
+                  placeholder="ej: Colegiada 16521"
                   onChange={(e) => updateMember(idx, { ...m, colegiada: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1326,6 +1313,7 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={m.experience || ""}
+                  placeholder="ej: +8 años de experiencia"
                   onChange={(e) => updateMember(idx, { ...m, experience: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1353,16 +1341,18 @@ function BlogsTab({ blogs = [], filter = "", onChange, onUploadImage }) {
     onChange(list);
   }
 
+  // CLEAN EMPTY CREATION: NO hardcoded sample images or dummy text!
   function addBlog() {
+    const timeId = Date.now();
     const newBlog = {
-      id: `blog_${Date.now()}`,
-      title: "Nuevo Artículo de Salud",
-      slug: `nuevo-articulo-${Date.now()}`,
-      description: "Descripción breve del nuevo artículo para la lista del blog.",
-      image: "/assets/sample.jpeg",
+      id: `blog_${timeId}`,
+      title: "",
+      slug: "",
+      description: "",
+      image: "",
       publishedAt: new Date().toISOString().split("T")[0],
-      author: "Laura Pueyo",
-      content: "Escribe aquí el contenido completo de tu artículo de salud...",
+      author: "",
+      content: "",
     };
     onChange([newBlog, ...blogs]);
   }
@@ -1423,7 +1413,12 @@ function BlogsTab({ blogs = [], filter = "", onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={post.title || ""}
-                  onChange={(e) => updateBlog(idx, { ...post, title: e.target.value })}
+                  placeholder="Introduce el título del artículo..."
+                  onChange={(e) => {
+                    const titleVal = e.target.value;
+                    const autoSlug = titleVal.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                    updateBlog(idx, { ...post, title: titleVal, slug: post.slug || autoSlug });
+                  }}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
               </div>
@@ -1432,6 +1427,7 @@ function BlogsTab({ blogs = [], filter = "", onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={post.slug || ""}
+                  placeholder="slug-del-articulo"
                   onChange={(e) => updateBlog(idx, { ...post, slug: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1441,6 +1437,7 @@ function BlogsTab({ blogs = [], filter = "", onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={post.publishedAt || ""}
+                  placeholder="YYYY-MM-DD"
                   onChange={(e) => updateBlog(idx, { ...post, publishedAt: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1459,6 +1456,7 @@ function BlogsTab({ blogs = [], filter = "", onChange, onUploadImage }) {
               <textarea
                 rows={2}
                 value={post.description || ""}
+                placeholder="Escribe un breve extracto del artículo para el listado..."
                 onChange={(e) => updateBlog(idx, { ...post, description: e.target.value })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
               />
@@ -1469,6 +1467,7 @@ function BlogsTab({ blogs = [], filter = "", onChange, onUploadImage }) {
               <textarea
                 rows={8}
                 value={Array.isArray(post.content) ? post.content.join("\n\n") : post.content || ""}
+                placeholder="Escribe el texto completo de tu artículo aquí..."
                 onChange={(e) => updateBlog(idx, { ...post, content: e.target.value })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
               />
@@ -1488,18 +1487,19 @@ function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
     onChange(list);
   }
 
+  // CLEAN EMPTY CREATION: NO hardcoded dummy reviews!
   function addReview() {
     onChange([
-      ...reviews,
       {
         id: `rev_${Date.now()}`,
-        name: "Nombre del Cliente",
-        initial: "N",
+        name: "",
+        initial: "",
         avatarBg: "#10B981",
         rating: 5,
-        date: "hace 1 semana",
-        text: "Excelente servicio de enfermería en casa. Muy recomendadas!",
+        date: "hace unos días",
+        text: "",
       },
+      ...reviews,
     ]);
   }
 
@@ -1559,7 +1559,12 @@ function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={rev.name || ""}
-                  onChange={(e) => updateReview(idx, { ...rev, name: e.target.value })}
+                  placeholder="ej: María Dolores"
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    const initial = val ? val.charAt(0).toUpperCase() : "";
+                    updateReview(idx, { ...rev, name: val, initial: rev.initial || initial });
+                  }}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
               </div>
@@ -1579,6 +1584,7 @@ function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={rev.date || ""}
+                  placeholder="ej: hace un mes"
                   onChange={(e) => updateReview(idx, { ...rev, date: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1589,6 +1595,7 @@ function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
                   type="text"
                   maxLength={2}
                   value={rev.initial || ""}
+                  placeholder="M"
                   onChange={(e) => updateReview(idx, { ...rev, initial: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1600,6 +1607,7 @@ function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
               <textarea
                 rows={3}
                 value={rev.text || ""}
+                placeholder="Escribe el comentario del cliente..."
                 onChange={(e) => updateReview(idx, { ...rev, text: e.target.value })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
               />
@@ -1619,14 +1627,15 @@ function FaqTab({ faq = [], filter = "", onChange }) {
     onChange(list);
   }
 
+  // CLEAN EMPTY CREATION: NO hardcoded dummy questions!
   function addFaq() {
     onChange([
-      ...faq,
       {
         id: `faq_${Date.now()}`,
-        question: "Nueva Pregunta Frecuente",
-        answer: "Respuesta detallada a la pregunta frecuente.",
+        question: "",
+        answer: "",
       },
+      ...faq,
     ]);
   }
 
@@ -1685,6 +1694,7 @@ function FaqTab({ faq = [], filter = "", onChange }) {
               <input
                 type="text"
                 value={item.question || ""}
+                placeholder="¿Cuál es tu pregunta?"
                 onChange={(e) => updateFaq(idx, { ...item, question: e.target.value })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
               />
@@ -1695,6 +1705,7 @@ function FaqTab({ faq = [], filter = "", onChange }) {
               <textarea
                 rows={3}
                 value={item.answer || ""}
+                placeholder="Escribe aquí la respuesta detallada..."
                 onChange={(e) => updateFaq(idx, { ...item, answer: e.target.value })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
               />
@@ -1733,7 +1744,7 @@ function GalleryTab({ onUploadImage, showToast }) {
     <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
         <div>
-          <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "800" }}>Gestor de Imágenes e Ilutraciones</h2>
+          <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "800" }}>Gestor de Imágenes e Ilustraciones</h2>
           <span style={{ fontSize: "0.85rem", color: DESIGN.textMuted }}>Archivos y fotos disponibles</span>
         </div>
         <button
@@ -1789,7 +1800,8 @@ function SettingsTab({ settings = {}, onChange }) {
           <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Nombre Marca / Empresa</label>
           <input
             type="text"
-            value={settings.siteName || "Enfermera en tu casa"}
+            value={settings.siteName || ""}
+            placeholder="Enfermera en tu casa"
             onChange={(e) => onChange({ ...settings, siteName: e.target.value })}
             style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
@@ -1799,6 +1811,7 @@ function SettingsTab({ settings = {}, onChange }) {
           <input
             type="text"
             value={settings.phone || ""}
+            placeholder="+34 641 63 57 05"
             onChange={(e) => onChange({ ...settings, phone: e.target.value })}
             style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
@@ -1811,6 +1824,7 @@ function SettingsTab({ settings = {}, onChange }) {
           <input
             type="text"
             value={settings.whatsapp || ""}
+            placeholder="https://wa.me/34641635705"
             onChange={(e) => onChange({ ...settings, whatsapp: e.target.value })}
             style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
@@ -1820,6 +1834,7 @@ function SettingsTab({ settings = {}, onChange }) {
           <input
             type="text"
             value={settings.email || ""}
+            placeholder="info@enfermeraentucasa.es"
             onChange={(e) => onChange({ ...settings, email: e.target.value })}
             style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
@@ -1832,6 +1847,7 @@ function SettingsTab({ settings = {}, onChange }) {
           <input
             type="text"
             value={settings.location || ""}
+            placeholder="Zaragoza, España"
             onChange={(e) => onChange({ ...settings, location: e.target.value })}
             style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
@@ -1841,6 +1857,7 @@ function SettingsTab({ settings = {}, onChange }) {
           <input
             type="text"
             value={settings.hours || ""}
+            placeholder="Lunes a Domingo - Adaptación total"
             onChange={(e) => onChange({ ...settings, hours: e.target.value })}
             style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
@@ -1852,6 +1869,7 @@ function SettingsTab({ settings = {}, onChange }) {
         <input
           type="text"
           value={settings.emergencyBannerText || ""}
+          placeholder="🚨 ¿Necesitas atención urgente o consulta rápida? Contáctanos por WhatsApp o Teléfono"
           onChange={(e) => onChange({ ...settings, emergencyBannerText: e.target.value })}
           style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
         />
