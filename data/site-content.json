@@ -243,6 +243,38 @@
   },
   "reviews": [
     {
+      "id": "gabriel",
+      "name": "Gabriel Martínez Contamina",
+      "initial": "G",
+      "avatarBg": "#4db6ac",
+      "badge": "Local Guide · 40 reseñas · 1 foto",
+      "reviewerReviewsCount": "40 reseñas",
+      "text": "Ayudan a mi padre desde hace un tiempo y está muy contento con el trato y la atención. La verdad es que son dos enfermeras siempre amables y que me informan con detalle de la evolución de mi padre. Recomiendo 100%",
+      "rating": 5,
+      "date": "hace un mes"
+    },
+    {
+      "id": "amanda",
+      "name": "Amanda Artigas González",
+      "initial": "A",
+      "avatarBg": "#7986cb",
+      "badge": "Local Guide · 11 reseñas",
+      "reviewerReviewsCount": "11 reseñas",
+      "text": "Estamos muy agradecidos por el trato que ha recibido mi suegro , ha sido la primera vez que os llamábamos y sin ninguna duda no nos hemos equivocado mil gracias!!",
+      "rating": 5,
+      "date": "hace 2 meses"
+    },
+    {
+      "id": "jose",
+      "name": "Jose Ceresuela",
+      "initial": "J",
+      "avatarBg": "#4fc3f7",
+      "reviewerReviewsCount": "3 reseñas",
+      "text": "Unas chicas profesionales y muy atentas, la atención recibida a sido muy satisfactoria",
+      "rating": 5,
+      "date": "hace 3 semanas"
+    },
+    {
       "id": "maria",
       "name": "Maria Dolores",
       "initial": "M",
@@ -250,27 +282,27 @@
       "reviewerReviewsCount": "3 reseñas",
       "text": "Muy buena experiencia. Contactamos para un familiar y el trato fue muy cercano y profesional. La atención en casa nos dio mucha tranquilidad y todo fue muy cómodo.",
       "rating": 5,
-      "date": "hace un mes"
-    },
-    {
-      "id": "juan",
-      "name": "Juan Camilo Valencia Escobar",
-      "initial": "J",
-      "avatarBg": "#4db6ac",
-      "reviewerReviewsCount": "2 reseñas",
-      "text": "Muy amables y super profesionales en su trabajo",
-      "rating": 5,
-      "date": "hace 5 días"
+      "date": "hace 4 meses"
     },
     {
       "id": "jason",
-      "name": "Jason",
-      "initial": "J",
+      "name": "jason",
+      "initial": "j",
       "avatarBg": "#64b5f6",
       "reviewerReviewsCount": "1 reseña",
       "text": "Me han puesto la inyección en casa, la verdad muy cómodo no tener que esperar ir al centro de salud, ha venido la chica en las fechas y horas que les pedí y genial. Lo recomiendo.",
       "rating": 5,
-      "date": "hace un mes"
+      "date": "hace 4 meses"
+    },
+    {
+      "id": "centro",
+      "name": "C. de dia Mayores Sonrisas",
+      "initial": "C",
+      "avatarBg": "#81c784",
+      "reviewerReviewsCount": "3 reseñas",
+      "text": "impartieron una charla en nuestro centro de día, muy interesante y útil. Muchas gracias por vuestra labor y atención.",
+      "rating": 5,
+      "date": "hace 3 meses"
     },
     {
       "id": "ela",
@@ -280,17 +312,7 @@
       "reviewerReviewsCount": "3 reseñas",
       "text": "Muy buen servicio, con trato muy cercano.",
       "rating": 5,
-      "date": "hace un mes"
-    },
-    {
-      "id": "centro",
-      "name": "C. de día Mayores Sonrisas",
-      "initial": "C",
-      "avatarBg": "#81c784",
-      "reviewerReviewsCount": "3 reseñas",
-      "text": "Impartieron una charla en nuestro centro de día, muy interesante y útil. Muchas gracias por vuestra labor y atención.",
-      "rating": 5,
-      "date": "hace un mes"
+      "date": "hace 3 meses"
     },
     {
       "id": "eduardo",
@@ -300,7 +322,48 @@
       "reviewerReviewsCount": "2 reseñas",
       "text": "Las dos enfermeras fueron muy amables y atentas con mi madre, puntuales y muy profesionales.",
       "rating": 5,
-      "date": "hace un mes"
+      "date": "hace 4 meses"
+    },
+    {
+      "id": "marmar",
+      "name": "Mar Mar",
+      "initial": "M",
+      "avatarBg": "#f06292",
+      "reviewerReviewsCount": "2 reseñas",
+      "text": "Muy profesionales y muy atentas.",
+      "rating": 5,
+      "date": "hace una semana"
+    },
+    {
+      "id": "luis",
+      "name": "Luis Colás",
+      "initial": "L",
+      "avatarBg": "#4dd0e1",
+      "badge": "2 reseñas · 1 foto",
+      "reviewerReviewsCount": "2 reseñas",
+      "text": "Un servicio fantástico. Contacté con ellas porque mi padre necesitaba un apoyo y control extra en casa y fue la mejor elección que pudimos hacer. El trato, el nivel de atención y los resultados son inmejorables.",
+      "rating": 5,
+      "date": "hace 2 semanas"
+    },
+    {
+      "id": "cesar",
+      "name": "Cesar Javier Garrido",
+      "initial": "C",
+      "avatarBg": "#aed581",
+      "reviewerReviewsCount": "2 reseñas",
+      "text": "",
+      "rating": 5,
+      "date": "hace 2 meses"
+    },
+    {
+      "id": "elizabeth",
+      "name": "Elizabeth Purple",
+      "initial": "E",
+      "avatarBg": "#ce93d8",
+      "reviewerReviewsCount": "5 reseñas",
+      "text": "",
+      "rating": 5,
+      "date": "hace 2 meses"
     }
   ],
   "blogs": [
@@ -309,7 +372,7 @@
       "title": "Beneficios de la enfermería a domicilio en Zaragoza",
       "slug": "beneficios-de-la-enfermer-a-a-domicilio-en-zaragoza",
       "description": "La atención médica en el hogar proporciona un enfoque más humano, personalizado y seguro para los pacientes en Zaragoza. Descubre cómo la enfermería a domicilio mejora la salud y calidad de vida de personas mayores y convalecientes.",
-      "image": "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1200&q=80",
+      "image": "https://static.wixstatic.com/media/a3b5c9_17d6da8e16c141008a1f36fbd7cdb1a7~mv2.png/v1/fill/w_1000,h_563,al_c,q_90,usm_0.66_1.00_0.01/a3b5c9_17d6da8e16c141008a1f36fbd7cdb1a7~mv2.png",
       "publishedAt": "2026-02-10",
       "author": "Laura Pueyo",
       "blocks": [
@@ -370,7 +433,7 @@
       "title": "Cuidado de salud en casa: Enfermera en Zaragoza",
       "slug": "cuidado-de-salud-en-casa-enfermera-en-zaragoza",
       "description": "Guía esencial para elegir la mejor atención de enfermería a domicilio en Zaragoza. Cuidados posoperatorios, seguimiento de patologías crónicas y apoyo familiar integral.",
-      "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
+      "image": "https://static.wixstatic.com/media/a3b5c9_a976ffa150364523af606e341e1352d8~mv2.png/v1/fill/w_1000,h_571,al_c,q_90,usm_0.66_1.00_0.01/a3b5c9_a976ffa150364523af606e341e1352d8~mv2.png",
       "publishedAt": "2026-02-10",
       "author": "Laura Pueyo",
       "blocks": [
@@ -412,46 +475,240 @@
     },
     {
       "id": "3",
-      "title": "Curas y tratamiento de heridas a domicilio en Zaragoza",
-      "slug": "curas-y-tratamiento-de-heridas-a-domicilio",
-      "description": "Tratamiento profesional de úlceras por presión, heridas quirúrgicas y quemaduras en el hogar. Evita infecciones y acelera la cicatrización con atención especializada.",
-      "image": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1200&q=80",
+      "title": "Enfermería personalizada en la comodidad de tu hogar",
+      "slug": "enfermer-a-personalizada-en-la-comodidad-de-tu-hogar",
+      "description": "La atención médica ha evolucionado significativamente en las últimas décadas, y uno de los cambios más notables es el aumento de la enfermería personalizada en el hogar. Este enfoque no solo mejora la calidad de vida de los pacientes, sino que también ofrece una alternativa viable a la atención hospitalaria tradicional.",
+      "image": "https://static.wixstatic.com/media/a3b5c9_cc9d80e8c34e4f9aad10b13d1adc0bd6~mv2.png/v1/fill/w_1000,h_563,al_c,q_90,usm_0.66_1.00_0.01/a3b5c9_cc9d80e8c34e4f9aad10b13d1adc0bd6~mv2.png",
       "publishedAt": "2026-02-10",
       "author": "Laura Pueyo",
       "blocks": [
         {
           "type": "paragraph",
-          "text": "La correcta cicatrización de una herida requiere técnica estéril, apósitos de última generación y un seguimiento riguroso por parte de una enfermera especializada."
+          "text": "La atenci├│n m├⌐dica ha evolucionado significativamente en las ├║ltimas d├⌐cadas, y uno de los cambios m├ís notables es el aumento de la enfermer├¡a personalizada en el hogar. Este enfoque no solo mejora la calidad de vida de los pacientes, sino que tambi├⌐n ofrece una alternativa viable a la atenci├│n hospitalaria tradicional. En este art├¡culo, exploraremos c├│mo la enfermer├¡a personalizada puede transformar la experiencia de atenci├│n m├⌐dica en la comodidad de tu hogar."
         },
         {
           "type": "heading2",
-          "text": "Tipos de heridas tratadas en casa"
+          "text": "┬┐Qu├⌐ es la enfermer├¡a personalizada?"
         },
         {
           "type": "paragraph",
-          "text": ":-Úlceras por presión (UPP) en encamados-Heridas posquirúrgicas con puntos o grapas-Quemaduras domésticas de grado I y II-Úlceras vasculares o diabéticas"
+          "text": "La enfermer├¡a personalizada se refiere a un enfoque de atenci├│n que se adapta a las necesidades individuales de cada paciente. Esto implica no solo la administraci├│n de medicamentos y tratamientos, sino tambi├⌐n la consideraci├│n de factores emocionales, sociales y culturales que pueden influir en la salud del paciente. La enfermer├¡a personalizada busca:"
         },
         {
-          "type": "quote",
-          "text": "⚠️ La prevención de infecciones es la clave para una rápida regeneración tisular.",
-          "bgColor": "#FEF2F2",
-          "borderColor": "#EF4444",
-          "textColor": "#991B1B"
+          "type": "paragraph",
+          "text": "Mejorar la calidad de vida: Al centrarse en las necesidades espec├¡ficas del paciente, se pueden abordar problemas que a menudo se pasan por alto en un entorno hospitalario."
+        },
+        {
+          "type": "paragraph",
+          "text": "Fomentar la independencia: Los enfermeros capacitados ayudan a los pacientes a mantener su autonom├¡a, lo que es especialmente importante para aquellos con enfermedades cr├│nicas."
+        },
+        {
+          "type": "paragraph",
+          "text": "Proporcionar apoyo emocional: La atenci├│n personalizada tambi├⌐n incluye el apoyo emocional, lo que puede ser crucial para la recuperaci├│n y el bienestar general."
         },
         {
           "type": "heading2",
-          "text": "Pasos de una cura estéril a domicilio"
+          "text": "Beneficios de la enfermer├¡a en el hogar"
         },
         {
           "type": "paragraph",
-          "text": "1. Higiene rigurosa y desinfección de la zona con antisépticos adecuados.\n2. Desbridamiento de tejido desvitalizado si es necesario.\n3. Elección de apósitos hidrocoloides, de plata o alginato según la humedad.\n4. Fijación y vendaje de protección."
+          "text": "La atenci├│n m├⌐dica en el hogar ofrece m├║ltiples beneficios tanto para los pacientes como para sus familias. Algunos de los m├ís destacados incluyen:"
         },
         {
-          "type": "cta",
-          "text": "Pedir Cita para Curas de Heridas en Zaragoza",
-          "url": "https://wa.me/34641635705",
-          "bgColor": "#10B981",
-          "textColor": "#FFFFFF"
+          "type": "heading2",
+          "text": "Comodidad y familiaridad"
+        },
+        {
+          "type": "paragraph",
+          "text": "Recibir atenci├│n m├⌐dica en casa permite a los pacientes estar en un entorno familiar, lo que puede reducir la ansiedad y el estr├⌐s asociados con las visitas al hospital. La comodidad del hogar puede facilitar una recuperaci├│n m├ís r├ípida y efectiva."
+        },
+        {
+          "type": "heading2",
+          "text": "Atenci├│n individualizada"
+        },
+        {
+          "type": "paragraph",
+          "text": "Los enfermeros que brindan atenci├│n en el hogar pueden dedicar m├ís tiempo a cada paciente, lo que permite una atenci├│n m├ís individualizada. Esto significa que pueden observar de cerca los cambios en la salud del paciente y ajustar los tratamientos seg├║n sea necesario."
+        },
+        {
+          "type": "paragraph",
+          "text": "La atenci├│n m├⌐dica en el hogar puede ser m├ís econ├│mica que la atenci├│n hospitalaria. Al evitar estancias prolongadas en el hospital, los pacientes y sus familias pueden ahorrar en costos de atenci├│n m├⌐dica."
+        },
+        {
+          "type": "heading2",
+          "text": "Mejora de la comunicaci├│n"
+        },
+        {
+          "type": "paragraph",
+          "text": "La atenci├│n en el hogar facilita una mejor comunicaci├│n entre el paciente, la familia y el equipo de atenci├│n m├⌐dica. Esto puede llevar a una mayor satisfacci├│n del paciente y mejores resultados de salud."
+        },
+        {
+          "type": "heading2",
+          "text": "┬┐Qui├⌐n se beneficia de la enfermer├¡a personalizada en el hogar?"
+        },
+        {
+          "type": "paragraph",
+          "text": "La enfermer├¡a personalizada en el hogar es beneficiosa para una amplia variedad de pacientes, incluyendo:"
+        },
+        {
+          "type": "paragraph",
+          "text": "Personas mayores: Muchos ancianos prefieren recibir atenci├│n en casa, donde se sienten m├ís c├│modos y seguros."
+        },
+        {
+          "type": "paragraph",
+          "text": "Pacientes con enfermedades cr├│nicas: Aquellos que padecen condiciones como diabetes, enfermedades card├¡acas o enfermedades respiratorias pueden beneficiarse de un seguimiento regular en casa."
+        },
+        {
+          "type": "paragraph",
+          "text": "Pacientes en recuperaci├│n: Despu├⌐s de una cirug├¡a o enfermedad, la atenci├│n en el hogar puede facilitar una recuperaci├│n m├ís r├ípida y efectiva."
+        },
+        {
+          "type": "paragraph",
+          "text": "C├│mo funciona la enfermer├¡a personalizada en el hogar"
+        },
+        {
+          "type": "paragraph",
+          "text": "La enfermer├¡a personalizada en el hogar implica varios pasos clave:"
+        },
+        {
+          "type": "paragraph",
+          "text": "El proceso comienza con una evaluaci├│n exhaustiva del paciente. Esto incluye una revisi├│n de su historial m├⌐dico, una evaluaci├│n de sus necesidades actuales y la identificaci├│n de cualquier apoyo adicional que pueda ser necesario."
+        },
+        {
+          "type": "heading2",
+          "text": "Planificaci├│n del cuidado"
+        },
+        {
+          "type": "paragraph",
+          "text": "Una vez completada la evaluaci├│n, se desarrolla un plan de cuidado personalizado. Este plan puede incluir:"
+        },
+        {
+          "type": "heading2",
+          "text": "Administraci├│n de medicamentos"
+        },
+        {
+          "type": "heading2",
+          "text": "Terapias f├¡sicas o ocupacionales"
+        },
+        {
+          "type": "heading2",
+          "text": "Monitoreo de signos vitales"
+        },
+        {
+          "type": "heading2",
+          "text": "Apoyo emocional y psicol├│gico"
+        },
+        {
+          "type": "heading2",
+          "text": "Implementaci├│n del cuidado"
+        },
+        {
+          "type": "paragraph",
+          "text": "Los enfermeros capacitados implementan el plan de cuidado en el hogar del paciente. Esto puede incluir visitas regulares o atenci├│n continua, dependiendo de las necesidades del paciente."
+        },
+        {
+          "type": "paragraph",
+          "text": "La atenci├│n no termina con la implementaci├│n del plan. Los enfermeros realizan evaluaciones continuas para asegurarse de que el paciente est├⌐ progresando y que el plan de cuidado siga siendo adecuado."
+        },
+        {
+          "type": "heading2",
+          "text": "Ejemplos de servicios de enfermer├¡a personalizada"
+        },
+        {
+          "type": "paragraph",
+          "text": "Los servicios de enfermer├¡a personalizada pueden variar seg├║n las necesidades del paciente. Algunos ejemplos incluyen:"
+        },
+        {
+          "type": "paragraph",
+          "text": "Cuidado postoperatorio: Los enfermeros pueden ayudar a los pacientes a recuperarse de cirug├¡as, asegur├índose de que sigan las instrucciones m├⌐dicas y administrando medicamentos seg├║n sea necesario."
+        },
+        {
+          "type": "paragraph",
+          "text": "Manejo de enfermedades cr├│nicas: Los enfermeros pueden educar a los pacientes sobre c├│mo manejar sus condiciones y ayudar a monitorear su salud."
+        },
+        {
+          "type": "paragraph",
+          "text": "Cuidado paliativo: Para aquellos con enfermedades terminales, la enfermer├¡a personalizada puede proporcionar apoyo emocional y f├¡sico tanto al paciente como a la familia."
+        },
+        {
+          "type": "paragraph",
+          "text": "La importancia de la tecnolog├¡a en la enfermer├¡a personalizada"
+        },
+        {
+          "type": "paragraph",
+          "text": "La tecnolog├¡a juega un papel crucial en la enfermer├¡a personalizada en el hogar. Algunas herramientas y tecnolog├¡as que est├ín mejorando la atenci├│n incluyen:"
+        },
+        {
+          "type": "paragraph",
+          "text": "Telemedicina: Permite a los pacientes conectarse con sus m├⌐dicos y enfermeros a trav├⌐s de videoconferencias, lo que facilita el seguimiento y la atenci├│n sin necesidad de desplazamientos."
+        },
+        {
+          "type": "paragraph",
+          "text": "Dispositivos de monitoreo: Herramientas como monitores de presi├│n arterial y gluc├│metros permiten a los enfermeros realizar un seguimiento de la salud del paciente de manera m├ís efectiva."
+        },
+        {
+          "type": "paragraph",
+          "text": "Aplicaciones de salud: Muchas aplicaciones permiten a los pacientes llevar un registro de sus s├¡ntomas, medicamentos y citas, lo que facilita la comunicaci├│n con su equipo de atenci├│n m├⌐dica."
+        },
+        {
+          "type": "paragraph",
+          "text": "Desaf├¡os de la enfermer├¡a personalizada en el hogar"
+        },
+        {
+          "type": "paragraph",
+          "text": "A pesar de sus muchos beneficios, la enfermer├¡a personalizada en el hogar tambi├⌐n enfrenta desaf├¡os. Algunos de estos incluyen:"
+        },
+        {
+          "type": "paragraph",
+          "text": "No todos los pacientes tienen acceso a servicios de enfermer├¡a en el hogar, especialmente en ├íreas rurales o desatendidas. Esto puede limitar las opciones para aquellos que m├ís lo necesitan."
+        },
+        {
+          "type": "heading2",
+          "text": "Capacitaci├│n del personal"
+        },
+        {
+          "type": "paragraph",
+          "text": "Es fundamental que los enfermeros que brindan atenci├│n en el hogar est├⌐n adecuadamente capacitados. La falta de formaci├│n puede llevar a errores en la atenci├│n y afectar la calidad del servicio."
+        },
+        {
+          "type": "heading2",
+          "text": "Coordinaci├│n de la atenci├│n"
+        },
+        {
+          "type": "paragraph",
+          "text": "La atenci├│n personalizada requiere una buena coordinaci├│n entre diferentes proveedores de atenci├│n m├⌐dica. Sin una comunicaci├│n efectiva, los pacientes pueden experimentar interrupciones en su atenci├│n."
+        },
+        {
+          "type": "heading2",
+          "text": "Futuro de la enfermer├¡a personalizada en el hogar"
+        },
+        {
+          "type": "paragraph",
+          "text": "El futuro de la enfermer├¡a personalizada en el hogar parece prometedor. A medida que la tecnolog├¡a contin├║a avanzando y la demanda de atenci├│n en el hogar aumenta, es probable que veamos un crecimiento en este campo. Algunas tendencias a tener en cuenta incluyen:"
+        },
+        {
+          "type": "paragraph",
+          "text": "Aumento de la telemedicina: La telemedicina seguir├í siendo una herramienta valiosa para facilitar la atenci├│n en el hogar."
+        },
+        {
+          "type": "paragraph",
+          "text": "Enfoque en la salud mental: A medida que se reconoce la importancia de la salud mental, es probable que se integren m├ís servicios de apoyo emocional en la atenci├│n personalizada."
+        },
+        {
+          "type": "paragraph",
+          "text": "Mayor personalizaci├│n: Con el avance de la tecnolog├¡a, ser├í posible ofrecer planes de atenci├│n a├║n m├ís personalizados, adaptados a las necesidades espec├¡ficas de cada paciente."
+        },
+        {
+          "type": "paragraph",
+          "text": "La enfermer├¡a personalizada en la comodidad de tu hogar representa una evoluci├│n significativa en la atenci├│n m├⌐dica. Al centrarse en las necesidades individuales de los pacientes, este enfoque no solo mejora la calidad de vida, sino que tambi├⌐n ofrece una alternativa viable a la atenci├│n hospitalaria tradicional. Con el avance de la tecnolog├¡a y un enfoque en la atenci├│n integral, el futuro de la enfermer├¡a en el hogar es brillante. Si t├║ o un ser querido est├íis considerando este tipo de atenci├│n, no dud├⌐is en investigar m├ís y explorar las opciones disponibles."
+        },
+        {
+          "type": "paragraph",
+          "text": "Zaragoza ┬á|┬á +34 641 635 705┬á |┬á info@enfermeraentucasa.es"
+        },
+        {
+          "type": "heading2",
+          "text": "┬⌐ 2026 Enfermera en tu casa"
         }
       ]
     },
@@ -460,7 +717,7 @@
       "title": "Primeros auxilios en casa: qué hacer ante emergencias",
       "slug": "primeros-auxilios-en-casa-qu-hacer-ante-emergencias",
       "description": "Guía práctica de primeros auxilios domésticos: cómo actuar ante caídas, quemaduras, cortes, atragantamientos y pérdidas de conocimiento en el hogar.",
-      "image": "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1200&q=80",
+      "image": "https://static.wixstatic.com/media/a3b5c9_df813b74a9fa4edb825941acd3e1c587~mv2.jpeg/v1/fill/w_1000,h_667,al_c,q_85,usm_0.66_1.00_0.01/a3b5c9_df813b74a9fa4edb825941acd3e1c587~mv2.jpeg",
       "publishedAt": "2026-02-10",
       "author": "Laura Pueyo",
       "blocks": [
