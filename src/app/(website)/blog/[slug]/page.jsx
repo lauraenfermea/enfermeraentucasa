@@ -203,14 +203,36 @@ export default async function BlogPostPage({ params }) {
               post.blocks.map((block, i) => {
                 if (block.type === 'heading2') {
                   return (
-                    <h2 key={i} style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--text-main)', marginTop: '2.5rem', marginBottom: '1rem' }}>
+                    <h2
+                      key={i}
+                      style={{
+                        fontSize: '1.75rem',
+                        fontWeight: '800',
+                        color: block.color || 'var(--text-main)',
+                        marginTop: '2.5rem',
+                        marginBottom: '1rem',
+                        textAlign: block.align || 'left',
+                        borderBottom: block.underline ? '2px solid var(--primary)' : 'none',
+                        paddingBottom: block.underline ? '0.3rem' : 0,
+                      }}
+                    >
                       {block.text}
                     </h2>
                   );
                 }
                 if (block.type === 'heading3') {
                   return (
-                    <h3 key={i} style={{ fontSize: '1.4rem', fontWeight: '700', color: 'var(--text-main)', marginTop: '2rem', marginBottom: '0.8rem' }}>
+                    <h3
+                      key={i}
+                      style={{
+                        fontSize: '1.4rem',
+                        fontWeight: '700',
+                        color: block.color || 'var(--text-main)',
+                        marginTop: '2rem',
+                        marginBottom: '0.8rem',
+                        textAlign: block.align || 'left',
+                      }}
+                    >
                       {block.text}
                     </h3>
                   );
@@ -218,11 +240,19 @@ export default async function BlogPostPage({ params }) {
                 if (block.type === 'image') {
                   const src = block.src ? (block.src.startsWith('/') || block.src.startsWith('http') ? block.src : `/assets/${block.src}`) : '';
                   return (
-                    <div key={i} style={{ margin: '2rem 0', textAlign: 'center' }}>
+                    <div key={i} style={{ margin: '2rem 0', textAlign: block.align || 'center' }}>
                       <img
                         src={src}
                         alt={block.caption || post.title}
-                        style={{ width: '100%', maxHeight: '420px', objectFit: 'cover', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}
+                        style={{
+                          width: block.width || '100%',
+                          maxWidth: '100%',
+                          maxHeight: '520px',
+                          objectFit: 'cover',
+                          borderRadius: '14px',
+                          boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
+                          display: 'inline-block',
+                        }}
                       />
                       {block.caption && (
                         <p style={{ fontSize: '0.88rem', color: '#6B7280', marginTop: '0.5rem', fontStyle: 'italic' }}>
@@ -239,10 +269,10 @@ export default async function BlogPostPage({ params }) {
                       style={{
                         margin: '2rem 0',
                         padding: '1.25rem 1.75rem',
-                        backgroundColor: '#EFF6FF',
-                        borderLeft: '5px solid #2563EB',
+                        backgroundColor: block.bgColor || '#EFF6FF',
+                        borderLeft: `5px solid ${block.borderColor || '#2563EB'}`,
                         borderRadius: '0 12px 12px 0',
-                        color: '#1E40AF',
+                        color: block.textColor || '#1E40AF',
                         fontSize: '1.1rem',
                         fontStyle: 'italic',
                         lineHeight: 1.7,
@@ -252,8 +282,38 @@ export default async function BlogPostPage({ params }) {
                     </blockquote>
                   );
                 }
+                if (block.type === 'cta' || block.type === 'button') {
+                  return (
+                    <div key={i} style={{ margin: '2.5rem 0', textAlign: block.align || 'center' }}>
+                      <a
+                        href={block.url || 'https://wa.me/34641635705'}
+                        target={block.url?.startsWith('http') ? '_blank' : '_self'}
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'inline-block',
+                          padding: '0.9rem 2.2rem',
+                          backgroundColor: block.bgColor || '#2563EB',
+                          color: block.textColor || '#FFFFFF',
+                          borderRadius: '9999px',
+                          fontWeight: '700',
+                          fontSize: '1.05rem',
+                          textDecoration: 'none',
+                          boxShadow: '0 4px 15px rgba(37, 99, 235, 0.3)',
+                          transition: 'transform 0.2s ease',
+                        }}
+                      >
+                        {block.text || 'Contactar por WhatsApp'}
+                      </a>
+                    </div>
+                  );
+                }
+                if (block.type === 'html') {
+                  return (
+                    <div key={i} style={{ margin: '1.5rem 0' }} dangerouslySetInnerHTML={{ __html: block.html || block.text }} />
+                  );
+                }
                 return (
-                  <p key={i} style={{ marginBottom: '1.35rem', lineHeight: 1.8, color: '#374151', fontSize: '1.08rem' }}>
+                  <p key={i} style={{ marginBottom: '1.35rem', lineHeight: 1.8, color: block.color || '#374151', fontSize: '1.08rem' }}>
                     {renderTextWithLinks(block.text)}
                   </p>
                 );

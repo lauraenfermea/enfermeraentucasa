@@ -658,9 +658,12 @@ export default function AdminDashboard() {
           {activeTab === "reviews" && (
             <ReviewsTab
               reviews={content.reviews || []}
+              settings={content.settings || {}}
               filter={searchFilter}
               onChange={(reviews) => setContent({ ...content, reviews })}
+              onSettingsChange={(settings) => setContent({ ...content, settings })}
               onUploadImage={triggerFileUpload}
+              showToast={showToast}
             />
           )}
 
@@ -1102,7 +1105,7 @@ function HomePageTab({ homePage = {}, onChange, onUploadImage }) {
   );
 }
 
-// ── Rich Blogs Tab (Super Easy Visual Editor with Images & Links) ─
+// ── Rich Blogs & Page Block Builder Tab ────────────────────────
 function RichBlogsTab({ blogs = [], filter = "", onChange, onUploadImage, showToast }) {
   const [activeBlogIdx, setActiveBlogIdx] = useState(null);
 
@@ -1137,12 +1140,17 @@ function RichBlogsTab({ blogs = [], filter = "", onChange, onUploadImage, showTo
     }
   }
 
-  // Block management
+  // Block management functions
   function addBlock(blogIdx, blockType) {
     const post = blogs[blogIdx];
     const blocks = post.blocks || [];
     let newBlock = { type: blockType, text: "" };
-    if (blockType === "image") newBlock = { type: "image", src: "", caption: "" };
+    if (blockType === "image") newBlock = { type: "image", src: "", caption: "", width: "100%", align: "center" };
+    if (blockType === "heading2") newBlock = { type: "heading2", text: "", color: "#0F172A", align: "left" };
+    if (blockType === "heading3") newBlock = { type: "heading3", text: "", color: "#2563EB", align: "left" };
+    if (blockType === "quote") newBlock = { type: "quote", text: "", bgColor: "#EFF6FF", borderColor: "#2563EB", textColor: "#1E40AF" };
+    if (blockType === "cta") newBlock = { type: "cta", text: "Solicitar Atención por WhatsApp", url: "https://wa.me/34641635705", bgColor: "#2563EB", textColor: "#FFFFFF", align: "center" };
+    if (blockType === "html") newBlock = { type: "html", text: "<div>Bloque HTML personalizado</div>" };
     
     updateBlog(blogIdx, { ...post, blocks: [...blocks, newBlock] });
   }
@@ -1160,10 +1168,30 @@ function RichBlogsTab({ blogs = [], filter = "", onChange, onUploadImage, showTo
     updateBlog(blogIdx, { ...post, blocks });
   }
 
+  function moveBlock(blogIdx, blockIdx, direction) {
+    const post = blogs[blogIdx];
+    const blocks = [...(post.blocks || [])];
+    const targetIdx = blockIdx + direction;
+    if (targetIdx < 0 || targetIdx >= blocks.length) return;
+    const temp = blocks[blockIdx];
+    blocks[blockIdx] = blocks[targetIdx];
+    blocks[targetIdx] = temp;
+    updateBlog(blogIdx, { ...post, blocks });
+  }
+
+  function duplicateBlock(blogIdx, blockIdx) {
+    const post = blogs[blogIdx];
+    const blocks = [...(post.blocks || [])];
+    const copy = JSON.parse(JSON.stringify(blocks[blockIdx]));
+    blocks.splice(blockIdx + 1, 0, copy);
+    updateBlog(blogIdx, { ...post, blocks });
+    showToast("¡Bloque duplicado!");
+  }
+
   function insertHyperlinkHelper(blogIdx, blockIdx, currentText) {
     const label = prompt("Introduce el texto visible del enlace (ej: Ver Tarifas):");
     if (!label) return;
-    const url = prompt("Introduce la URL o enlace destino (ej: https://wa.me/34641635705 o #servicios):");
+    const url = prompt("Introduce la URL destino (ej: https://wa.me/34641635705 o #servicios):");
     if (!url) return;
 
     const markdownLink = `[${label}](${url})`;
@@ -1182,7 +1210,7 @@ function RichBlogsTab({ blogs = [], filter = "", onChange, onUploadImage, showTo
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
         <div>
-          <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "800" }}>Editor Visual Rico de Blog & Artículos</h2>
+          <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "800" }}>Editor Visual de Bloques para Blog y Páginas</h2>
           <span style={{ fontSize: "0.85rem", color: DESIGN.textMuted }}>{blogs.length} artículos en el sistema</span>
         </div>
         <button
@@ -1230,7 +1258,7 @@ function RichBlogsTab({ blogs = [], filter = "", onChange, onUploadImage, showTo
                     onClick={() => setActiveBlogIdx(isExpanded ? null : idx)}
                     style={{ padding: "0.4rem 0.8rem", backgroundColor: DESIGN.mainBg, border: `1px solid ${DESIGN.border}`, borderRadius: "6px", fontWeight: "700", cursor: "pointer", fontSize: "0.85rem" }}
                   >
-                    {isExpanded ? "▲ Plegar Editor" : "✏️ Abrir Editor Bloques"}
+                    {isExpanded ? "▲ Plegar Editor" : "✏️ Abrir Constructor Bloques"}
                   </button>
                   <button onClick={() => deleteBlog(idx)} style={{ color: DESIGN.danger, border: "none", background: "none", cursor: "pointer", fontWeight: "700" }}>
                     🗑️ Eliminar
@@ -1277,7 +1305,7 @@ function RichBlogsTab({ blogs = [], filter = "", onChange, onUploadImage, showTo
               </div>
 
               <ImageField
-                label="Imagen Principal del Artículo"
+                label="Imagen Principal del Artículo (Hero Image)"
                 value={post.image}
                 onChange={(url) => updateBlog(idx, { ...post, image: url })}
                 onUploadImage={onUploadImage}
@@ -1294,18 +1322,26 @@ function RichBlogsTab({ blogs = [], filter = "", onChange, onUploadImage, showTo
                 />
               </div>
 
-              {/* ── EXPANDED BLOCK EDITOR ─────────────────────────── */}
+              {/* ── EXPANDED VISUAL BLOCK BUILDER ─────────────────────────── */}
               {isExpanded && (
                 <div style={{ marginTop: "1.5rem", paddingTop: "1.5rem", borderTop: `2px dashed ${DESIGN.border}` }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-                    <h3 style={{ margin: 0, fontSize: "1.05rem", fontWeight: "800", color: DESIGN.primary }}>
-                      🧩 Bloques del Contenido ({blocks.length} bloques)
-                    </h3>
-                    <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.2rem" }}>
+                    <div>
+                      <h3 style={{ margin: 0, fontSize: "1.1rem", fontWeight: "800", color: DESIGN.primary }}>
+                        🎨 Constructor de Bloques y Diseño ({blocks.length} bloques)
+                      </h3>
+                      <span style={{ fontSize: "0.8rem", color: DESIGN.textMuted }}>
+                        Añade párrafos, colores, enlaces, botones CTA, citas e imágenes.
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
                       <button onClick={() => addBlock(idx, "paragraph")} style={btnBlockStyle}>+ 📝 Párrafo</button>
                       <button onClick={() => addBlock(idx, "heading2")} style={btnBlockStyle}>+ 📌 Subtítulo H2</button>
-                      <button onClick={() => addBlock(idx, "image")} style={btnBlockStyle}>+ 🖼️ Imagen Intercalada</button>
-                      <button onClick={() => addBlock(idx, "quote")} style={btnBlockStyle}>+ 💡 Cita Destacada</button>
+                      <button onClick={() => addBlock(idx, "heading3")} style={btnBlockStyle}>+ 📍 Subtítulo H3</button>
+                      <button onClick={() => addBlock(idx, "image")} style={btnBlockStyle}>+ 🖼️ Imagen</button>
+                      <button onClick={() => addBlock(idx, "quote")} style={btnBlockStyle}>+ 💡 Cita</button>
+                      <button onClick={() => addBlock(idx, "cta")} style={btnBlockStyle}>+ 🔘 Botón CTA</button>
+                      <button onClick={() => addBlock(idx, "html")} style={btnBlockStyle}>+ 💻 HTML</button>
                     </div>
                   </div>
 
@@ -1315,20 +1351,25 @@ function RichBlogsTab({ blogs = [], filter = "", onChange, onUploadImage, showTo
                         key={bIdx}
                         style={{
                           backgroundColor: DESIGN.mainBg,
-                          padding: "1rem 1.25rem",
+                          padding: "1.2rem",
                           borderRadius: "10px",
                           border: `1px solid ${DESIGN.border}`,
+                          boxShadow: "0 2px 4px rgba(0,0,0,0.02)",
                         }}
                       >
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                          <span style={{ fontSize: "0.75rem", fontWeight: "800", color: DESIGN.textMuted, textTransform: "uppercase" }}>
-                            Bloque #{bIdx + 1} — {b.type === "heading2" ? "📌 Subtítulo H2" : b.type === "image" ? "🖼️ Imagen Intercalada" : b.type === "quote" ? "💡 Cita" : "📝 Párrafo"}
+                        {/* Block Header Toolbar */}
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem", flexWrap: "wrap", gap: "0.5rem" }}>
+                          <span style={{ fontSize: "0.78rem", fontWeight: "800", color: DESIGN.primary, textTransform: "uppercase" }}>
+                            #{bIdx + 1} — {b.type === "heading2" ? "📌 Subtítulo H2" : b.type === "heading3" ? "📍 Subtítulo H3" : b.type === "image" ? "🖼️ Imagen Intercalada" : b.type === "quote" ? "💡 Cita Destacada" : b.type === "cta" ? "🔘 Botón CTA" : b.type === "html" ? "💻 Código HTML" : "📝 Párrafo"}
                           </span>
-                          <div style={{ display: "flex", gap: "0.5rem" }}>
+                          <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
+                            <button onClick={() => moveBlock(idx, bIdx, -1)} disabled={bIdx === 0} style={miniBtnStyle} title="Mover arriba">⬆️</button>
+                            <button onClick={() => moveBlock(idx, bIdx, 1)} disabled={bIdx === blocks.length - 1} style={miniBtnStyle} title="Mover abajo">⬇️</button>
+                            <button onClick={() => duplicateBlock(idx, bIdx)} style={miniBtnStyle} title="Duplicar bloque">📋</button>
                             {(b.type === "paragraph" || b.type === "quote") && (
                               <button
                                 onClick={() => insertHyperlinkHelper(idx, bIdx, b.text)}
-                                style={{ fontSize: "0.75rem", fontWeight: "700", color: DESIGN.primary, border: "none", background: "none", cursor: "pointer" }}
+                                style={{ fontSize: "0.75rem", fontWeight: "700", color: DESIGN.primary, border: `1px solid ${DESIGN.primary}`, borderRadius: "4px", padding: "0.2rem 0.5rem", background: "white", cursor: "pointer" }}
                               >
                                 🔗 Insertar Enlace
                               </button>
@@ -1337,35 +1378,166 @@ function RichBlogsTab({ blogs = [], filter = "", onChange, onUploadImage, showTo
                               onClick={() => deleteBlock(idx, bIdx)}
                               style={{ fontSize: "0.75rem", fontWeight: "700", color: DESIGN.danger, border: "none", background: "none", cursor: "pointer" }}
                             >
-                              ✕ Eliminar Bloque
+                              ✕ Eliminar
                             </button>
                           </div>
                         </div>
 
+                        {/* Block Type Fields */}
                         {b.type === "image" ? (
                           <div>
                             <ImageField
-                              label="Imagen intercalada"
+                              label="Foto / Imagen del bloque"
                               value={b.src}
                               onChange={(url) => updateBlock(idx, bIdx, { ...b, src: url })}
                               onUploadImage={onUploadImage}
                             />
-                            <input
-                              type="text"
-                              value={b.caption || ""}
-                              placeholder="Pie de foto opcional..."
-                              onChange={(e) => updateBlock(idx, bIdx, { ...b, caption: e.target.value })}
-                              style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}`, fontSize: "0.85rem" }}
+                            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: "0.75rem", marginTop: "0.5rem" }}>
+                              <div>
+                                <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Pie de foto / Leyenda</label>
+                                <input
+                                  type="text"
+                                  value={b.caption || ""}
+                                  placeholder="Pie de foto opcional..."
+                                  onChange={(e) => updateBlock(idx, bIdx, { ...b, caption: e.target.value })}
+                                  style={inputSmallStyle}
+                                />
+                              </div>
+                              <div>
+                                <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Ancho</label>
+                                <select
+                                  value={b.width || "100%"}
+                                  onChange={(e) => updateBlock(idx, bIdx, { ...b, width: e.target.value })}
+                                  style={inputSmallStyle}
+                                >
+                                  <option value="100%">100% (Ancho completo)</option>
+                                  <option value="75%">75% (Mediano)</option>
+                                  <option value="50%">50% (Pequeño)</option>
+                                </select>
+                              </div>
+                              <div>
+                                <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Alineación</label>
+                                <select
+                                  value={b.align || "center"}
+                                  onChange={(e) => updateBlock(idx, bIdx, { ...b, align: e.target.value })}
+                                  style={inputSmallStyle}
+                                >
+                                  <option value="center">Centro</option>
+                                  <option value="left">Izquierda</option>
+                                  <option value="right">Derecha</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        ) : b.type === "cta" ? (
+                          <div style={{ display: "grid", gridTemplateColumns: "2fr 2fr 1fr 1fr", gap: "0.75rem" }}>
+                            <div>
+                              <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Texto del Botón</label>
+                              <input
+                                type="text"
+                                value={b.text || ""}
+                                placeholder="ej: Solicitar Atención por WhatsApp"
+                                onChange={(e) => updateBlock(idx, bIdx, { ...b, text: e.target.value })}
+                                style={inputSmallStyle}
+                              />
+                            </div>
+                            <div>
+                              <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>URL Enlace Target</label>
+                              <input
+                                type="text"
+                                value={b.url || ""}
+                                placeholder="https://wa.me/34641635705"
+                                onChange={(e) => updateBlock(idx, bIdx, { ...b, url: e.target.value })}
+                                style={inputSmallStyle}
+                              />
+                            </div>
+                            <div>
+                              <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Color Fondo</label>
+                              <input
+                                type="color"
+                                value={b.bgColor || "#2563EB"}
+                                onChange={(e) => updateBlock(idx, bIdx, { ...b, bgColor: e.target.value })}
+                                style={{ width: "100%", height: "34px", padding: "0.1rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}` }}
+                              />
+                            </div>
+                            <div>
+                              <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Color Texto</label>
+                              <input
+                                type="color"
+                                value={b.textColor || "#FFFFFF"}
+                                onChange={(e) => updateBlock(idx, bIdx, { ...b, textColor: e.target.value })}
+                                style={{ width: "100%", height: "34px", padding: "0.1rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}` }}
+                              />
+                            </div>
+                          </div>
+                        ) : b.type === "quote" ? (
+                          <div>
+                            <textarea
+                              rows={2}
+                              value={b.text || ""}
+                              placeholder="Escribe la cita o frase destacada..."
+                              onChange={(e) => updateBlock(idx, bIdx, { ...b, text: e.target.value })}
+                              style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit", fontSize: "0.9rem", marginBottom: "0.5rem" }}
                             />
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.75rem" }}>
+                              <div>
+                                <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Color Borde</label>
+                                <input
+                                  type="color"
+                                  value={b.borderColor || "#2563EB"}
+                                  onChange={(e) => updateBlock(idx, bIdx, { ...b, borderColor: e.target.value })}
+                                  style={{ width: "100%", height: "32px", padding: "0.1rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}` }}
+                                />
+                              </div>
+                              <div>
+                                <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Fondo Cita</label>
+                                <input
+                                  type="color"
+                                  value={b.bgColor || "#EFF6FF"}
+                                  onChange={(e) => updateBlock(idx, bIdx, { ...b, bgColor: e.target.value })}
+                                  style={{ width: "100%", height: "32px", padding: "0.1rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}` }}
+                                />
+                              </div>
+                              <div>
+                                <label style={{ fontSize: "0.75rem", fontWeight: "700", display: "block", marginBottom: "0.2rem" }}>Color Texto</label>
+                                <input
+                                  type="color"
+                                  value={b.textColor || "#1E40AF"}
+                                  onChange={(e) => updateBlock(idx, bIdx, { ...b, textColor: e.target.value })}
+                                  style={{ width: "100%", height: "32px", padding: "0.1rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}` }}
+                                />
+                              </div>
+                            </div>
                           </div>
                         ) : (
-                          <textarea
-                            rows={b.type === "heading2" ? 1 : 3}
-                            value={b.text || ""}
-                            placeholder={b.type === "heading2" ? "Escribe el subtítulo..." : "Escribe el texto del párrafo..."}
-                            onChange={(e) => updateBlock(idx, bIdx, { ...b, text: e.target.value })}
-                            style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit", fontSize: "0.9rem" }}
-                          />
+                          <div>
+                            <textarea
+                              rows={b.type.startsWith("heading") ? 1 : 3}
+                              value={b.text || ""}
+                              placeholder={b.type.startsWith("heading") ? "Escribe el subtítulo..." : "Escribe el texto del párrafo..."}
+                              onChange={(e) => updateBlock(idx, bIdx, { ...b, text: e.target.value })}
+                              style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit", fontSize: "0.9rem", marginBottom: "0.4rem" }}
+                            />
+                            <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+                              <label style={{ fontSize: "0.75rem", fontWeight: "700", color: DESIGN.textMuted }}>Color Texto:</label>
+                              <input
+                                type="color"
+                                value={b.color || "#0F172A"}
+                                onChange={(e) => updateBlock(idx, bIdx, { ...b, color: e.target.value })}
+                                style={{ width: "36px", height: "26px", padding: "0", border: "none", cursor: "pointer", borderRadius: "4px" }}
+                              />
+                              <label style={{ fontSize: "0.75rem", fontWeight: "700", color: DESIGN.textMuted }}>Alineación:</label>
+                              <select
+                                value={b.align || "left"}
+                                onChange={(e) => updateBlock(idx, bIdx, { ...b, align: e.target.value })}
+                                style={{ padding: "0.2rem 0.5rem", borderRadius: "4px", border: `1px solid ${DESIGN.border}`, fontSize: "0.8rem" }}
+                              >
+                                <option value="left">Izquierda</option>
+                                <option value="center">Centro</option>
+                                <option value="right">Derecha</option>
+                              </select>
+                            </div>
+                          </div>
                         )}
                       </div>
                     ))}
@@ -1379,6 +1551,23 @@ function RichBlogsTab({ blogs = [], filter = "", onChange, onUploadImage, showTo
     </div>
   );
 }
+
+const miniBtnStyle = {
+  padding: "0.2rem 0.4rem",
+  backgroundColor: "white",
+  border: `1px solid ${DESIGN.border}`,
+  borderRadius: "4px",
+  fontSize: "0.75rem",
+  cursor: "pointer",
+};
+
+const inputSmallStyle = {
+  width: "100%",
+  padding: "0.45rem 0.6rem",
+  borderRadius: "6px",
+  border: `1px solid ${DESIGN.border}`,
+  fontSize: "0.85rem",
+};
 
 const btnBlockStyle = {
   padding: "0.4rem 0.8rem",
@@ -1843,8 +2032,12 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
   );
 }
 
-// ── Reviews Tab ───────────────────────────────────────────────
-function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
+// ── Reviews Tab (With Google GMB API Integration) ─────────────
+function ReviewsTab({ reviews = [], settings = {}, filter = "", onChange, onSettingsChange, showToast }) {
+  const [googleApiKey, setGoogleApiKey] = useState(settings.googleApiKey || "");
+  const [googlePlaceId, setGooglePlaceId] = useState(settings.googlePlaceId || "");
+  const [syncing, setSyncing] = useState(false);
+
   function updateReview(index, updatedItem) {
     const list = [...reviews];
     list[index] = updatedItem;
@@ -1872,13 +2065,125 @@ function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
     }
   }
 
+  async function syncGoogleReviews() {
+    if (!googleApiKey || !googlePlaceId) {
+      alert("Por favor, introduce primero tu Clave API de Google Maps y tu Place ID.");
+      return;
+    }
+
+    setSyncing(true);
+    try {
+      const res = await fetch("/api/google-reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ apiKey: googleApiKey, placeId: googlePlaceId }),
+      });
+      const data = await res.json();
+      if (res.ok && data.reviews) {
+        onChange(data.reviews);
+        if (onSettingsChange) {
+          onSettingsChange({ ...settings, googleApiKey, googlePlaceId });
+        }
+        showToast(data.message || "¡Reseñas sincronizadas con éxito desde Google!");
+      } else {
+        alert(data.error || "Error al sincronizar con Google API.");
+      }
+    } catch {
+      alert("Error de conexión al consultar la API de Google.");
+    } finally {
+      setSyncing(false);
+    }
+  }
+
   const filtered = reviews.filter((r) => (r.name || "").toLowerCase().includes(filter.toLowerCase()));
 
   return (
     <div>
+      {/* Google GMB Places API Auto-Sync Card */}
+      <div
+        style={{
+          backgroundColor: DESIGN.cardBg,
+          padding: "2rem",
+          borderRadius: "14px",
+          border: `1px solid ${DESIGN.border}`,
+          marginBottom: "2rem",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.02)",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
+          <span style={{ fontSize: "1.5rem" }}>⭐</span>
+          <h2 style={{ margin: 0, fontSize: "1.2rem", fontWeight: "800", color: DESIGN.textMain }}>
+            Integración de Reseñas de Google Business Profile (GMB API)
+          </h2>
+        </div>
+        <p style={{ color: DESIGN.textMuted, fontSize: "0.88rem", marginBottom: "1.5rem", lineHeight: 1.5 }}>
+          Conecta la API Key de Google Developer Console y el ID de tu negocio en Google Maps para que las reseñas se importen y actualicen de forma 100% automática en la web.
+        </p>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>
+              Clave API de Google Developer Console (Google Places API Key)
+            </label>
+            <input
+              type="password"
+              value={googleApiKey}
+              placeholder="AIzaSy..."
+              onChange={(e) => {
+                setGoogleApiKey(e.target.value);
+                if (onSettingsChange) onSettingsChange({ ...settings, googleApiKey: e.target.value });
+              }}
+              style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>
+              Google Place ID del Perfil (ID del Negocio en Google Maps)
+            </label>
+            <input
+              type="text"
+              value={googlePlaceId}
+              placeholder="ChIJ... (ej: Enfermera en tu casa)"
+              onChange={(e) => {
+                setGooglePlaceId(e.target.value);
+                if (onSettingsChange) onSettingsChange({ ...settings, googlePlaceId: e.target.value });
+              }}
+              style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+          <div style={{ fontSize: "0.8rem", color: DESIGN.textMuted }}>
+            💡 ¿Dónde conseguir estos datos? Genera la API Key en <a href="https://console.cloud.google.com/" target="_blank" rel="noreferrer" style={{ color: DESIGN.primary, fontWeight: "700" }}>Google Cloud Console</a> y encuentra tu ID de negocio en el <a href="https://developers.google.com/maps/documentation/places/web-service/place-id" target="_blank" rel="noreferrer" style={{ color: DESIGN.primary, fontWeight: "700" }}>Buscador de Place ID de Google</a>.
+          </div>
+          <button
+            type="button"
+            onClick={syncGoogleReviews}
+            disabled={syncing}
+            style={{
+              padding: "0.75rem 1.5rem",
+              backgroundColor: DESIGN.primary,
+              color: "white",
+              border: "none",
+              borderRadius: "10px",
+              fontWeight: "700",
+              cursor: syncing ? "wait" : "pointer",
+              boxShadow: "0 4px 12px rgba(37, 99, 235, 0.3)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.5rem",
+            }}
+          >
+            <span>{syncing ? "⏳" : "🔄"}</span>
+            <span>{syncing ? "Sincronizando..." : "Sincronizar Reseñas de Google Ahora"}</span>
+          </button>
+        </div>
+      </div>
+
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
         <div>
-          <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "800" }}>Reseñas de Clientes (Google Reviews)</h2>
+          <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "800" }}>Lista de Reseñas Mostradas en la Web</h2>
           <span style={{ fontSize: "0.85rem", color: DESIGN.textMuted }}>{reviews.length} opiniones registradas</span>
         </div>
         <button
@@ -1893,7 +2198,7 @@ function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
             cursor: "pointer",
           }}
         >
-          + Añadir Reseña
+          + Añadir Reseña Manual
         </button>
       </div>
 
