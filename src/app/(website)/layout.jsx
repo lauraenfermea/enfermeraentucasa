@@ -4,35 +4,55 @@ import { draftMode } from 'next/headers';
 import { getClient } from '../../sanity/client';
 import { VisualEditing } from 'next-sanity/visual-editing';
 import { Analytics } from '@vercel/analytics/next';
+import fs from 'fs';
+import path from 'path';
 
-
-export const metadata = {
-  title: 'Enfermera a domicilio en Zaragoza | Enfermera en tu casa',
-  description: 'Atención sanitaria profesional, personalizada y de calidad en tu hogar en Zaragoza. Cuidados de enfermería a domicilio.',
-  metadataBase: new URL('https://enfermeraentucasa.es'),
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    title: 'Enfermera a domicilio en Zaragoza | Enfermera en tu casa',
-    description: 'Atención sanitaria profesional, personalizada y de calidad a domicilio. Sin esperas ni desplazamientos.',
-    url: 'https://enfermeraentucasa.es',
-    siteName: 'Enfermera en tu casa',
-    images: [
-      {
-        url: '/assets/hero_bg.webp',
-        width: 1200,
-        height: 630,
-        alt: 'Enfermera en tu casa',
-      },
-    ],
-    locale: 'es_ES',
-    type: 'website',
-  },
-  icons: {
-    icon: '/favicon.png',
+function getSiteSeo() {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'site-content.json');
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    return data.seo || null;
+  } catch {
+    return null;
   }
-};
+}
+
+export async function generateMetadata() {
+  const seo = getSiteSeo();
+  const title = seo?.metaTitle || 'Enfermera a domicilio en Zaragoza | Enfermera en tu casa';
+  const description = seo?.metaDescription || 'Atención sanitaria profesional, personalizada y de calidad en tu hogar en Zaragoza. Cuidados de enfermería a domicilio.';
+  const ogImage = seo?.ogImage || '/assets/hero_bg.webp';
+  const canonical = seo?.canonicalUrl || 'https://enfermeraentucasa.es';
+
+  return {
+    title,
+    description,
+    keywords: seo?.keywords,
+    metadataBase: new URL(canonical),
+    alternates: {
+      canonical: '/',
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      siteName: seo?.businessName || 'Enfermera en tu casa',
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      locale: 'es_ES',
+      type: 'website',
+    },
+    icons: {
+      icon: '/favicon.png',
+    },
+  };
+}
 
 export default async function RootLayout({ children }) {
   const isDraftMode = (await draftMode()).isEnabled;

@@ -23,6 +23,7 @@ function mergeBlockWithJson(block, siteContent) {
     case 'services':
       return {
         ...block,
+        title: siteContent.homePage?.servicesHeader?.title ?? block.title,
         servicesList: siteContent.services?.map(s => ({
           title: s.title,
           desc: s.desc,
@@ -33,6 +34,7 @@ function mergeBlockWithJson(block, siteContent) {
     case 'rates':
       return {
         ...block,
+        title: siteContent.homePage?.ratesHeader?.title ?? block.title,
         ratesList: siteContent.rates ?? block.ratesList,
         bonosList: siteContent.bonos ?? block.bonosList,
       };
@@ -60,13 +62,19 @@ function mergeBlockWithJson(block, siteContent) {
     case 'hero':
       return {
         ...block,
-        heading: siteContent.hero?.heading ?? block.heading,
-        body: siteContent.hero?.body ?? block.body,
-        badgeText: siteContent.hero?.badgeText ?? block.badgeText,
-        primaryCtaText: siteContent.hero?.primaryCtaText ?? block.primaryCtaText,
-        primaryCtaUrl: siteContent.hero?.primaryCtaUrl ?? block.primaryCtaUrl,
-        secondaryCtaText: siteContent.hero?.secondaryCtaText ?? block.secondaryCtaText,
-        secondaryCtaUrl: siteContent.hero?.secondaryCtaUrl ?? block.secondaryCtaUrl,
+        heading: siteContent.homePage?.hero?.heading ?? siteContent.hero?.heading ?? block.heading,
+        body: siteContent.homePage?.hero?.body ?? siteContent.hero?.body ?? block.body,
+        badgeText: siteContent.homePage?.hero?.badgeText ?? siteContent.hero?.badgeText ?? block.badgeText,
+        primaryCtaText: siteContent.homePage?.hero?.primaryCtaText ?? siteContent.hero?.primaryCtaText ?? block.primaryCtaText,
+        primaryCtaUrl: siteContent.homePage?.hero?.primaryCtaUrl ?? siteContent.hero?.primaryCtaUrl ?? block.primaryCtaUrl,
+        secondaryCtaText: siteContent.homePage?.hero?.secondaryCtaText ?? siteContent.hero?.secondaryCtaText ?? block.secondaryCtaText,
+        secondaryCtaUrl: siteContent.homePage?.hero?.secondaryCtaUrl ?? siteContent.hero?.secondaryCtaUrl ?? block.secondaryCtaUrl,
+      };
+    case 'ctaBanner':
+      return {
+        ...block,
+        title: siteContent.homePage?.ctaBanner?.title ?? block.title,
+        desc: siteContent.homePage?.ctaBanner?.subtitle ?? block.desc,
       };
     default:
       return block;
@@ -90,26 +98,32 @@ export default async function Home() {
     console.error("Failed to fetch Sanity homepage data, falling back to defaults:", error);
   }
 
+  const seo = siteContent?.seo || {};
+  const settings = siteContent?.settings || {};
+
+  // Comprehensive MedicalBusiness & AI Search JSON-LD Structured Data Schema
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "MedicalBusiness",
-    "name": siteContent?.settings?.siteName || "Enfermera en tu casa",
+    "@type": ["MedicalBusiness", "LocalBusiness"],
+    "name": seo.businessName || settings.siteName || "Enfermera en tu casa",
+    "description": seo.metaDescription || "Atención de enfermería profesional a domicilio en Zaragoza",
     "image": "https://enfermeraentucasa.es/assets/logo.png",
     "@id": "https://enfermeraentucasa.es/#organization",
-    "url": "https://enfermeraentucasa.es",
-    "telephone": siteContent?.settings?.phone || "+34641635705",
-    "email": siteContent?.settings?.email || "info@enfermeraentucasa.es",
+    "url": seo.canonicalUrl || "https://enfermeraentucasa.es",
+    "telephone": settings.phone || "+34641635705",
+    "email": settings.email || "info@enfermeraentucasa.es",
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": siteContent?.settings?.location || "Zaragoza",
-      "addressRegion": "Aragón",
+      "addressLocality": seo.addressLocality || "Zaragoza",
+      "addressRegion": seo.addressRegion || "Aragón",
+      "postalCode": seo.postalCode || "50001",
       "addressCountry": "ES"
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 41.6504492,
-      "longitude": -0.8827468
+      "latitude": Number(seo.latitude || 41.6504492),
+      "longitude": Number(seo.longitude || -0.8827468)
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
@@ -117,19 +131,30 @@ export default async function Home() {
       "opens": "00:00",
       "closes": "23:59"
     },
+    "knowsAbout": [
+      "Enfermería a domicilio",
+      "Curas de heridas y úlceras por presión",
+      "Extracciones de sangre y analíticas a domicilio",
+      "Inyectables y administración de medicación",
+      "Control de constantes vitales",
+      "Cuidados del recién nacido",
+      "Sondas, drenajes y ostomías",
+      "Cuidados de personas mayores a domicilio en Zaragoza"
+    ],
+    "disambiguatingDescription": seo.aiSummary || "Servicio sanitario certificado de enfermería a domicilio en Zaragoza",
     "sameAs": [
       "https://www.google.com/maps/place/Enfermera+en+tu+casa/@41.6504532,-0.8853217,17z"
     ]
   };
 
-  // Default fallback blocks if Sanity query fails or returns no pageBuilder
   const defaultBlocks = [
-    { _type: 'hero',     ...(siteContent?.hero || {}) },
-    { _type: 'services', servicesList: siteContent?.services },
-    { _type: 'rates',    ratesList: siteContent?.rates, bonosList: siteContent?.bonos },
+    { _type: 'hero',     ...(siteContent?.homePage?.hero || siteContent?.hero || {}) },
+    { _type: 'services', title: siteContent?.homePage?.servicesHeader?.title, servicesList: siteContent?.services },
+    { _type: 'rates',    title: siteContent?.homePage?.ratesHeader?.title, ratesList: siteContent?.rates, bonosList: siteContent?.bonos },
     { _type: 'team',     title: siteContent?.team?.title, subtitle: siteContent?.team?.subtitle, teamMembers: siteContent?.team?.members, bio: siteContent?.team?.paragraphs },
     { _type: 'faq',      faqsList: siteContent?.faq },
     { _type: 'reviews',  reviewsList: siteContent?.reviews },
+    { _type: 'ctaBanner', ...(siteContent?.homePage?.ctaBanner || {}) },
   ];
 
   if (!pageData || !pageData.pageBuilder) {
@@ -139,16 +164,15 @@ export default async function Home() {
       <>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <PageBuilder blocks={[heroBlock]} />
-        <FeaturesBand />
+        <FeaturesBand items={siteContent?.homePage?.featuresBand} />
         <PageBuilder blocks={rest} />
-        <MapSection />
+        <MapSection {...(siteContent?.homePage?.mapSection || {})} />
       </>
     );
   }
 
-  // Sanity data found — merge JSON overrides into each block
   const allBlocks = (pageData.pageBuilder || [])
-    .filter(b => b._type !== 'blogSection' && b._type !== 'ctaBanner')
+    .filter(b => b._type !== 'blogSection')
     .map(b => mergeBlockWithJson(b, siteContent));
 
   const heroIndex = allBlocks.findIndex(b => b._type === 'hero');
@@ -162,9 +186,9 @@ export default async function Home() {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <PageBuilder blocks={beforeHero} />
         <PageBuilder blocks={[heroBlock]} />
-        <FeaturesBand />
+        <FeaturesBand items={siteContent?.homePage?.featuresBand} />
         <PageBuilder blocks={afterHero} />
-        <MapSection />
+        <MapSection {...(siteContent?.homePage?.mapSection || {})} />
       </>
     );
   }
@@ -173,8 +197,8 @@ export default async function Home() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <PageBuilder blocks={allBlocks} />
-      <FeaturesBand />
-      <MapSection />
+      <FeaturesBand items={siteContent?.homePage?.featuresBand} />
+      <MapSection {...(siteContent?.homePage?.mapSection || {})} />
     </>
   );
 }

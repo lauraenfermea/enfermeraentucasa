@@ -5,7 +5,7 @@ const ADMIN_PASSWORD = "enfermera2024";
 
 // ── Design Tokens ─────────────────────────────────────────
 const DESIGN = {
-  sidebarBg: "#0B132B", // Deep midnight navy
+  sidebarBg: "#0B132B",
   sidebarGroupTitle: "#64748B",
   sidebarText: "#94A3B8",
   sidebarActiveBg: "#1E293B",
@@ -33,7 +33,7 @@ const DESIGN = {
 export default function AdminDashboard() {
   const [passwordInput, setPasswordInput] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState("hero");
+  const [activeTab, setActiveTab] = useState("homepage");
 
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -98,7 +98,7 @@ export default function AdminDashboard() {
       });
       const data = await res.json();
       if (res.ok) {
-        showToast("¡Los contenidos se han actualizado y publicado correctamente en la web!");
+        showToast("¡Los contenidos y la configuración SEO se han guardado correctamente en la web!");
       } else {
         showToast(data.error || "Error al guardar los cambios", "error");
       }
@@ -202,7 +202,7 @@ export default function AdminDashboard() {
               marginBottom: "2rem",
             }}
           >
-            Panel de Control y Gestión CMS
+            Panel de Control y CMS de la Web
           </p>
           <form onSubmit={handleLogin}>
             <div style={{ textAlign: "left", marginBottom: "1.2rem" }}>
@@ -267,23 +267,24 @@ export default function AdminDashboard() {
 
   const menuGroups = [
     {
-      group: "CONTENT CMS",
+      group: "PÁGINAS Y EDICIÓN COMPLETA",
       items: [
-        { id: "hero", label: "Dashboard & Hero", icon: "📊" },
+        { id: "homepage", label: "Página Principal (Home)", icon: "🏠" },
         { id: "services", label: "Servicios", icon: "💉", count: content.services?.length },
         { id: "rates", label: "Tarifas & Planes", icon: "💰", count: content.rates?.length },
         { id: "bonos", label: "Bonos Heparina", icon: "📦", count: content.bonos?.length },
         { id: "team", label: "Sobre Nosotras", icon: "👩‍⚕️", count: content.team?.members?.length },
-        { id: "blogs", label: "Blog & Artículos", icon: "📰", count: content.blogs?.length },
+        { id: "blogs", label: "Blog & Artículos Ricos", icon: "📰", count: content.blogs?.length },
         { id: "reviews", label: "Reseñas & Opiniones", icon: "⭐", count: content.reviews?.length },
         { id: "faq", label: "Preguntas Frecuentes", icon: "❓", count: content.faq?.length },
       ],
     },
     {
-      group: "MULTIMEDIA & SYSTEM",
+      group: "SEO, IA & CONFIGURACIÓN",
       items: [
+        { id: "seo", label: "SEO & AI Search (Schema)", icon: "🚀" },
         { id: "gallery", label: "Gestor de Imágenes", icon: "🖼️" },
-        { id: "settings", label: "Configuración Web", icon: "⚙️" },
+        { id: "settings", label: "Configuración General", icon: "⚙️" },
       ],
     },
   ];
@@ -413,7 +414,6 @@ export default function AdminDashboard() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-                      transition: "all 0.15s ease",
                       position: "relative",
                     }}
                   >
@@ -594,30 +594,23 @@ export default function AdminDashboard() {
             <StatCard icon="💉" label="SERVICIOS ACTIVOS" count={content.services?.length || 0} color="#3B82F6" />
             <StatCard icon="💰" label="TARIFAS Y PLANES" count={content.rates?.length || 0} color="#F59E0B" />
             <StatCard icon="📰" label="ARTÍCULOS BLOG" count={content.blogs?.length || 0} color="#8B5CF6" />
-            <StatCard icon="⭐" label="RESEÑAS GOOGLE" count={content.reviews?.length || 0} color="#10B981" />
+            <StatCard icon="🚀" label="ESTADO SEO & IA" count="Optimizado" color="#10B981" isBadge />
           </div>
 
-          <div
-            style={{
-              backgroundColor: DESIGN.successLight,
-              border: `1px solid #A7F3D0`,
-              color: DESIGN.successText,
-              padding: "0.9rem 1.25rem",
-              borderRadius: "10px",
-              fontSize: "0.9rem",
-              fontWeight: "600",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.6rem",
-              marginBottom: "2rem",
-            }}
-          >
-            <span style={{ fontSize: "1.1rem" }}>✅</span>
-            <span>Al pulsar "Añadir Nuevo", los campos se crean limpios y vacíos para que introduzcas el título, descripción e imagen deseados.</span>
-          </div>
+          {activeTab === "homepage" && (
+            <HomePageTab
+              homePage={content.homePage || {}}
+              onChange={(homePage) => setContent({ ...content, homePage })}
+              onUploadImage={triggerFileUpload}
+            />
+          )}
 
-          {activeTab === "hero" && (
-            <HeroTab hero={content.hero} onChange={(hero) => setContent({ ...content, hero })} />
+          {activeTab === "seo" && (
+            <SeoTab
+              seo={content.seo || {}}
+              onChange={(seo) => setContent({ ...content, seo })}
+              onUploadImage={triggerFileUpload}
+            />
           )}
 
           {activeTab === "services" && (
@@ -653,11 +646,12 @@ export default function AdminDashboard() {
           )}
 
           {activeTab === "blogs" && (
-            <BlogsTab
+            <RichBlogsTab
               blogs={content.blogs || []}
               filter={searchFilter}
               onChange={(blogs) => setContent({ ...content, blogs })}
               onUploadImage={triggerFileUpload}
+              showToast={showToast}
             />
           )}
 
@@ -695,7 +689,7 @@ export default function AdminDashboard() {
 }
 
 // ── KPI Summary Card Component ─────────────────────────────────
-function StatCard({ icon, label, count, color }) {
+function StatCard({ icon, label, count, color, isBadge }) {
   return (
     <div
       style={{
@@ -740,7 +734,7 @@ function StatCard({ icon, label, count, color }) {
         <div style={{ fontSize: "0.72rem", fontWeight: "800", color: DESIGN.textMuted, letterSpacing: "0.05em" }}>
           {label}
         </div>
-        <div style={{ fontSize: "1.75rem", fontWeight: "900", color: DESIGN.textMain, lineHeight: 1.1 }}>
+        <div style={{ fontSize: isBadge ? "1.2rem" : "1.75rem", fontWeight: "900", color: DESIGN.textMain, lineHeight: 1.1 }}>
           {count}
         </div>
       </div>
@@ -748,7 +742,7 @@ function StatCard({ icon, label, count, color }) {
   );
 }
 
-// ── Reusable Form Image Upload Field Component ────────────────
+// ── Reusable Form Image Field Component ───────────────────────
 function ImageField({ label, value, onChange, onUploadImage }) {
   return (
     <div style={{ marginBottom: "1.2rem" }}>
@@ -795,84 +789,606 @@ function ImageField({ label, value, onChange, onUploadImage }) {
             <img src={value} alt="Vista previa" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
           <span style={{ fontSize: "0.78rem", color: DESIGN.textMuted }}>
-            Vista previa de la imagen cargada
+            Vista previa cargada
           </span>
         </div>
       ) : (
         <div style={{ marginTop: "0.4rem", fontSize: "0.78rem", color: DESIGN.textMuted }}>
-          📷 Ninguna imagen asignada aún. Pulsa <strong>"Subir Imagen"</strong> para seleccionar una foto de tu equipo.
+          📷 Ninguna imagen asignada aún. Pulsa <strong>"Subir Imagen"</strong> para cargar una foto.
         </div>
       )}
     </div>
   );
 }
 
-// ── Hero Tab ──────────────────────────────────────────────────
-function HeroTab({ hero = {}, onChange }) {
+// ── SEO & AI Schema Tab ───────────────────────────────────────
+function SeoTab({ seo = {}, onChange, onUploadImage }) {
   return (
-    <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
-      <h2 style={{ marginTop: 0, marginBottom: "1.5rem", fontSize: "1.2rem", fontWeight: "800" }}>
-        Sección de Portada / Hero Banner
-      </h2>
+    <div style={{ display: "grid", gap: "2rem" }}>
+      {/* Search Engine Optimization (Google SEO) */}
+      <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
+        <h2 style={{ marginTop: 0, marginBottom: "0.5rem", fontSize: "1.2rem", fontWeight: "800" }}>
+          🔍 Ajustes de SEO para Buscadores (Google, Bing)
+        </h2>
+        <p style={{ color: DESIGN.textMuted, fontSize: "0.88rem", marginBottom: "1.5rem" }}>
+          Configura cómo se muestra la web en los resultados de búsqueda de Google y redes sociales.
+        </p>
 
-      <div style={{ marginBottom: "1.2rem" }}>
-        <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Insignia / Badge Superior</label>
-        <input
-          type="text"
-          value={hero.badgeText || ""}
-          placeholder="ej: ⭐ Servicio de Enfermería Profesional"
-          onChange={(e) => onChange({ ...hero, badgeText: e.target.value })}
-          style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
-        />
-      </div>
-
-      <div style={{ marginBottom: "1.2rem" }}>
-        <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Título Principal (H1)</label>
-        <input
-          type="text"
-          value={hero.heading || ""}
-          placeholder="ej: Enfermera a domicilio en Zaragoza"
-          onChange={(e) => onChange({ ...hero, heading: e.target.value })}
-          style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
-        />
-      </div>
-
-      <div style={{ marginBottom: "1.5rem" }}>
-        <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Descripción / Puntos Clave</label>
-        <textarea
-          rows={4}
-          value={hero.body || ""}
-          placeholder="Escribe la descripción o puntos principales del encabezado..."
-          onChange={(e) => onChange({ ...hero, body: e.target.value })}
-          style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
-        />
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.2rem" }}>
-        <div>
-          <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Texto Botón Principal</label>
+        <div style={{ marginBottom: "1.2rem" }}>
+          <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Título Meta SEO (Google Title)</label>
           <input
             type="text"
-            value={hero.primaryCtaText || ""}
-            placeholder="ej: Solicitar Atención"
-            onChange={(e) => onChange({ ...hero, primaryCtaText: e.target.value })}
+            value={seo.metaTitle || ""}
+            placeholder="Enfermera a domicilio en Zaragoza | Enfermera en tu casa"
+            onChange={(e) => onChange({ ...seo, metaTitle: e.target.value })}
             style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
         </div>
-        <div>
-          <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Enlace Botón Principal (URL)</label>
+
+        <div style={{ marginBottom: "1.2rem" }}>
+          <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Descripción Meta SEO (Snippet Google)</label>
+          <textarea
+            rows={3}
+            value={seo.metaDescription || ""}
+            placeholder="Atención sanitaria profesional, personalizada y de calidad en tu hogar..."
+            onChange={(e) => onChange({ ...seo, metaDescription: e.target.value })}
+            style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
+          />
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Palabras Clave SEO (Keywords)</label>
+            <input
+              type="text"
+              value={seo.keywords || ""}
+              placeholder="enfermera a domicilio zaragoza, curas, inyectables..."
+              onChange={(e) => onChange({ ...seo, keywords: e.target.value })}
+              style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>URL Canónica Dominio</label>
+            <input
+              type="text"
+              value={seo.canonicalUrl || ""}
+              placeholder="https://enfermeraentucasa.es"
+              onChange={(e) => onChange({ ...seo, canonicalUrl: e.target.value })}
+              style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+        </div>
+
+        <ImageField
+          label="Imagen Open Graph (Social Sharing WhatsApp / Facebook)"
+          value={seo.ogImage}
+          onChange={(url) => onChange({ ...seo, ogImage: url })}
+          onUploadImage={onUploadImage}
+        />
+      </div>
+
+      {/* AI Search & GEO (Generative Engine Optimization) Schema */}
+      <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
+        <h2 style={{ marginTop: 0, marginBottom: "0.5rem", fontSize: "1.2rem", fontWeight: "800", color: DESIGN.primary }}>
+          🤖 IA SEO & Datos Estructurados Schema (ChatGPT, Perplexity, Gemini)
+        </h2>
+        <p style={{ color: DESIGN.textMuted, fontSize: "0.88rem", marginBottom: "1.5rem" }}>
+          Define el conocimiento estructurado (JSON-LD Schema) para que los motores de IA recomienden tus servicios en Zaragoza.
+        </p>
+
+        <div style={{ marginBottom: "1.2rem" }}>
+          <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Resumen de Conocimiento para la IA (AI Summary Snippet)</label>
+          <textarea
+            rows={4}
+            value={seo.aiSummary || ""}
+            placeholder="Resumen claro que indica a los motores de IA tus servicios en Zaragoza..."
+            onChange={(e) => onChange({ ...seo, aiSummary: e.target.value })}
+            style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
+          />
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Ciudad / Localidad</label>
+            <input
+              type="text"
+              value={seo.addressLocality || ""}
+              placeholder="Zaragoza"
+              onChange={(e) => onChange({ ...seo, addressLocality: e.target.value })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Región</label>
+            <input
+              type="text"
+              value={seo.addressRegion || ""}
+              placeholder="Aragón"
+              onChange={(e) => onChange({ ...seo, addressRegion: e.target.value })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Código Postal</label>
+            <input
+              type="text"
+              value={seo.postalCode || ""}
+              placeholder="50001"
+              onChange={(e) => onChange({ ...seo, postalCode: e.target.value })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.2rem" }}>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Coordenada Latitud (GPS)</label>
+            <input
+              type="text"
+              value={seo.latitude || ""}
+              placeholder="41.6504492"
+              onChange={(e) => onChange({ ...seo, latitude: e.target.value })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Coordenada Longitud (GPS)</label>
+            <input
+              type="text"
+              value={seo.longitude || ""}
+              placeholder="-0.8827468"
+              onChange={(e) => onChange({ ...seo, longitude: e.target.value })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Home Page Whole Editing Tab ───────────────────────────────
+function HomePageTab({ homePage = {}, onChange, onUploadImage }) {
+  const hero = homePage.hero || {};
+  const servicesHeader = homePage.servicesHeader || {};
+  const ratesHeader = homePage.ratesHeader || {};
+  const ctaBanner = homePage.ctaBanner || {};
+  const mapSection = homePage.mapSection || {};
+  const featuresBand = homePage.featuresBand || [];
+
+  function updateFeature(idx, text) {
+    const list = [...featuresBand];
+    list[idx] = { ...list[idx], text };
+    onChange({ ...homePage, featuresBand: list });
+  }
+
+  return (
+    <div style={{ display: "grid", gap: "2rem" }}>
+      {/* 1. Hero Banner */}
+      <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
+        <h2 style={{ marginTop: 0, marginBottom: "1.2rem", fontSize: "1.2rem", fontWeight: "800" }}>1. Portada / Hero Banner</h2>
+        <div style={{ marginBottom: "1rem" }}>
+          <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Insignia Superior (Badge)</label>
           <input
             type="text"
-            value={hero.primaryCtaUrl || ""}
-            placeholder="ej: https://wa.me/34641635705"
-            onChange={(e) => onChange({ ...hero, primaryCtaUrl: e.target.value })}
-            style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            value={hero.badgeText || ""}
+            onChange={(e) => onChange({ ...homePage, hero: { ...hero, badgeText: e.target.value } })}
+            style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+          />
+        </div>
+        <div style={{ marginBottom: "1rem" }}>
+          <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Título Principal (H1)</label>
+          <input
+            type="text"
+            value={hero.heading || ""}
+            onChange={(e) => onChange({ ...homePage, hero: { ...hero, heading: e.target.value } })}
+            style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+          />
+        </div>
+        <div style={{ marginBottom: "1rem" }}>
+          <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Puntos Descriptivos</label>
+          <textarea
+            rows={4}
+            value={hero.body || ""}
+            onChange={(e) => onChange({ ...homePage, hero: { ...hero, body: e.target.value } })}
+            style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
+          />
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Texto Botón WhatsApp</label>
+            <input
+              type="text"
+              value={hero.primaryCtaText || ""}
+              onChange={(e) => onChange({ ...homePage, hero: { ...hero, primaryCtaText: e.target.value } })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Texto Botón Secundario</label>
+            <input
+              type="text"
+              value={hero.secondaryCtaText || ""}
+              onChange={(e) => onChange({ ...homePage, hero: { ...hero, secondaryCtaText: e.target.value } })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Marquee Band Features */}
+      <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
+        <h2 style={{ marginTop: 0, marginBottom: "1.2rem", fontSize: "1.2rem", fontWeight: "800" }}>2. Banda Verde de Características (Marquesina)</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+          {featuresBand.map((feat, idx) => (
+            <div key={idx}>
+              <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Punto #{idx + 1}</label>
+              <input
+                type="text"
+                value={feat.text || ""}
+                onChange={(e) => updateFeature(idx, e.target.value)}
+                style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 3. Services & Rates Headers */}
+      <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
+        <h2 style={{ marginTop: 0, marginBottom: "1.2rem", fontSize: "1.2rem", fontWeight: "800" }}>3. Encabezados de Secciones (Servicios & Tarifas)</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Título Sección Servicios</label>
+            <input
+              type="text"
+              value={servicesHeader.title || ""}
+              placeholder="Nuestros Servicios de Enfermería"
+              onChange={(e) => onChange({ ...homePage, servicesHeader: { ...servicesHeader, title: e.target.value } })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Título Sección Tarifas</label>
+            <input
+              type="text"
+              value={ratesHeader.title || ""}
+              placeholder="Tarifas y Precios"
+              onChange={(e) => onChange({ ...homePage, ratesHeader: { ...ratesHeader, title: e.target.value } })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* 4. Bottom CTA Banner & Map */}
+      <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
+        <h2 style={{ marginTop: 0, marginBottom: "1.2rem", fontSize: "1.2rem", fontWeight: "800" }}>4. Banner Inferior & Mapa de Ubicación</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Título Banner CTA</label>
+            <input
+              type="text"
+              value={ctaBanner.title || ""}
+              placeholder="¿Tienes alguna duda sobre tus cuidados?"
+              onChange={(e) => onChange({ ...homePage, ctaBanner: { ...ctaBanner, title: e.target.value } })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+          <div>
+            <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Subtítulo Banner CTA</label>
+            <input
+              type="text"
+              value={ctaBanner.subtitle || ""}
+              placeholder="Estamos aquí para asesorarte sin compromiso."
+              onChange={(e) => onChange({ ...homePage, ctaBanner: { ...ctaBanner, subtitle: e.target.value } })}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+            />
+          </div>
+        </div>
+
+        <div style={{ marginBottom: "1rem" }}>
+          <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>URL de Inserción del Mapa de Google (Iframe Embed URL)</label>
+          <input
+            type="text"
+            value={mapSection.embedUrl || ""}
+            placeholder="https://www.google.com/maps/embed?pb=..."
+            onChange={(e) => onChange({ ...homePage, mapSection: { ...mapSection, embedUrl: e.target.value } })}
+            style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
           />
         </div>
       </div>
     </div>
   );
 }
+
+// ── Rich Blogs Tab (Super Easy Visual Editor with Images & Links) ─
+function RichBlogsTab({ blogs = [], filter = "", onChange, onUploadImage, showToast }) {
+  const [activeBlogIdx, setActiveBlogIdx] = useState(null);
+
+  function updateBlog(index, updatedItem) {
+    const list = [...blogs];
+    list[index] = updatedItem;
+    onChange(list);
+  }
+
+  function addBlog() {
+    const timeId = Date.now();
+    const newBlog = {
+      id: `blog_${timeId}`,
+      title: "",
+      slug: "",
+      description: "",
+      image: "",
+      publishedAt: new Date().toISOString().split("T")[0],
+      author: "Laura Pueyo",
+      blocks: [
+        { type: "paragraph", text: "Escribe aquí la introducción de tu artículo..." }
+      ],
+    };
+    onChange([newBlog, ...blogs]);
+    setActiveBlogIdx(0);
+  }
+
+  function deleteBlog(index) {
+    if (confirm("¿Estás seguro de que deseas eliminar este artículo de blog?")) {
+      onChange(blogs.filter((_, i) => i !== index));
+      if (activeBlogIdx === index) setActiveBlogIdx(null);
+    }
+  }
+
+  // Block management
+  function addBlock(blogIdx, blockType) {
+    const post = blogs[blogIdx];
+    const blocks = post.blocks || [];
+    let newBlock = { type: blockType, text: "" };
+    if (blockType === "image") newBlock = { type: "image", src: "", caption: "" };
+    
+    updateBlog(blogIdx, { ...post, blocks: [...blocks, newBlock] });
+  }
+
+  function updateBlock(blogIdx, blockIdx, updatedBlock) {
+    const post = blogs[blogIdx];
+    const blocks = [...(post.blocks || [])];
+    blocks[blockIdx] = updatedBlock;
+    updateBlog(blogIdx, { ...post, blocks });
+  }
+
+  function deleteBlock(blogIdx, blockIdx) {
+    const post = blogs[blogIdx];
+    const blocks = (post.blocks || []).filter((_, i) => i !== blockIdx);
+    updateBlog(blogIdx, { ...post, blocks });
+  }
+
+  function insertHyperlinkHelper(blogIdx, blockIdx, currentText) {
+    const label = prompt("Introduce el texto visible del enlace (ej: Ver Tarifas):");
+    if (!label) return;
+    const url = prompt("Introduce la URL o enlace destino (ej: https://wa.me/34641635705 o #servicios):");
+    if (!url) return;
+
+    const markdownLink = `[${label}](${url})`;
+    const updatedText = currentText ? `${currentText} ${markdownLink}` : markdownLink;
+    
+    const post = blogs[blogIdx];
+    const blocks = [...(post.blocks || [])];
+    blocks[blockIdx] = { ...blocks[blockIdx], text: updatedText };
+    updateBlog(blogIdx, { ...post, blocks });
+    showToast("¡Hipervínculo insertado correctamente!");
+  }
+
+  const filtered = blogs.filter((b) => (b.title || "").toLowerCase().includes(filter.toLowerCase()));
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+        <div>
+          <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "800" }}>Editor Visual Rico de Blog & Artículos</h2>
+          <span style={{ fontSize: "0.85rem", color: DESIGN.textMuted }}>{blogs.length} artículos en el sistema</span>
+        </div>
+        <button
+          onClick={addBlog}
+          style={{
+            padding: "0.75rem 1.4rem",
+            backgroundColor: DESIGN.primary,
+            color: "white",
+            border: "none",
+            borderRadius: "10px",
+            fontWeight: "700",
+            cursor: "pointer",
+          }}
+        >
+          + Crear Nuevo Artículo
+        </button>
+      </div>
+
+      <div style={{ display: "grid", gap: "1.5rem" }}>
+        {filtered.map((post, idx) => {
+          const isExpanded = activeBlogIdx === idx;
+          const blocks = post.blocks || [];
+
+          return (
+            <div
+              key={post.id || idx}
+              style={{
+                backgroundColor: DESIGN.cardBg,
+                padding: "1.75rem",
+                borderRadius: "14px",
+                border: `1px solid ${DESIGN.border}`,
+                boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)",
+              }}
+            >
+              {/* Post Header Card Bar */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.2rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                  <span style={{ fontWeight: "800", color: DESIGN.primary, backgroundColor: `${DESIGN.primary}15`, padding: "0.2rem 0.6rem", borderRadius: "6px", fontSize: "0.85rem" }}>
+                    #{idx + 1}
+                  </span>
+                  <span style={{ fontWeight: "800", fontSize: "1.1rem" }}>{post.title || "Artículo Sin Título"}</span>
+                </div>
+                <div style={{ display: "flex", gap: "0.6rem" }}>
+                  <button
+                    onClick={() => setActiveBlogIdx(isExpanded ? null : idx)}
+                    style={{ padding: "0.4rem 0.8rem", backgroundColor: DESIGN.mainBg, border: `1px solid ${DESIGN.border}`, borderRadius: "6px", fontWeight: "700", cursor: "pointer", fontSize: "0.85rem" }}
+                  >
+                    {isExpanded ? "▲ Plegar Editor" : "✏️ Abrir Editor Bloques"}
+                  </button>
+                  <button onClick={() => deleteBlog(idx)} style={{ color: DESIGN.danger, border: "none", background: "none", cursor: "pointer", fontWeight: "700" }}>
+                    🗑️ Eliminar
+                  </button>
+                </div>
+              </div>
+
+              {/* Main Metadata Inputs */}
+              <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Título del Artículo</label>
+                  <input
+                    type="text"
+                    value={post.title || ""}
+                    placeholder="Introduce el título del artículo..."
+                    onChange={(e) => {
+                      const titleVal = e.target.value;
+                      const autoSlug = titleVal.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                      updateBlog(idx, { ...post, title: titleVal, slug: post.slug || autoSlug });
+                    }}
+                    style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Slug URL (`/blog/slug`)</label>
+                  <input
+                    type="text"
+                    value={post.slug || ""}
+                    placeholder="slug-del-articulo"
+                    onChange={(e) => updateBlog(idx, { ...post, slug: e.target.value })}
+                    style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Autor</label>
+                  <input
+                    type="text"
+                    value={post.author || ""}
+                    placeholder="Laura Pueyo"
+                    onChange={(e) => updateBlog(idx, { ...post, author: e.target.value })}
+                    style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
+                  />
+                </div>
+              </div>
+
+              <ImageField
+                label="Imagen Principal del Artículo"
+                value={post.image}
+                onChange={(url) => updateBlog(idx, { ...post, image: url })}
+                onUploadImage={onUploadImage}
+              />
+
+              <div style={{ marginBottom: "1.2rem" }}>
+                <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Resumen / Descripción breve</label>
+                <textarea
+                  rows={2}
+                  value={post.description || ""}
+                  placeholder="Escribe un breve resumen para la tarjeta del blog..."
+                  onChange={(e) => updateBlog(idx, { ...post, description: e.target.value })}
+                  style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
+                />
+              </div>
+
+              {/* ── EXPANDED BLOCK EDITOR ─────────────────────────── */}
+              {isExpanded && (
+                <div style={{ marginTop: "1.5rem", paddingTop: "1.5rem", borderTop: `2px dashed ${DESIGN.border}` }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+                    <h3 style={{ margin: 0, fontSize: "1.05rem", fontWeight: "800", color: DESIGN.primary }}>
+                      🧩 Bloques del Contenido ({blocks.length} bloques)
+                    </h3>
+                    <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                      <button onClick={() => addBlock(idx, "paragraph")} style={btnBlockStyle}>+ 📝 Párrafo</button>
+                      <button onClick={() => addBlock(idx, "heading2")} style={btnBlockStyle}>+ 📌 Subtítulo H2</button>
+                      <button onClick={() => addBlock(idx, "image")} style={btnBlockStyle}>+ 🖼️ Imagen Intercalada</button>
+                      <button onClick={() => addBlock(idx, "quote")} style={btnBlockStyle}>+ 💡 Cita Destacada</button>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "grid", gap: "1rem" }}>
+                    {blocks.map((b, bIdx) => (
+                      <div
+                        key={bIdx}
+                        style={{
+                          backgroundColor: DESIGN.mainBg,
+                          padding: "1rem 1.25rem",
+                          borderRadius: "10px",
+                          border: `1px solid ${DESIGN.border}`,
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+                          <span style={{ fontSize: "0.75rem", fontWeight: "800", color: DESIGN.textMuted, textTransform: "uppercase" }}>
+                            Bloque #{bIdx + 1} — {b.type === "heading2" ? "📌 Subtítulo H2" : b.type === "image" ? "🖼️ Imagen Intercalada" : b.type === "quote" ? "💡 Cita" : "📝 Párrafo"}
+                          </span>
+                          <div style={{ display: "flex", gap: "0.5rem" }}>
+                            {(b.type === "paragraph" || b.type === "quote") && (
+                              <button
+                                onClick={() => insertHyperlinkHelper(idx, bIdx, b.text)}
+                                style={{ fontSize: "0.75rem", fontWeight: "700", color: DESIGN.primary, border: "none", background: "none", cursor: "pointer" }}
+                              >
+                                🔗 Insertar Enlace
+                              </button>
+                            )}
+                            <button
+                              onClick={() => deleteBlock(idx, bIdx)}
+                              style={{ fontSize: "0.75rem", fontWeight: "700", color: DESIGN.danger, border: "none", background: "none", cursor: "pointer" }}
+                            >
+                              ✕ Eliminar Bloque
+                            </button>
+                          </div>
+                        </div>
+
+                        {b.type === "image" ? (
+                          <div>
+                            <ImageField
+                              label="Imagen intercalada"
+                              value={b.src}
+                              onChange={(url) => updateBlock(idx, bIdx, { ...b, src: url })}
+                              onUploadImage={onUploadImage}
+                            />
+                            <input
+                              type="text"
+                              value={b.caption || ""}
+                              placeholder="Pie de foto opcional..."
+                              onChange={(e) => updateBlock(idx, bIdx, { ...b, caption: e.target.value })}
+                              style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}`, fontSize: "0.85rem" }}
+                            />
+                          </div>
+                        ) : (
+                          <textarea
+                            rows={b.type === "heading2" ? 1 : 3}
+                            value={b.text || ""}
+                            placeholder={b.type === "heading2" ? "Escribe el subtítulo..." : "Escribe el texto del párrafo..."}
+                            onChange={(e) => updateBlock(idx, bIdx, { ...b, text: e.target.value })}
+                            style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit", fontSize: "0.9rem" }}
+                          />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+const btnBlockStyle = {
+  padding: "0.4rem 0.8rem",
+  backgroundColor: DESIGN.cardBg,
+  border: `1px solid ${DESIGN.border}`,
+  borderRadius: "6px",
+  fontSize: "0.78rem",
+  fontWeight: "700",
+  cursor: "pointer",
+};
 
 // ── Services Tab ──────────────────────────────────────────────
 function ServicesTab({ services = [], filter = "", onChange, onUploadImage }) {
@@ -882,7 +1398,6 @@ function ServicesTab({ services = [], filter = "", onChange, onUploadImage }) {
     onChange(list);
   }
 
-  // CLEAN EMPTY CREATION: NO hardcoded sample images or dummy text!
   function addService() {
     onChange([
       {
@@ -921,7 +1436,6 @@ function ServicesTab({ services = [], filter = "", onChange, onUploadImage }) {
             borderRadius: "10px",
             fontWeight: "700",
             cursor: "pointer",
-            boxShadow: "0 4px 10px rgba(37, 99, 235, 0.2)",
           }}
         >
           + Añadir Nuevo Servicio
@@ -937,7 +1451,6 @@ function ServicesTab({ services = [], filter = "", onChange, onUploadImage }) {
               padding: "1.75rem",
               borderRadius: "14px",
               border: `1px solid ${DESIGN.border}`,
-              boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)",
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.2rem" }}>
@@ -949,7 +1462,7 @@ function ServicesTab({ services = [], filter = "", onChange, onUploadImage }) {
               </div>
               <button
                 onClick={() => deleteService(idx)}
-                style={{ color: DESIGN.danger, border: "none", background: "none", cursor: "pointer", fontWeight: "700", fontSize: "0.9rem" }}
+                style={{ color: DESIGN.danger, border: "none", background: "none", cursor: "pointer", fontWeight: "700" }}
               >
                 🗑️ Eliminar
               </button>
@@ -990,7 +1503,7 @@ function ServicesTab({ services = [], filter = "", onChange, onUploadImage }) {
               <textarea
                 rows={3}
                 value={item.desc || ""}
-                placeholder="Escribe la descripción del servicio que verán tus pacientes..."
+                placeholder="Escribe la descripción del servicio..."
                 onChange={(e) => updateService(idx, { ...item, desc: e.target.value })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
               />
@@ -1010,7 +1523,6 @@ function RatesTab({ rates = [], filter = "", onChange }) {
     onChange(list);
   }
 
-  // CLEAN EMPTY CREATION: NO hardcoded dummy text!
   function addRate() {
     onChange([
       {
@@ -1065,7 +1577,6 @@ function RatesTab({ rates = [], filter = "", onChange }) {
               padding: "1.75rem",
               borderRadius: "14px",
               border: `1px solid ${DESIGN.border}`,
-              boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)",
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.2rem" }}>
@@ -1114,7 +1625,7 @@ function RatesTab({ rates = [], filter = "", onChange }) {
               <input
                 type="text"
                 value={rate.desc || ""}
-                placeholder="Escribe un breve resumen de esta tarifa..."
+                placeholder="Resumen de la tarifa..."
                 onChange={(e) => updateRate(idx, { ...rate, desc: e.target.value })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
               />
@@ -1125,7 +1636,7 @@ function RatesTab({ rates = [], filter = "", onChange }) {
               <input
                 type="text"
                 value={Array.isArray(rate.features) ? rate.features.join(", ") : rate.features || ""}
-                placeholder="Inyectables, Control de constantes, Curas sencillas..."
+                placeholder="Inyectables, Control de constantes..."
                 onChange={(e) => updateRate(idx, { ...rate, features: e.target.value ? e.target.value.split(",").map((s) => s.trim()) : [] })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
               />
@@ -1207,7 +1718,6 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
     onChange({ ...team, members: list });
   }
 
-  // CLEAN EMPTY CREATION: NO hardcoded sample images!
   function addMember() {
     onChange({
       ...team,
@@ -1293,7 +1803,7 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={m.name || ""}
-                  placeholder="Introduce el nombre completo..."
+                  placeholder="Laura Pueyo"
                   onChange={(e) => updateMember(idx, { ...m, name: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1303,7 +1813,7 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={m.colegiada || ""}
-                  placeholder="ej: Colegiada 16521"
+                  placeholder="Colegiada 16521"
                   onChange={(e) => updateMember(idx, { ...m, colegiada: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1313,7 +1823,7 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={m.experience || ""}
-                  placeholder="ej: +8 años de experiencia"
+                  placeholder="+8 años de experiencia"
                   onChange={(e) => updateMember(idx, { ...m, experience: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1333,152 +1843,6 @@ function TeamTab({ team = {}, onChange, onUploadImage }) {
   );
 }
 
-// ── Blogs Tab ─────────────────────────────────────────────────
-function BlogsTab({ blogs = [], filter = "", onChange, onUploadImage }) {
-  function updateBlog(index, updatedItem) {
-    const list = [...blogs];
-    list[index] = updatedItem;
-    onChange(list);
-  }
-
-  // CLEAN EMPTY CREATION: NO hardcoded sample images or dummy text!
-  function addBlog() {
-    const timeId = Date.now();
-    const newBlog = {
-      id: `blog_${timeId}`,
-      title: "",
-      slug: "",
-      description: "",
-      image: "",
-      publishedAt: new Date().toISOString().split("T")[0],
-      author: "",
-      content: "",
-    };
-    onChange([newBlog, ...blogs]);
-  }
-
-  function deleteBlog(index) {
-    if (confirm("¿Estás seguro de que deseas eliminar este artículo de blog?")) {
-      onChange(blogs.filter((_, i) => i !== index));
-    }
-  }
-
-  const filtered = blogs.filter((b) => (b.title || "").toLowerCase().includes(filter.toLowerCase()));
-
-  return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-        <div>
-          <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "800" }}>Gestión del Blog y Noticias</h2>
-          <span style={{ fontSize: "0.85rem", color: DESIGN.textMuted }}>{blogs.length} artículos publicados</span>
-        </div>
-        <button
-          onClick={addBlog}
-          style={{
-            padding: "0.75rem 1.4rem",
-            backgroundColor: DESIGN.primary,
-            color: "white",
-            border: "none",
-            borderRadius: "10px",
-            fontWeight: "700",
-            cursor: "pointer",
-          }}
-        >
-          + Crear Nuevo Artículo
-        </button>
-      </div>
-
-      <div style={{ display: "grid", gap: "1.5rem" }}>
-        {filtered.map((post, idx) => (
-          <div
-            key={post.id || idx}
-            style={{
-              backgroundColor: DESIGN.cardBg,
-              padding: "1.75rem",
-              borderRadius: "14px",
-              border: `1px solid ${DESIGN.border}`,
-              boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)",
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.2rem" }}>
-              <span style={{ fontWeight: "800", color: DESIGN.primary }}>Artículo #{idx + 1}</span>
-              <button onClick={() => deleteBlog(idx)} style={{ color: DESIGN.danger, border: "none", background: "none", cursor: "pointer", fontWeight: "700" }}>
-                🗑️ Eliminar
-              </button>
-            </div>
-
-            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
-              <div>
-                <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Título del Artículo</label>
-                <input
-                  type="text"
-                  value={post.title || ""}
-                  placeholder="Introduce el título del artículo..."
-                  onChange={(e) => {
-                    const titleVal = e.target.value;
-                    const autoSlug = titleVal.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-                    updateBlog(idx, { ...post, title: titleVal, slug: post.slug || autoSlug });
-                  }}
-                  style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
-                />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Slug / URL (`/blog/slug`)</label>
-                <input
-                  type="text"
-                  value={post.slug || ""}
-                  placeholder="slug-del-articulo"
-                  onChange={(e) => updateBlog(idx, { ...post, slug: e.target.value })}
-                  style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
-                />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Fecha de Publicación</label>
-                <input
-                  type="text"
-                  value={post.publishedAt || ""}
-                  placeholder="YYYY-MM-DD"
-                  onChange={(e) => updateBlog(idx, { ...post, publishedAt: e.target.value })}
-                  style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
-                />
-              </div>
-            </div>
-
-            <ImageField
-              label="Imagen de Portada del Artículo"
-              value={post.image}
-              onChange={(url) => updateBlog(idx, { ...post, image: url })}
-              onUploadImage={onUploadImage}
-            />
-
-            <div style={{ marginBottom: "1.2rem" }}>
-              <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Resumen / Descripción breve</label>
-              <textarea
-                rows={2}
-                value={post.description || ""}
-                placeholder="Escribe un breve extracto del artículo para el listado..."
-                onChange={(e) => updateBlog(idx, { ...post, description: e.target.value })}
-                style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
-              />
-            </div>
-
-            <div>
-              <label style={{ display: "block", fontSize: "0.82rem", fontWeight: "700", marginBottom: "0.4rem" }}>Contenido del Artículo (Texto completo)</label>
-              <textarea
-                rows={8}
-                value={Array.isArray(post.content) ? post.content.join("\n\n") : post.content || ""}
-                placeholder="Escribe el texto completo de tu artículo aquí..."
-                onChange={(e) => updateBlog(idx, { ...post, content: e.target.value })}
-                style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // ── Reviews Tab ───────────────────────────────────────────────
 function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
   function updateReview(index, updatedItem) {
@@ -1487,7 +1851,6 @@ function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
     onChange(list);
   }
 
-  // CLEAN EMPTY CREATION: NO hardcoded dummy reviews!
   function addReview() {
     onChange([
       {
@@ -1543,7 +1906,6 @@ function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
               padding: "1.75rem",
               borderRadius: "14px",
               border: `1px solid ${DESIGN.border}`,
-              boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)",
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.2rem" }}>
@@ -1559,7 +1921,7 @@ function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={rev.name || ""}
-                  placeholder="ej: María Dolores"
+                  placeholder="María Dolores"
                   onChange={(e) => {
                     const val = e.target.value;
                     const initial = val ? val.charAt(0).toUpperCase() : "";
@@ -1584,7 +1946,7 @@ function ReviewsTab({ reviews = [], filter = "", onChange, onUploadImage }) {
                 <input
                   type="text"
                   value={rev.date || ""}
-                  placeholder="ej: hace un mes"
+                  placeholder="hace un mes"
                   onChange={(e) => updateReview(idx, { ...rev, date: e.target.value })}
                   style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}` }}
                 />
@@ -1627,7 +1989,6 @@ function FaqTab({ faq = [], filter = "", onChange }) {
     onChange(list);
   }
 
-  // CLEAN EMPTY CREATION: NO hardcoded dummy questions!
   function addFaq() {
     onChange([
       {
@@ -1679,7 +2040,6 @@ function FaqTab({ faq = [], filter = "", onChange }) {
               padding: "1.75rem",
               borderRadius: "14px",
               border: `1px solid ${DESIGN.border}`,
-              boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)",
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.2rem" }}>
@@ -1705,7 +2065,7 @@ function FaqTab({ faq = [], filter = "", onChange }) {
               <textarea
                 rows={3}
                 value={item.answer || ""}
-                placeholder="Escribe aquí la respuesta detallada..."
+                placeholder="Escribe la respuesta..."
                 onChange={(e) => updateFaq(idx, { ...item, answer: e.target.value })}
                 style={{ width: "100%", padding: "0.7rem", borderRadius: "8px", border: `1px solid ${DESIGN.border}`, fontFamily: "inherit" }}
               />
@@ -1793,7 +2153,7 @@ function GalleryTab({ onUploadImage, showToast }) {
 function SettingsTab({ settings = {}, onChange }) {
   return (
     <div style={{ backgroundColor: DESIGN.cardBg, padding: "2rem", borderRadius: "14px", border: `1px solid ${DESIGN.border}` }}>
-      <h2 style={{ marginTop: 0, marginBottom: "1.5rem", fontSize: "1.2rem", fontWeight: "800" }}>Configuración del Sitio & Contacto</h2>
+      <h2 style={{ marginTop: 0, marginBottom: "1.5rem", fontSize: "1.2rem", fontWeight: "800" }}>Configuración General del Sitio</h2>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.2rem", marginBottom: "1.2rem" }}>
         <div>
